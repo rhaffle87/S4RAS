@@ -67,11 +67,11 @@ function Pengaturan() {
         </h2>
 
         {/* Primary Settings Cards (Matching myITS Reference) */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 relative z-20">
           {/* Card 1: Mode Tampilan */}
           <div 
-            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible"
-            style={{ zIndex: showThemeDropdown ? 40 : 20 }}
+            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible hover:transform-none"
+            style={{ zIndex: showThemeDropdown ? 60 : 30 }}
           >
             <div className="flex items-start gap-4">
               <Moon size={24} className="text-text-primary shrink-0 mt-0.5" />
@@ -96,11 +96,11 @@ function Pengaturan() {
                 aria-expanded={showThemeDropdown}
               >
                 <span>{theme === 'dark' ? t('set.theme.dark') : t('set.theme.light')}</span>
-                <ChevronDown size={16} className="text-text-muted" />
+                <ChevronDown size={16} className={`text-text-muted transition-transform duration-200 ${showThemeDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {showThemeDropdown && (
-                <ul className="absolute top-[115%] left-0 z-50 w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
+                <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
                   <li
                     onClick={() => toggleTheme('dark')}
                     className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
@@ -130,8 +130,8 @@ function Pengaturan() {
 
           {/* Card 2: Bahasa */}
           <div 
-            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible"
-            style={{ zIndex: showLangDropdown ? 40 : 10 }}
+            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible hover:transform-none"
+            style={{ zIndex: showLangDropdown ? 60 : 20 }}
           >
             <div className="flex items-start gap-4">
               <Languages size={24} className="text-text-primary shrink-0 mt-0.5" />
@@ -156,11 +156,11 @@ function Pengaturan() {
                 aria-expanded={showLangDropdown}
               >
                 <span>{language === 'id' ? t('set.lang.id') : t('set.lang.en')}</span>
-                <ChevronDown size={16} className="text-text-muted" />
+                <ChevronDown size={16} className={`text-text-muted transition-transform duration-200 ${showLangDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {showLangDropdown && (
-                <ul className="absolute top-[115%] left-0 z-50 w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
+                <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
                   <li
                     onClick={() => toggleLang('id')}
                     className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
@@ -190,7 +190,7 @@ function Pengaturan() {
         </div>
 
         {/* Secondary: SSO Session & Campus Helpdesk */}
-        <div className="flex flex-col gap-4 mt-2">
+        <div className="flex flex-col gap-4 mt-2 relative z-10">
           {/* SSO Card */}
           <div className="card p-6 bg-neutral-bg2/70 border border-border-default rounded-3xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
