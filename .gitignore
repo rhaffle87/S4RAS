@@ -1,0 +1,114 @@
+# ==========================================
+# S4RAS Monorepo Global .gitignore
+# ==========================================
+
+# ------------------------------------------
+# Node.js & Frontend Ecosystem
+# ------------------------------------------
+**/node_modules/
+**/.pnpm-store/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.pnp
+**/.pnp.js
+
+# Build Outputs
+**/build/
+**/dist/
+**/out/
+**/.next/
+**/coverage/
+
+# ------------------------------------------
+# Environment Variables & Sensitive Secrets
+# ------------------------------------------
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+**/.env.*.local
+!**/.env.example
+**/config/secrets.json
+**/secrets/
+**/*.pem
+**/*.key
+**/*.keystore
+**/id_rsa*
+
+# ------------------------------------------
+# Python Runtime & Virtual Environments
+# ------------------------------------------
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/.venv/
+**/venv/
+**/env/
+**/.pytest_cache/
+**/.mypy_cache/
+
+# ------------------------------------------
+# Java / Maven / Gradle / JMeter
+# ------------------------------------------
+**/target/
+**/.gradle/
+**/bin/
+**/*.class
+**/*.jar
+**/*.war
+**/*.nar
+**/*.ear
+**/*.jtl
+**/jmeter.log
+
+# ------------------------------------------
+# Docker & Container Data Volumes (Host binds)
+# ------------------------------------------
+**/data/
+**/*.dump
+**/*.sql.gz
+**/backups/*.tar.gz
+**/backups/*.sql
+
+# ------------------------------------------
+# Operating System & IDE Files
+# ------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Tt]humbs.db
+
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+*.sublime-project
+
+# ------------------------------------------
+# Internal & Temporary Files
+# ------------------------------------------
+**/.git_backup/
+**/scratch/
+**/*.tmp
+**/*.log
+!/docs/**/*.log
+/*_view.png
+commit_msg.txt
+patch-*.js
+sync-*.js
+modularize-*.js
+test-security-checks.js
+docs/reports/5022211124_Glorio Davis Kristian.md
+
+*.pdf
+*.png
+

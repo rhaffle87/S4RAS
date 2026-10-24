@@ -1,0 +1,12 @@
+{
+    auto_https off
+}
+
+http://moodle.s4ras.site {
+    reverse_proxy localhost:8080 {
+        header_up Host {host}
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Real-IP {remote_host}
+    }
+}

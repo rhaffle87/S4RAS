@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'S4RAS Monitoring'
+    orgId: 1
+    folder: 'S4RAS Ecosystem'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 15
+    options:
+      path: /etc/grafana/provisioning/dashboards

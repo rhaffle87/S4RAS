@@ -1,0 +1,70 @@
+<?php
+/**
+ * S4RAS Nextcloud SAN — Production Configuration Template
+ * Location on VM 207: /var/lib/docker/volumes/nextcloud_nextcloud/_data/config/config.php
+ */
+
+$CONFIG = array (
+  // ── Identitas Sistem ───────────────────────────────────────────────────────
+  'instanceid'                  => 'ocwqd9jn35xi',
+  'passwordsalt'                => 'zEdz15CWC69px0WecqpHPsfckrpl85',
+  'secret'                      => '0OW5iiXgUE8YwE1d1wKhbZT/T4E+r/yXr194zW9vHY3bHxNM',
+  'datadirectory'               => '/var/www/html/data',
+  'installed'                   => true,
+  'version'                     => '31.0.4.1',
+  'upgrade.disable-web'         => true,
+
+  // ── Jalur Aplikasi ─────────────────────────────────────────────────────────
+  'apps_paths' => 
+  array (
+    0 => 
+    array (
+      'path'     => '/var/www/html/apps',
+      'url'      => '/apps',
+      'writable' => false,
+    ),
+    1 => 
+    array (
+      'path'     => '/var/www/html/custom_apps',
+      'url'      => '/custom_apps',
+      'writable' => true,
+    ),
+  ),
+
+  // ── Trusted Domains ────────────────────────────────────────────────────────
+  'trusted_domains' => 
+  array (
+    0 => 'cloud.s4ras.site',
+    1 => '192.168.10.207',
+    2 => '100.64.0.17',
+    3 => 'localhost',
+    4 => '127.0.0.1',
+  ),
+
+  // ── Reverse Proxy & Protokol Penulisan Ulang ────────────────────────────────
+  'overwritehost'               => 'cloud.s4ras.site',
+  'overwriteprotocol'           => 'https',
+  'overwrite.cli.url'           => 'https://cloud.s4ras.site',
+  'htaccess.RewriteBase'        => '/',
+  'trusted_proxies' => 
+  array (
+    0 => '127.0.0.1',
+    1 => '192.168.10.208',
+    2 => '192.168.10.0/24',
+  ),
+  'forwarded_for_headers'       => array('HTTP_X_FORWARDED_FOR'),
+
+  // ── Database MariaDB ───────────────────────────────────────────────────────
+  'dbtype'                      => 'mysql',
+  'dbname'                      => 'nextcloud',
+  'dbhost'                      => 'db',
+  'dbport'                      => '',
+  'dbtableprefix'               => 'oc_',
+  'mysql.utf8mb4'               => true,
+  'dbuser'                      => 'user',
+  'dbpassword'                  => 'Proxmox8',
+
+  // ── Performa & Caching ─────────────────────────────────────────────────────
+  'memcache.local'              => '\\OC\\Memcache\\APCu',
+  'allow_local_remote_servers'  => true,
+);

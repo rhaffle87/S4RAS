@@ -1,0 +1,46 @@
+tunnel: 78629ec0-c848-4003-a94e-1d072d1db100
+credentials-file: /etc/cloudflared/78629ec0-c848-4003-a94e-1d072d1db100.json
+
+ingress:
+  - hostname: s4ras.site
+    service: http://192.168.10.208:3000
+
+  - hostname: portal.s4ras.site
+    service: http://192.168.10.208:3000
+
+  - hostname: moodle.s4ras.site
+    service: http://192.168.10.203:80
+
+  - hostname: sso.s4ras.site
+    service: http://192.168.10.206:8080
+
+  - hostname: cloud.s4ras.site
+    service: http://192.168.10.207
+
+  - hostname: collabora.s4ras.site
+    service: http://192.168.10.207:9980
+    originRequest:
+      noTLSVerify: true
+
+  - hostname: iptv.s4ras.site
+    service: http://192.168.10.200:8096
+
+  - hostname: dispatcharr.s4ras.site
+    service: http://192.168.10.200:9191
+
+  - hostname: request.s4ras.site
+    service: http://192.168.10.200:5055
+
+  - hostname: voip.s4ras.site
+    service: http://192.168.10.202:80
+
+  - hostname: benchmark.s4ras.site
+    service: http://192.168.10.209:8088
+
+  - hostname: monitor.s4ras.site
+    service: http://localhost:3000
+
+  - hostname: status.s4ras.site
+    service: http://localhost:3001
+
+  - service: http_status:404

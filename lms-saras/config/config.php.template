@@ -1,0 +1,57 @@
+<?php  // Moodle configuration file
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+$CFG->dbtype    = 'pgsql';
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = 'postgres';
+$CFG->dbname    = 'moodledb';
+$CFG->dbuser    = 'moodleuser';
+$CFG->dbpass    = 'root';
+$CFG->prefix    = 'mdl_';
+$CFG->dboptions = array (
+  'dbpersist' => 0,
+  'dbport' => 5432,
+  'dbsocket' => '',
+);
+
+// Public FQDN accessible through Cloudflare Tunnel
+$CFG->wwwroot   = 'https://moodle.s4ras.site';
+$CFG->dataroot  = '/bitnami/moodledata';
+$CFG->admin     = 'admin';
+
+$CFG->directorypermissions = 02775;
+
+// Enforce HTTPS when coming through Caddy / Cloudflare reverse proxy
+if (
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+){
+    $_SERVER['HTTPS'] = 'on';
+}
+
+$CFG->reverseproxy = false;
+$CFG->sslproxy = false;
+
+// ==============================================================================
+// S4RAS Performance Optimization (Mitigasi 50+ Concurrent Users CPU Saturation)
+// ==============================================================================
+// 1. Redis Session Driver to eliminate PostgreSQL session write contention
+$CFG->session_handler_class = '\core\session\redis';
+$CFG->session_redis_host = getenv('REDIS_HOST') ?: '127.0.0.1';
+$CFG->session_redis_port = (int)(getenv('REDIS_PORT') ?: 6379);
+$CFG->session_redis_database = 2; // Dedicated Redis DB index for Moodle
+$CFG->session_redis_prefix = 'mdl_sess_';
+$CFG->session_redis_acquire_lock_timeout = 120;
+$CFG->session_redis_lock_expire = 7200;
+
+// 2. Production debug settings (reduces disk logging & CPU cycles)
+$CFG->debug = 0;
+$CFG->debugdisplay = 0;
+
+require_once(__DIR__ . '/lib/setup.php');
+
+// There is no php closing tag in this file,
+// it is intentional because it prevents trailing whitespace problems!

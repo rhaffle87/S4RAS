@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='4' y='4' width='92' height='92' rx='22' fill='%23dc2626'/><g stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' opacity='0.65'><line x1='40.5' y1='35' x2='58.5' y2='35'/><line x1='35' y1='40.5' x2='35' y2='58.5'/><line x1='65' y1='40.5' x2='65' y2='58.5'/><line x1='40.5' y1='65' x2='58.5' y2='65'/></g><circle cx='35' cy='35' r='9.5' fill='%23ffffff'/><circle cx='65' cy='35' r='7' fill='none' stroke='%23ffffff' stroke-width='3'/><circle cx='35' cy='65' r='7' fill='none' stroke='%23ffffff' stroke-width='3'/><circle cx='65' cy='65' r='7' fill='none' stroke='%23ffffff' stroke-width='3'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S4RAS — Edukasi Daerah 3T Indonesia | TNL Lab ITS</title>
+    
+    <!-- Canonical & SEO Meta -->
+    <link rel="canonical" href="https://s4ras.site/" />
+    <meta name="description" content="S4RAS adalah server lokal untuk daerah 3T Indonesia — LMS, VoIP, dan IPTV edukasi, tanpa bergantung internet stabil. Dikembangkan oleh TNL Lab, Teknik Elektro ITS." />
+    <meta name="keywords" content="S4RAS, Solution for Remote Area Services, daerah 3T, Terpencil Terluar Terdepan, edutainment, LMS sekolah, Moodle LMS, Nextcloud SAN, Asterisk VoIP, Jellyfin IPTV, Proxmox, Prometheus, Grafana, ITS Surabaya, TNL Lab" />
+    <meta name="author" content="TNL Lab — Teknik Elektro, Institut Teknologi Sepuluh Nopember" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://s4ras.site/" />
+    <meta property="og:title" content="S4RAS — Solution for Remote Area Services" />
+    <meta property="og:description" content="Server lokal untuk daerah 3T Indonesia: LMS, VoIP, dan IPTV edukasi tanpa bergantung internet stabil." />
+    <meta property="og:site_name" content="S4RAS" />
+    <meta property="og:image" content="https://s4ras.site/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="S4RAS — Solution for Remote Area Services" />
+    <meta name="twitter:description" content="Server lokal untuk daerah 3T Indonesia: LMS, VoIP, dan IPTV edukasi tanpa bergantung internet stabil." />
+    <meta name="twitter:image" content="https://s4ras.site/og-image.png" />
+
+    <script>try{if(localStorage.getItem('saras-theme')!=='light')document.documentElement.classList.add('dark')}catch(e){}</script>
+    <!-- Typography Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD Structured Data for Search & AEO Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOrganization",
+          "@id": "https://www.its.ac.id/#organization",
+          "name": "Institut Teknologi Sepuluh Nopember",
+          "alternateName": "ITS Surabaya",
+          "url": "https://www.its.ac.id",
+          "logo": "https://www.its.ac.id/wp-content/uploads/2020/07/logo-its-blue.png",
+          "sameAs": [
+            "https://twitter.com/ITS_Surabaya",
+            "https://www.instagram.com/its_campus"
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://s4ras.site/#application",
+          "name": "S4RAS (Solution for Remote Area Services)",
+          "operatingSystem": "Linux (Ubuntu 24.04 LTS / Proxmox VE)",
+          "applicationCategory": "EducationalSoftware, CloudInfrastructure",
+          "description": "Ekosistem cloud mandiri terpadu Institut Teknologi Sepuluh Nopember yang mengintegrasikan Moodle LMS, Nextcloud SAN, Telefoni WebRTC VoIP, IPTV streaming, dan observabilitas telemetri kluster 10 node VM berdaya tahan tinggi.",
+          "url": "https://s4ras.site"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://s4ras.site/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Apa itu S4RAS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "S4RAS adalah sistem edutainment berbasis server lokal untuk daerah 3T Indonesia: LMS (SD–SMA dan vokasi), VoIP, dan IPTV edukasi — tanpa bergantung internet stabil. Dikembangkan oleh TNL Lab, Teknik Elektro ITS."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Di mana data disimpan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Database dan berkas berada di mesin virtual pada klaster Proxmox milik sendiri. Cloudflare Tunnel hanya meneruskan lalu lintas publik ke layanan tersebut."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Bagaimana cara masuk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Gunakan satu akun Keycloak. Setelah masuk di portal, semua layanan terbuka tanpa login ulang."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Bagaimana telepon melewati firewall?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Asterisk 22 memakai WebRTC dengan WSS, dan CoTURN pada port 3478/5349 untuk melintasi NAT."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Berapa kapasitas pengguna bersamaan di Moodle?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pengujian JMeter menunjukkan 25 pengguna bersamaan berjalan stabil. Pada 50 pengguna, CPU VM LMS menjadi bottleneck (~100%), sementara memori dan disk tetap stabil. Upgrade CPU VM direkomendasikan sebelum deployment kelas besar."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Bagaimana S4RAS dipantau?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Prometheus dan Grafana di VM 204 memantau semua VM secara real-time. Node Exporter mengekspos metrik CPU/memori/disk; Blackbox Exporter menguji ketersediaan layanan dari luar. Alert dikirim ke bot Telegram jika ambang batas terlampaui. Dashboard: monitor.s4ras.site."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="font-sans antialiased selection:bg-red-600 selection:text-white">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

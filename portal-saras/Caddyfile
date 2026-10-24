@@ -1,0 +1,57 @@
+# ==============================================================================
+# S4RAS Portal & Landing Reverse Proxy Configuration (VM 208)
+# High-performance static asset offloading with zstd/gzip compression
+# ==============================================================================
+
+# Apex Domain: Public Landing Page
+http://s4ras.site:80, http://www.s4ras.site:80 {
+    root * /home/portal/s4ras/landing-page/dist
+    file_server {
+        precompressed zstd gzip
+    }
+
+    # Pass API and Benchmark requests to the BFF
+    handle /api/* {
+        reverse_proxy 127.0.0.1:3000
+    }
+    handle /benchmark/* {
+        reverse_proxy 127.0.0.1:3000
+    }
+
+    # Redirect portal shortcuts to authenticated portal subdomain
+    handle /portal* {
+        redir https://portal.s4ras.site/home permanent
+    }
+    handle /home* {
+        redir https://portal.s4ras.site/home permanent
+    }
+
+    # Fallback to SPA index.html for client-side routing
+    try_files {path} /index.html
+
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}
+
+# Subdomain: Authenticated Campus Portal SPA & BFF API
+http://portal.s4ras.site:80, http://192.168.10.208:80 {
+    # Offload static build assets directly from disk
+    handle /assets/* {
+        root * /home/portal/s4ras/portal-saras/build
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    # Proxy all dynamic API endpoints, health probes, and SPA rendering to Node BFF
+    handle {
+        reverse_proxy 127.0.0.1:3000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}

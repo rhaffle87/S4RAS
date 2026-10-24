@@ -1,0 +1,60 @@
+name: S4RAS Self-Hosted Production Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'portal-saras/**'
+      - 'landing-page/**'
+      - 'monitor-saras/**'
+      - '.github/workflows/deploy-self-hosted.yml'
+
+jobs:
+  deploy-vm208:
+    name: Zero-Downtime Deploy on VM 208
+    runs-on: [self-hosted, s4ras-portal]
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: repo
+
+    steps:
+      - name: Checkout Monorepo
+        uses: actions/checkout@v4
+        with:
+          path: repo
+          clean: false
+
+      - name: Clean Old Sibling Artifacts
+        run: |
+          echo "Cleaning any legacy root artifacts if permissions allow..."
+          rm -rf ../landing-page ../portal-saras ../monitor-saras 2>/dev/null || true
+
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies on VM 208..."
+          npm ci || npm install
+
+      - name: Compile Production Bundle
+        run: |
+          echo "Compiling Vite production distribution..."
+          npm run build
+
+      - name: Deploy & Reload PM2 Cluster
+        run: |
+          echo "Copying build to production directory..."
+          rsync -av --delete portal-saras/build/ /home/portal/Portal-SARAS/build/
+          cp portal-saras/scripts/portal-server.js /home/portal/Portal-SARAS/scripts/portal-server.js
+          echo "Performing zero-downtime PM2 reload..."
+          pm2 reload portal-prod --update-env
+
+      - name: Post-Deployment Verification Probe
+        run: |
+          echo "Waiting for PM2 worker to initialize..."
+          sleep 3
+          echo "Verifying local loopback health..."
+          curl -f -s --retry 5 --retry-connrefused --retry-delay 2 http://127.0.0.1:3000/api/health || exit 1
+          echo "Local loopback verified. Verifying public gateway..."
+          curl -f -s --retry 5 --retry-connrefused --retry-delay 2 https://portal.s4ras.site/api/health || exit 1
+          echo "S4RAS Production Portal deployed and verified successfully!"

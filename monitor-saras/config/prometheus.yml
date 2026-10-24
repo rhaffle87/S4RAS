@@ -1,0 +1,143 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - 'alert.rules.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['192.168.10.204:9093']
+
+scrape_configs:
+
+  # Node Exporter - Linux OS Metrics for all 10 VMs
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['192.168.10.200:9100']
+        labels: {friendly_name: 'VM IPTV'}
+      - targets: ['192.168.10.201:9100']
+        labels: {friendly_name: 'VM VoIP-1'}
+      - targets: ['192.168.10.202:9100']
+        labels: {friendly_name: 'VM VoIP-2'}
+      - targets: ['192.168.10.203:9100']
+        labels: {friendly_name: 'VM LMS'}
+      - targets: ['192.168.10.204:9100']
+        labels: {friendly_name: 'VM Prometheus-Grafana'}
+      - targets: ['192.168.10.205:9100']
+        labels: {friendly_name: 'VM VoIP-3'}
+      - targets: ['192.168.10.206:9100']
+        labels: {friendly_name: 'VM SSO'}
+      - targets: ['192.168.10.207:9100']
+        labels: {friendly_name: 'VM SAN'}
+      - targets: ['192.168.10.208:9100']
+        labels: {friendly_name: 'VM Portal'}
+      - targets: ['192.168.10.209:9100']
+        labels: {friendly_name: 'VM JMeter'}
+
+  # Blackbox Exporter - HTTP Availability Web Checks
+  - job_name: 'blackbox_http_services'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - 'http://192.168.10.208:3000'
+        - 'http://192.168.10.206:8080/realms/S4RAS'
+        - 'http://192.168.10.206:9000/health/ready'
+        - 'http://192.168.10.203'
+        - 'http://192.168.10.203:3000/health'
+        - 'http://192.168.10.207/status.php'
+        - 'http://192.168.10.207:9980/hosting/discovery'
+        - 'http://192.168.10.200'
+        - 'http://192.168.10.200:8096/System/Info/Public'
+        - 'http://192.168.10.200:9191'
+        - 'http://192.168.10.200:5055'
+        - 'http://192.168.10.201'
+        - 'http://192.168.10.202'
+        - 'http://192.168.10.204:3001'
+        - 'http://192.168.10.209:8088/sipp/'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: '192.168.10.204:9115' # Targets the local blackbox container
+
+  # Postgres Exporter - Moodle LMS Database Metrics (VM203)
+  - job_name: 'postgres-moodle'
+    static_configs:
+      - targets: ['192.168.10.203:9187']
+        labels:
+          vm: 'vm203'
+          service: 'moodle-db'
+          friendly_name: 'Moodle PostgreSQL'
+
+  # Postgres Exporter - Keycloak SSO Database Metrics (VM206)
+  - job_name: 'postgres-keycloak'
+    static_configs:
+      - targets: ['192.168.10.206:9187']
+        labels:
+          vm: 'vm206'
+          service: 'keycloak-db'
+          friendly_name: 'Keycloak PostgreSQL'
+
+  # MySQL/MariaDB Exporter - Nextcloud SAN Database Metrics (VM207)
+  - job_name: 'mysqld-nextcloud'
+    static_configs:
+      - targets: ['192.168.10.207:9104']
+        labels:
+          vm: 'vm207'
+          service: 'nextcloud-db'
+          friendly_name: 'Nextcloud MariaDB'
+
+
+  # Phase 33.1 - Redis Exporter - Portal Cache Metrics (VM208)
+  - job_name: 'redis-portal'
+    static_configs:
+      - targets: ['192.168.10.208:9121']
+        labels:
+          vm: 'vm208'
+          service: 'redis-cache'
+          friendly_name: 'Portal Redis Cache'
+
+  # Phase 33.2 - Keycloak Management Metrics - JVM, DB Pool, OIDC (VM206)
+  # Keycloak 26.1 Quarkus exposes /metrics on management port 9000
+  - job_name: 'keycloak-management'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['192.168.10.206:9000']
+        labels:
+          vm: 'vm206'
+          service: 'keycloak-sso'
+          friendly_name: 'Keycloak SSO JVM'
+
+  # Phase 33.3 - CoTURN STUN/TURN TCP Probe (VM202)
+  - job_name: 'coturn-voip'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: ['192.168.10.202:3478']
+        labels:
+          vm: 'vm202'
+          service: 'coturn-stun'
+          friendly_name: 'CoTURN STUN/TURN'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: '192.168.10.204:9115'
+
+  # Phase 32.7 - CrowdSec Agent Metrics (VM208)
+  - job_name: 'crowdsec-vm208'
+    static_configs:
+      - targets: ['192.168.10.208:6060']
+        labels:
+          vm: 'vm208'
+          service: 'crowdsec'
+          friendly_name: 'CrowdSec Portal'

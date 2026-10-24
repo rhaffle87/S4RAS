@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SamlConfigs />
+  <OidConfigs>
+    <item>
+      <key>
+        <string>keycloak</string>
+      </key>
+      <value>
+        <PluginConfiguration>
+          <OidEndpoint>https://sso.s4ras.site/realms/S4RAS</OidEndpoint>
+          <OidClientId>jellyfin</OidClientId>
+          <OidSecret>2v1108RVRSpf2IdW5eXO2gjXvuVOyT1E</OidSecret>
+          <Enabled>true</Enabled>
+          <EnableAuthorization>true</EnableAuthorization>
+          <EnableAllFolders>true</EnableAllFolders>
+          <EnabledFolders />
+          <AdminRoles>
+            <string>admin</string>
+          </AdminRoles>
+          <Roles />
+          <EnableFolderRoles>false</EnableFolderRoles>
+          <EnableLiveTvRoles>false</EnableLiveTvRoles>
+          <EnableLiveTv>false</EnableLiveTv>
+          <EnableLiveTvManagement>false</EnableLiveTvManagement>
+          <LiveTvRoles />
+          <LiveTvManagementRoles />
+          <FolderRoleMappings />
+          <RoleClaim>realm_access.roles</RoleClaim>
+          <OidScopes>
+            <string>openid</string>
+            <string>profile</string>
+            <string>email</string>
+          </OidScopes>
+          <SchemeOverride>https</SchemeOverride>
+          <PortOverride xsi:nil="true" />
+          <NewPath>true</NewPath>
+          <CanonicalLinks>
+            <item>
+              <key>
+                <string>testuser</string>
+              </key>
+              <value>
+                <guid>68203f0c-454e-4b3a-af8b-b3ecfabbdacc</guid>
+              </value>
+            </item>
+          </CanonicalLinks>
+          <DisableHttps>false</DisableHttps>
+          <DisablePushedAuthorization>false</DisablePushedAuthorization>
+          <DoNotValidateEndpoints>false</DoNotValidateEndpoints>
+          <DoNotValidateIssuerName>false</DoNotValidateIssuerName>
+          <DoNotLoadProfile>false</DoNotLoadProfile>
+        </PluginConfiguration>
+      </value>
+    </item>
+  </OidConfigs>
+</PluginConfiguration>

@@ -1,0 +1,40 @@
+{
+  "name": "s4ras-monorepo",
+  "version": "1.0.0",
+  "description": "S4RAS (Solution for Remote Area Services) Microservices & Infrastructure Monorepo",
+  "private": true,
+  "workspaces": [
+    "portal-saras",
+    "landing-page"
+  ],
+  "scripts": {
+    "portal:dev": "npm --prefix portal-saras run dev",
+    "portal:build": "npm --prefix portal-saras run build",
+    "portal:start": "npm --prefix portal-saras run start",
+    "portal:lint": "npm --prefix portal-saras run lint",
+    "portal:test": "npm --prefix portal-saras run test",
+    "landing:dev": "npm --prefix landing-page run dev",
+    "landing:build": "npm --prefix landing-page run build && node -e \"const fs = require('fs'); fs.mkdirSync('portal-saras/public/landing', {recursive: true}); fs.cpSync('landing-page/dist', 'portal-saras/public/landing', {recursive: true});\"",
+    "build": "npm run landing:build && npm run portal:build",
+    "test:health": "node portal-saras/scripts/test-health.js",
+    "clean": "powershell -Command \"Remove-Item -Recurse -Force -ErrorAction SilentlyContinue landing-page/dist, portal-saras/build, portal-saras/public/landing\""
+  },
+  "keywords": [
+    "s4ras",
+    "monorepo",
+    "microservices",
+    "keycloak",
+    "nextcloud",
+    "jellyfin",
+    "asterisk",
+    "moodle",
+    "proxmox",
+    "tailscale",
+    "cloudflare-tunnel"
+  ],
+  "author": "S4RAS Engineering Team",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "jiti": "^2.7.0"
+  }
+}

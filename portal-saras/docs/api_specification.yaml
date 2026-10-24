@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: S4RAS Portal API
+  description: API for serving static files, checking subsystem connection status, and triggering webhook deployments.
+  version: 1.0.0
+servers:
+  - url: https://portal.s4ras.site
+    description: Production Server Gateway
+  - url: http://localhost:3000
+    description: Local Development Server
+paths:
+  /api/health:
+    get:
+      summary: API Server status check
+      description: Returns the health status of the portal's health checking process itself.
+      responses:
+        '200':
+          description: Health API is online.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  service:
+                    type: string
+                    example: portal-health-checker
+
+  /api/health/all:
+    get:
+      summary: Batch health check for all registered subsystems
+      description: Probes all registered microservices in parallel via LAN/public fallback in a single round-trip (<100ms).
+      responses:
+        '200':
+          description: Aggregated ecosystem health summary.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 6
+                  online:
+                    type: integer
+                    example: 6
+                  durationMs:
+                    type: integer
+                    example: 97
+                  services:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum: [online, offline]
+                        message:
+                          type: string
+                        latency:
+                          type: integer
+
+  /api/health/{key}:
+    get:
+      summary: Probes health of a specific registered VM subsystem
+      description: Probes the internal LAN IP of the target service, falling back to its public domain. Avoids CORS issues by doing server-side probing.
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The identifying key of the registered service.
+          schema:
+            type: string
+            enum: [moodle, sso, cloud, iptv, voip, monitor]
+      responses:
+        '200':
+          description: Subsystem health assessment. Returns online if status is reachable (< HTTP 500).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [online, offline]
+                    example: online
+                  message:
+                    type: string
+                    description: Resolved probed URL (internal LAN URL or public backup fallback URL).
+                    example: http://192.168.10.203
+                  latency:
+                    type: integer
+                    nullable: true
+                    description: Response time in milliseconds. Returns null if offline.
+                    example: 12
+
+  /status:
+    get:
+      summary: Deploy Daemon status check
+      description: Check if the deploy trigger background daemon is active on port 4000.
+      responses:
+        '200':
+          description: Deploy daemon is active.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  service:
+                    type: string
+                    example: deploy-trigger
+
+  /deploy:
+    post:
+      summary: Trigger automatic deploy build
+      description: Validates incoming X-Deploy-Token header and triggers local deploy.sh which runs npm build and reloads PM2 processes.
+      parameters:
+        - name: x-deploy-token
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Shared deployment authorization token.
+      responses:
+        '200':
+          description: Deploy process finished. Returns exit code and standard log outputs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exitCode:
+                    type: integer
+                    example: 0
+                  output:
+                    type: string
+                    description: Execution logs of deploy.sh script.
+                    example: "> Running portal deployment...\n> Building React app\n> Restarting PM2 service portal-prod\n> Deployment complete\n"
+        '401':
+          description: Unauthorized request. Token missing or invalid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: unauthorized

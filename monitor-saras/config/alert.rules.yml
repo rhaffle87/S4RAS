@@ -1,0 +1,117 @@
+groups:
+  - name: s4ras_alerts
+    rules:
+      - alert: ServiceDown
+        expr: probe_success == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.instance }} is DOWN"
+          description: "Blackbox prober failed to reach {{ $labels.instance }} for more than 1 minute."
+
+      - alert: NodeDown
+        expr: up{job="node_exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Node {{ $labels.friendly_name }} ({{ $labels.instance }}) is DOWN"
+          description: "Node exporter on {{ $labels.friendly_name }} has stopped reporting metrics."
+
+      - alert: HighDiskUsage
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Disk Usage on {{ $labels.instance }}"
+          description: "Disk space available on / is below 15% on {{ $labels.instance }}."
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Memory Usage on {{ $labels.instance }}"
+          description: "Available RAM is below 10% on {{ $labels.instance }}."
+
+      - alert: MoodleSessionsBloat
+        expr: pg_stat_user_tables_n_live_tup{datname="moodledb",relname="mdl_sessions"} > 500000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Moodle mdl_sessions row count exceeds 500k"
+          description: "mdl_sessions has {{ $value }} rows. TRUNCATE TABLE mdl_sessions to clear active sessions."
+
+      - alert: MoodleLogstoreBloat
+        expr: pg_stat_user_tables_n_live_tup{datname="moodledb",relname="mdl_logstore_standard_log"} > 500000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Moodle logstore_standard_log row count exceeds 500k"
+          description: "mdl_logstore_standard_log has {{ $value }} rows. Configure Days to keep logs in Site Admin > Logging."
+
+      - alert: PostgresExporterDown
+        expr: up{job="postgres-moodle"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Moodle postgres_exporter is DOWN"
+          description: "postgres_exporter on VM203 (192.168.10.203:9187) is not responding. Moodle DB metrics unavailable."
+
+
+      # Phase 33.7 - Node Disk Usage High - VM200 early warning (>75%)
+      - alert: NodeDiskUsageHigh
+        expr: (1 - node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 > 75
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk usage on {{ $labels.friendly_name }} ({{ $labels.instance }})"
+          description: 'Disk usage on / is {{ $value | printf "%.1f" }}% on {{ $labels.instance }}. Run scripts/hygiene_vm200.sh or expand the vDisk in Proxmox.'
+
+      # Phase 33.4 - Redis Down alert
+      - alert: RedisExporterDown
+        expr: up{job="redis-portal"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis exporter on VM208 is DOWN"
+          description: "redis_exporter (VM208:9121) stopped reporting. Portal session cache metrics unavailable."
+
+      # Phase 33.4 - Keycloak JVM metrics down alert
+      - alert: KeycloakManagementDown
+        expr: up{job="keycloak-management"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Keycloak management endpoint (VM206:9000) is DOWN"
+          description: "Keycloak /metrics on port 9000 not responding. JVM and OIDC metrics unavailable. Check KC container health."
+
+      # Phase 33.4 - CoTURN TCP probe failure
+      - alert: CoTURNDown
+        expr: probe_success{job="coturn-voip"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "CoTURN STUN/TURN relay is DOWN on VM202"
+          description: "TCP probe to 192.168.10.202:3478 failed. WebRTC calls relying on TURN will fail for NAT-ed clients."
+
+      # Phase 33.4 - High error log rate (Loki-derived via recording rule proxy)
+      # Uses blackbox probe latency spike as a proxy until Loki ruler is configured
+      - alert: ServiceHighLatency
+        expr: probe_duration_seconds{job="blackbox_http_services"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Service {{ $labels.instance }} is responding slowly"
+          description: 'Probe latency for {{ $labels.instance }} is {{ $value | printf "%.2f" }}s (threshold 3s). Possible overload or upstream issue.'

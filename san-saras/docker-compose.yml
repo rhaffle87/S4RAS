@@ -1,0 +1,115 @@
+# ==============================================================================
+# S4RAS SAN (Storage Area Network) — Nextcloud & MariaDB Docker Stack
+# Host: VM 207 (s4ras-san)
+# Directory: /opt/nextcloud/docker-compose.yml
+# ==============================================================================
+
+version: "3.8"
+
+services:
+  # ── Database Layer ──────────────────────────────────────────────────────────
+  db:
+    image: mariadb:11.7
+    container_name: nextcloud_db
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}"
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: user
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:?set MYSQL_PASSWORD in .env}"
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - nextcloud_net
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Nextcloud Application Core ──────────────────────────────────────────────
+  app:
+    image: nextcloud:31.0.4-apache
+    container_name: nextcloud_app
+    restart: always
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: user
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:?set MYSQL_PASSWORD in .env}"
+      NEXTCLOUD_ADMIN_USER: "${NEXTCLOUD_ADMIN_USER:-admin}"
+      NEXTCLOUD_ADMIN_PASSWORD: "${NEXTCLOUD_ADMIN_PASSWORD:?set NEXTCLOUD_ADMIN_PASSWORD in .env}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "cloud.s4ras.site 192.168.10.207 100.64.0.17 localhost"
+      OVERWRITEHOST: "cloud.s4ras.site"
+      OVERWRITEPROTOCOL: "https"
+      OVERWRITECLIURL: "https://cloud.s4ras.site"
+      TRUSTED_PROXIES: "192.168.10.0/24 127.0.0.1"
+      APACHE_DISABLE_REWRITE_IP: "1"
+      PHP_MEMORY_LIMIT: "1024M"
+      PHP_UPLOAD_LIMIT: "10G"
+    volumes:
+      - nextcloud:/var/www/html
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost/status.php || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - nextcloud_net
+
+  # ── Collabora Online (CODE) — Real-time Office Document Editor ─────────────
+  # WOPI backend for Nextcloud Office app. Exposed on :9980 for Cloudflare
+  # Tunnel routing (collabora.s4ras.site → VM 207:9980).
+  # SSL terminated by Cloudflare; Collabora runs plain HTTP internally.
+  collabora:
+    image: collabora/code:latest
+    container_name: collabora_app
+    restart: unless-stopped
+    ports:
+      - "9980:9980"           # Cloudflare Tunnel target: http://192.168.10.207:9980
+    cap_add:
+      - MKNOD
+    environment:
+      - aliasgroup1=https://cloud\.s4ras\.site
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
+      - username=admin
+      - password=${COLLABORA_ADMIN_PASSWORD:?set COLLABORA_ADMIN_PASSWORD in .env}
+    mem_limit: 700m
+    networks:
+      - nextcloud_net
+
+  # ── MySQL Metrics Exporter ──────────────────────────────────────────────────
+  mysqld_exporter:
+    image: prom/mysqld-exporter:v0.15.1
+    container_name: nextcloud_mysqld_exporter
+    restart: always
+    environment:
+      MYSQLD_EXPORTER_PASSWORD: "${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}"
+    command:
+      - "--mysqld.address=db:3306"
+      - "--mysqld.username=root"
+    ports:
+      - "9104:9104"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - nextcloud_net
+
+volumes:
+  db:
+    name: nextcloud_db
+  nextcloud:
+    name: nextcloud_nextcloud
+
+networks:
+  nextcloud_net:
+    name: nextcloud_net
+    driver: bridge
