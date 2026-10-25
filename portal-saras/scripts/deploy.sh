@@ -1,24 +1,31 @@
 #!/bin/sh
 set -e
 
-cd "$(git rev-parse --show-toplevel)"
+printf "> Running S4RAS deployment on VM 208...\n"
 
-printf "> Running portal deployment...\n"
+MONOREPO_DIR="/home/portal/s4ras"
+TARGET_DIR="/home/portal/Portal-SARAS"
 
-printf "> Building React app\n"
-# Ensure the backend API env var is set for the build (React bakes REACT_APP_* at build time)
-export REACT_APP_BACKEND_API_URL=${REACT_APP_BACKEND_API_URL:-https://api.s4ras.site}
-echo "> Using REACT_APP_BACKEND_API_URL=$REACT_APP_BACKEND_API_URL"
-export REACT_APP_DEPLOY_TOKEN=${REACT_APP_DEPLOY_TOKEN:?"REACT_APP_DEPLOY_TOKEN must be set"}
-echo "> Deploy token configured"
-npm run build
-
-printf "> Restarting PM2 service portal-prod\n"
-if pm2 describe portal-prod > /dev/null 2>&1; then
-  # reload to pick up updated environment variables from ecosystem file
-  pm2 startOrReload ecosystem.config.js
+if [ -d "$MONOREPO_DIR/.git" ]; then
+  printf "> Syncing latest changes from monorepo (%s)...\n" "$MONOREPO_DIR"
+  cd "$MONOREPO_DIR"
+  git fetch origin main
+  git reset --hard origin/main
+  npm ci || npm install
+  npm run build
+  rsync -av --delete portal-saras/build/ "$TARGET_DIR/build/"
+  rsync -av --delete portal-saras/scripts/ "$TARGET_DIR/scripts/"
+  rsync -av --delete portal-saras/src/ "$TARGET_DIR/src/"
+  rsync -av --delete portal-saras/public/ "$TARGET_DIR/public/"
+  cp portal-saras/package.json "$TARGET_DIR/package.json"
+  cp portal-saras/vite.config.mjs "$TARGET_DIR/vite.config.mjs"
 else
-  pm2 startOrReload ecosystem.config.js
+  REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo ".")"
+  cd "$REPO_ROOT"
+  npm run build
 fi
 
-printf "> Deployment complete\n"
+printf "> Restarting PM2 service portal-prod\n"
+pm2 reload portal-prod --update-env
+
+printf "> S4RAS Deployment complete\n"
