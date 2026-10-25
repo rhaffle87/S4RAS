@@ -24,8 +24,19 @@ function formatPublicKey(raw) {
   return `-----BEGIN PUBLIC KEY-----\n${wrapped}\n-----END PUBLIC KEY-----`;
 }
 
-const KEYCLOAK_PUBLIC_KEY = formatPublicKey(process.env.KEYCLOAK_PUBLIC_KEY || process.env.JWT_PUBLIC_KEY);
-const JWT_SECRET = process.env.JWT_SECRET;
+let KEYCLOAK_PUBLIC_KEY = formatPublicKey(process.env.KEYCLOAK_PUBLIC_KEY || process.env.JWT_PUBLIC_KEY);
+let JWT_SECRET = process.env.JWT_SECRET;
+
+function setKeycloakPublicKey(raw) {
+  KEYCLOAK_PUBLIC_KEY = formatPublicKey(raw);
+}
+
+function getKeycloakPublicKey() {
+  if (!KEYCLOAK_PUBLIC_KEY && (process.env.KEYCLOAK_PUBLIC_KEY || process.env.JWT_PUBLIC_KEY)) {
+    KEYCLOAK_PUBLIC_KEY = formatPublicKey(process.env.KEYCLOAK_PUBLIC_KEY || process.env.JWT_PUBLIC_KEY);
+  }
+  return KEYCLOAK_PUBLIC_KEY;
+}
 
 function verifyTokenSignatureAndPayload(rawToken) {
   if (!rawToken || typeof rawToken !== 'string') return null;
@@ -62,11 +73,12 @@ function verifyTokenSignatureAndPayload(rawToken) {
   const signedData = `${headerB64}.${payloadB64}`;
   const sigBuffer = Buffer.from(signatureB64, 'base64url');
 
-  if (header.alg.startsWith('RS') && KEYCLOAK_PUBLIC_KEY) {
+  const rsaKey = getKeycloakPublicKey();
+  if (header.alg.startsWith('RS') && rsaKey) {
     try {
       const verifier = crypto.createVerify('RSA-SHA256');
       verifier.update(signedData);
-      const isVerified = verifier.verify(KEYCLOAK_PUBLIC_KEY, sigBuffer);
+      const isVerified = verifier.verify(rsaKey, sigBuffer);
       if (!isVerified) {
         console.warn('[JWT Security] RSA Signature verification failed');
         return null;
@@ -134,6 +146,8 @@ function parseTokenContext(req) {
 module.exports = {
   safeCompare,
   formatPublicKey,
+  setKeycloakPublicKey,
+  getKeycloakPublicKey,
   verifyTokenSignatureAndPayload,
   parseTokenContext,
   KEYCLOAK_PUBLIC_KEY,

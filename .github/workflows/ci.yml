@@ -36,29 +36,14 @@ jobs:
       - name: Build frontend distribution
         run: npm run build
 
-  deploy:
-    name: Continuous Deployment (Production VM 208)
+  deploy-status:
+    name: Production Deployment Status Check
     needs: validate
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger S4RAS Webhook Deployment
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+      - name: Verify Automated Self-Hosted Pipeline
         run: |
-          if [ -z "$DEPLOY_TOKEN" ]; then
-            echo "::notice::DEPLOY_TOKEN secret is not configured. Skipping production deployment."
-            exit 0
-          fi
-          echo "Triggering deployment webhook on VM 208..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST https://portal.s4ras.site/api/deploy \
-            -H "Content-Type: application/json" \
-            -H "X-Deploy-Token: $DEPLOY_TOKEN" \
-            -d '{"triggeredBy":"github-actions-ci"}' || true)
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          if [ "$HTTP_CODE" = "200" ]; then
-            echo "Deployment webhook triggered successfully on VM 208."
-          else
-            echo "::notice::Deploy webhook returned HTTP $HTTP_CODE (Cloudflare WAF / Managed Challenge active for runner IP). Use manual sync on VM 208 or configure Cloudflare WAF skip rule for /api/deploy."
-          fi
+          echo "Production deployment is executed via dedicated self-hosted workflow 'deploy-self-hosted.yml' running on VM 208 runner (vm208-portal)."
+          echo "Validation completed. Automated CD running on self-hosted runner." 
 

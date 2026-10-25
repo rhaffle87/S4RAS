@@ -33,26 +33,19 @@ export const KeycloakProvider = ({ children }) => {
         ...(keycloak.resourceAccess?.['front-end']?.roles || []),
         ...(keycloak.tokenParsed?.resource_access?.['front-end']?.roles || [])
       ];
-      const roleAttr = profile?.attributes?.role;
-      const username = (profile?.username || keycloak.tokenParsed?.preferred_username || '').toLowerCase();
+            const username = (profile?.username || keycloak.tokenParsed?.preferred_username || '').toLowerCase();
       const hasAdmin =
         realmRoles.some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator') ||
         clientRoles.some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin') ||
-        username === 'admin' || username === 'dev1' || username === 'testuser' ||
-        (Array.isArray(roleAttr) && roleAttr.some(r => r.toLowerCase() === 'admin')) ||
-        (typeof roleAttr === 'string' && roleAttr.toLowerCase() === 'admin');
+        username === 'admin' || username === 'dev1';
 
       const hasTeacher =
         realmRoles.some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher') ||
-        username === 'teacher1' ||
-        (Array.isArray(roleAttr) && roleAttr.some(r => r.toLowerCase() === 'dosen')) ||
-        (typeof roleAttr === 'string' && roleAttr.toLowerCase() === 'dosen');
+        username === 'teacher1';
 
       const hasStudent =
         realmRoles.some(r => r.toLowerCase() === 'mahasiswa' || r.toLowerCase() === 'student') ||
-        username === 'student1' ||
-        (Array.isArray(roleAttr) && roleAttr.some(r => r.toLowerCase() === 'mahasiswa')) ||
-        (typeof roleAttr === 'string' && roleAttr.toLowerCase() === 'mahasiswa');
+        username === 'student1';
 
       setIsAdmin(hasAdmin);
       setIsTeacher(!hasAdmin && hasTeacher);

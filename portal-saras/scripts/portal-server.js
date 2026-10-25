@@ -17,8 +17,55 @@ const fs = require('fs');
 const net = require('net');
 const crypto = require('crypto');
 
-const { safeCompare, parseTokenContext } = require('./lib/auth');
+// Load local .env without external dependencies
+const envPath = path.resolve(__dirname, '..', '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    for (const line of envContent.split(/?
+/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eqIdx = trimmed.indexOf('=');
+      if (eqIdx > 0) {
+        const k = trimmed.slice(0, eqIdx).trim();
+        const v = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, '');
+        if (!process.env[k]) process.env[k] = v;
+      }
+    }
+  } catch (err) {
+    console.warn('[Env Loader Warning]', err.message);
+  }
+}
+
+const { safeCompare, parseTokenContext, setKeycloakPublicKey } = require('./lib/auth');
 const { CANONICAL_PERSONAS } = require('./lib/personas');
+
+// Auto-discover Keycloak realm RSA public key if not configured
+if (!process.env.KEYCLOAK_PUBLIC_KEY && !process.env.JWT_SECRET) {
+  const realmUrl = process.env.KEYCLOAK_REALM_URL || 'https://sso.s4ras.site/realms/S4RAS';
+  try {
+    const client = realmUrl.startsWith('https') ? https : http;
+    client.get(realmUrl, { timeout: 3000 }, (res) => {
+      let raw = '';
+      res.on('data', chunk => { raw += chunk; });
+      res.on('end', () => {
+        try {
+          const data = JSON.parse(raw);
+          if (data.public_key) {
+            setKeycloakPublicKey(data.public_key);
+            console.log('[JWT Security] Auto-discovered Keycloak realm RSA public key at boot');
+          }
+        } catch {
+          // fallback
+        }
+      });
+    }).on('error', () => {});
+  } catch {
+    // fallback
+  }
+}
+
 
 // ── Redis In-Memory Cache & Pub/Sub Event Mesh (Phase 37) ─────────────────
 let redisClient = null;
@@ -1313,6 +1360,51 @@ app.post('/api/announcements', (req, res) => {
 
   res.status(201).json({ status: 'created', announcement: newAnn });
 });
+
+// Admin DELETE announcement endpoint
+app.delete('/api/announcements/:id', (req, res) => {
+  const user = parseTokenContext(req);
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+
+  const reqToken = req.headers['x-admin-token'] || req.headers['x-deploy-token'] || req.headers.authorization?.replace('Bearer ', '');
+  const validAdminToken = process.env.ADMIN_TOKEN || VALID_DEPLOY_TOKEN;
+  const isTokenValid = Boolean(validAdminToken && safeCompare(reqToken, validAdminToken));
+
+  if (!isTokenValid && !isUserAdmin) {
+    if (user && user.authenticated) {
+      console.warn(`[Announcement Security] Forbidden: Non-admin user '${user.username}' attempted announcement deletion from IP ${req.ip}`);
+      return res.status(403).json({
+        error: 'Forbidden: Admin role required for announcement management',
+        status: 'error'
+      });
+    }
+
+    if (!validAdminToken) {
+      return res.status(503).json({ error: 'Announcement deletion disabled: ADMIN_TOKEN is not configured' });
+    }
+    return res.status(401).json({ error: 'Unauthorized: Admin authorization required' });
+  }
+
+  const { id } = req.params;
+  const initialCount = announcementsStore.length;
+  announcementsStore = announcementsStore.filter((a) => a.id !== id);
+
+  if (announcementsStore.length === initialCount) {
+    return res.status(404).json({ error: 'Announcement not found', status: 'not_found' });
+  }
+
+  const broadcastMsg = JSON.stringify({ type: 'delete_announcement', id });
+  for (const client of sseClients) {
+    try {
+      client.write(`data: ${broadcastMsg}\n\n`);
+    } catch {
+      sseClients.delete(client);
+    }
+  }
+
+  res.status(200).json({ status: 'deleted', id });
+});
+
 
 // ── Proxy to JMeter Benchmark Report server on VM 209 ──────────────────────
 app.use('/benchmark', (req, res) => {

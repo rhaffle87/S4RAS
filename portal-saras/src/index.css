@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
   
   /* Brand colors matching myITS reference */
   --color-brand: #b91c1c;
@@ -10,17 +11,17 @@
   --color-brand-subtle: rgba(185, 28, 28, 0.15);
 
   /* Dark theme background tones */
-  --color-neutral-bg1: #0a0c10;
-  --color-neutral-bg2: #12141c;
-  --color-neutral-bg3: #181a24;
-  --color-neutral-bg4: #222533;
-  --color-neutral-bg5: #2d3142;
-  --color-neutral-bg6: #3a3f55;
+  --color-neutral-bg1: #09090b;
+  --color-neutral-bg2: #0f0f12;
+  --color-neutral-bg3: #16161a;
+  --color-neutral-bg4: #1f1f24;
+  --color-neutral-bg5: #2a2a31;
+  --color-neutral-bg6: #3a3a43;
 
   /* Text colors */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #a3aed0;
-  --color-text-muted: #707eae;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #8b8b94;
 
   /* Borders */
   --color-border-subtle: rgba(255, 255, 255, 0.04);
@@ -32,6 +33,20 @@
   --color-status-warning: #f59e0b;
   --color-status-error: #ef4444;
   --color-status-info: #ef4444;
+
+  /* Single-accent brand: the legacy purple scale resolves to neutral zinc so
+     only red (brand) and status colors stand out, matching s4ras.site. */
+  --color-purple-50: #fafafa;
+  --color-purple-100: #f4f4f5;
+  --color-purple-200: #e4e4e7;
+  --color-purple-300: #d4d4d8;
+  --color-purple-400: #a1a1aa;
+  --color-purple-500: #71717a;
+  --color-purple-600: #52525b;
+  --color-purple-700: #3f3f46;
+  --color-purple-800: #27272a;
+  --color-purple-900: #18181b;
+  --color-purple-950: #09090b;
 
   /* Border radius adjustments */
   --radius-lg: 0.75rem;
@@ -78,7 +93,7 @@
     /* Brand overrides - S4RAS Crimson Red */
     --color-brand: #dc2626;
     --color-brand-hover: #b91c1c;
-    --color-brand-light: #ef4444;
+    --color-brand-light: #b91c1c;
     --color-brand-subtle: rgba(220, 38, 38, 0.1);
 
     /* Light theme background tones */
@@ -92,7 +107,7 @@
     /* Text colors */
     --color-text-primary: #111827; /* dark grey text */
     --color-text-secondary: #4b5563; /* medium grey text */
-    --color-text-muted: #6b7280;
+    --color-text-muted: #5b6270;
 
     /* Borders */
     --color-border-subtle: rgba(0, 0, 0, 0.04);
@@ -138,26 +153,22 @@
 
 /* Glassmorphism Utilities */
 .glass {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
-  backdrop-filter: blur(16px);
-  background: rgba(20, 22, 32, 0.7);
+  background: rgba(15, 15, 18, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
 }
 
 .glass-panel {
-  backdrop-filter: blur(20px);
-  background: rgba(10, 12, 16, 0.85);
+  background: rgba(9, 9, 11, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .glass-overlay {
-  backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.6);
 }
 
@@ -180,13 +191,13 @@ html.light .glass {
 }
 
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
 html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
@@ -230,6 +241,19 @@ html.light .glass-input:focus {
   transform: translate3d(0, 0, 0);
   will-change: transform, opacity;
   pointer-events: none;
+}
+
+/* Performance: the glows are decorative and their gradients are already soft,
+   so skip the 120px blur filter, and drop them entirely on small screens or
+   when the user prefers reduced motion/data (target devices include low-end phones). */
+.ambient-glow {
+  filter: none;
+}
+
+@media (max-width: 1023px), (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) {
+  .ambient-glow {
+    display: none;
+  }
 }
 
 /* Hardware-isolated SVG container for continuous SMIL animations */

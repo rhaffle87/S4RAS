@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useKeycloak } from '../context/KeycloakContext';
 import { 
-  Home, User, Megaphone, Shield, LogOut, Menu, X, Settings, ChevronDown, Phone,
+  Home, User, Megaphone, Shield, LogOut, Menu, X, Settings, ChevronDown, Phone, Search,
   Terminal, BookOpen, GraduationCap 
 } from 'lucide-react';
 import SoftphoneModal from './SoftphoneModal';
+import CommandPalette from './CommandPalette';
 import SystemAlertBanner from './SystemAlertBanner';
 import { useThemeLanguage } from '../context/ThemeLanguageContext';
 
@@ -265,6 +266,21 @@ function Layout({ children }) {
 
             {/* Right TopBar Actions: Language, Softphone, Persona Badge, Avatar */}
             <div className="flex items-center gap-2.5 sm:gap-4 ml-auto">
+              {/* Command palette trigger (Ctrl/Cmd+K) */}
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+                className="flex items-center gap-2 bg-white/4 light:bg-black/3 border border-border-default text-text-muted text-xs font-medium px-2.5 py-1.5 sm:px-3 rounded-full cursor-pointer transition-colors duration-200 hover:text-text-primary hover:bg-white/8"
+                aria-label={language === 'en' ? 'Search pages and services' : 'Cari halaman dan layanan'}
+                aria-keyshortcuts="Control+K Meta+K"
+              >
+                <Search size={14} aria-hidden="true" />
+                <span className="hidden md:inline">{language === 'en' ? 'Search' : 'Cari'}</span>
+                <kbd className="hidden md:inline font-mono text-[10px] border border-border-default rounded px-1 py-px">
+                  {typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || '') ? '⌘K' : 'Ctrl K'}
+                </kbd>
+              </button>
+
               {/* Language Dropdown */}
               <div className="relative">
                 <button
@@ -421,6 +437,7 @@ function Layout({ children }) {
 
         {/* WebRTC Softphone Modal */}
         <SoftphoneModal isOpen={phoneOpen} onClose={() => setPhoneOpen(false)} />
+        <CommandPalette navItems={visibleNavItems} language={language} />
       </div>
     </>
   );

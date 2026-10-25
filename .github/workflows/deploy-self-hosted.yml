@@ -43,9 +43,13 @@ jobs:
 
       - name: Deploy & Reload PM2 Cluster
         run: |
-          echo "Copying build to production directory..."
+          echo "Copying full distribution to production directory..."
           rsync -av --delete portal-saras/build/ /home/portal/Portal-SARAS/build/
-          cp portal-saras/scripts/portal-server.js /home/portal/Portal-SARAS/scripts/portal-server.js
+          rsync -av --delete portal-saras/scripts/ /home/portal/Portal-SARAS/scripts/
+          rsync -av --delete portal-saras/src/ /home/portal/Portal-SARAS/src/
+          rsync -av --delete portal-saras/public/ /home/portal/Portal-SARAS/public/
+          cp portal-saras/package.json /home/portal/Portal-SARAS/package.json
+          cp portal-saras/vite.config.mjs /home/portal/Portal-SARAS/vite.config.mjs
           echo "Performing zero-downtime PM2 reload..."
           pm2 reload portal-prod --update-env
 

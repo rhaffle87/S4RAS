@@ -430,7 +430,7 @@ export default function CampusCockpitHub({ className = '' }) {
               </div>
 
               {/* Action Buttons: Simulate Event Trigger (Restricted to Admin / Dev) */}
-              {Boolean(isAdmin || persona === 'dev') && (
+              {Boolean(isAdmin) && (
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={handleSimulateEvent}
