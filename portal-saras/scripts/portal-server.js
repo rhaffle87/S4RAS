@@ -22,8 +22,7 @@ const envPath = path.resolve(__dirname, '..', '.env');
 if (fs.existsSync(envPath)) {
   try {
     const envContent = fs.readFileSync(envPath, 'utf8');
-    for (const line of envContent.split(/?
-/)) {
+    for (const line of envContent.split('\n')) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith('#')) continue;
       const eqIdx = trimmed.indexOf('=');
