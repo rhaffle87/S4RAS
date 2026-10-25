@@ -20,7 +20,7 @@ const NAV_ITEMS = [
 ];
 
 function Layout({ children }) {
-  const { logout, persona, roleLabel, profile, isAdmin } = useKeycloak();
+  const { logout, persona, roleLabel, profile, isAdmin, sipExtension } = useKeycloak();
   const { language, setLanguage, t } = useThemeLanguage();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -226,8 +226,8 @@ function Layout({ children }) {
             </button>
 
             <div className="px-3 pt-2 text-[11px] text-text-muted leading-tight select-none">
-              <div className="font-semibold text-text-secondary">S4RAS Campus Network</div>
-              <div className="text-[10px] opacity-75 mt-0.5">STANDALONE CLOUD SERVICES • 2026</div>
+              <div className="font-semibold text-text-secondary">S4RAS Network • 3T Services</div>
+              <div className="text-[10px] opacity-75 mt-0.5">SOLUTION FOR REMOTE AREA SERVICES • 2026</div>
             </div>
           </div>
         </aside>
@@ -247,7 +247,7 @@ function Layout({ children }) {
               >
                 <Menu size={22} />
               </button>
-              <svg viewBox="0 0 100 100" className="w-6 h-6 shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 100 100" className="lg:hidden w-6 h-6 shrink-0" aria-hidden="true">
                 <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
                 <g stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" opacity="0.65">
                   <line x1="40.5" y1="35" x2="58.5" y2="35"/>
@@ -327,7 +327,7 @@ function Layout({ children }) {
                 <Phone size={13} className="animate-pulse text-emerald-400 shrink-0" />
                 <span className="hidden md:inline">Campus Phone</span>
                 <span className="hidden sm:inline font-mono text-[11px] opacity-80">
-                  ({persona === 'teacher' ? '1002' : persona === 'dev' ? '1003' : '1001'})
+                  ({sipExtension || '1001'})
                 </span>
               </button>
 
@@ -341,10 +341,10 @@ function Layout({ children }) {
               >
                 <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${
                   persona === 'dev'
-                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                    ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30'
                     : persona === 'teacher'
-                    ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
-                    : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                    ? 'bg-rose-100 text-rose-900 border-rose-300 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30'
+                    : 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30'
                 }`}>
                   <PersonaIcon size={12} />
                   <span>{t('role.' + (persona || 'student')) || roleLabel || (persona === 'dev' ? 'Administrator' : persona === 'teacher' ? 'Dosen' : 'Mahasiswa')}</span>

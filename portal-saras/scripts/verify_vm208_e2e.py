@@ -128,8 +128,15 @@ print(f'  POST   /api/webhooks/event (system.*) -> HTTP {a_ev} (Expected: 200 OK
 
 # Test with ADMIN_TOKEN header
 adm_hdr = {'x-admin-token': ADMIN_TOKEN}
-t_ann, _ = make_req(BASE + '/api/announcements', 'POST', headers=adm_hdr, body={'title': 'Token Admin', 'description': 'Header Token OK'})
+t_ann, t_res = make_req(BASE + '/api/announcements', 'POST', headers=adm_hdr, body={'title': 'Token Admin', 'description': 'Header Token OK'})
 print(f'  POST   /api/announcements (x-admin)   -> HTTP {t_ann} (Expected: 201 Created)')
+try:
+    t_id = json.loads(t_res).get('announcement', {}).get('id')
+    if t_id:
+        t_del, _ = make_req(BASE + f'/api/announcements/{t_id}', 'DELETE', headers=adm_hdr)
+        print(f'  DELETE /api/announcements/{t_id} (x-admin) -> HTTP {t_del} (Expected: 200 OK)')
+except Exception as e:
+    pass
 
 print('\n==================================================================')
 print('=== AUDIT TELEMETRY, REDIS & MICROSERVICES (VM 208) ===')

@@ -189,8 +189,8 @@ const ALL_SERVICES_MAP = {
     key: 'status',
     title: 'Akses Internet & Status',
     title_en: 'Internet & Service Status',
-    subtitle: 'Uptime & Jaringan Kampus',
-    subtitle_en: 'Uptime & Campus Network',
+    subtitle: 'Uptime & Jaringan 3T',
+    subtitle_en: 'Uptime & 3T Network',
     icon: 'Wifi',
     url: 'https://status.s4ras.site',
     gradient: 'from-rose-700 to-red-500',
@@ -201,8 +201,8 @@ const ALL_SERVICES_MAP = {
     key: 'moodle',
     title: 'Moodle LMS',
     title_en: 'Moodle LMS',
-    subtitle: 'Kelas Pembelajaran Daring',
-    subtitle_en: 'Online Learning Classes',
+    subtitle: 'Modul Belajar & Pelatihan',
+    subtitle_en: 'Learning & Training Modules',
     icon: 'GraduationCap',
     url: 'https://moodle.s4ras.site/auth/oidc/',
     gradient: 'from-red-600 to-rose-500',
@@ -213,8 +213,8 @@ const ALL_SERVICES_MAP = {
     key: 'sso',
     title: 'SSO Keycloak',
     title_en: 'SSO Keycloak',
-    subtitle: 'Akun & Otentikasi Sivitas',
-    subtitle_en: 'Account & Central Auth',
+    subtitle: 'Otentikasi Akun Terpusat',
+    subtitle_en: 'Centralized User Auth',
     icon: 'KeyRound',
     url: 'https://sso.s4ras.site/realms/S4RAS/account/',
     gradient: 'from-red-700 to-rose-600',
@@ -225,8 +225,8 @@ const ALL_SERVICES_MAP = {
     key: 'cloud',
     title: 'Nextcloud SAN',
     title_en: 'Nextcloud SAN',
-    subtitle: 'Penyimpanan Berkas Kampus',
-    subtitle_en: 'Campus Storage & Drive',
+    subtitle: 'Penyimpanan Berkas Mandiri',
+    subtitle_en: 'Independent Storage & Drive',
     icon: 'Cloud',
     url: 'https://cloud.s4ras.site/apps/user_oidc/login/1',
     gradient: 'from-rose-800 to-red-600',
@@ -237,8 +237,8 @@ const ALL_SERVICES_MAP = {
     key: 'iptv',
     title: 'Jellyfin IPTV',
     title_en: 'Jellyfin IPTV',
-    subtitle: 'Streaming Multimedia Edukasi',
-    subtitle_en: 'Campus Media Streaming',
+    subtitle: 'Streaming Edukasi Lokal',
+    subtitle_en: 'Local Media Streaming',
     icon: 'Tv',
     url: 'https://iptv.s4ras.site',
     gradient: 'from-red-600 to-rose-700',
@@ -286,8 +286,8 @@ const ALL_SERVICES_MAP = {
     key: 'monitor',
     title: 'Monitoring Grafana',
     title_en: 'Grafana Metrics',
-    subtitle: 'Telemetri Klaster 10 Node',
-    subtitle_en: '10-Node Cluster Telemetry',
+    subtitle: 'Telemetri Klaster 3T',
+    subtitle_en: '3T Cluster Telemetry',
     icon: 'BarChart3',
     url: 'https://monitor.s4ras.site',
     gradient: 'from-rose-600 to-red-700',
@@ -308,7 +308,7 @@ const ALL_SERVICES_MAP = {
   }
 };
 
-const DEFAULT_FAVORITE_KEYS = ['status', 'moodle', 'sso', 'cloud', 'voip'];
+const DEFAULT_FAVORITE_KEYS = ['status', 'moodle', 'sso', 'cloud', 'voip', 'iptv', 'monitor'];
 const FAVORITES_STORAGE_KEY = 's4ras_favorite_apps';
 
 // Carousel Hero Slides with Subtle Modern Gradient Backgrounds & Fading Themed Imagery (6 Slides)
@@ -783,7 +783,7 @@ function Beranda() {
         {/* Two-Column Grid Layout (Left: Apps ~65%, Right: Widgets ~35%) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column (Primary Content Area, span 8 cols) */}
-          <div className="lg:col-span-8 flex flex-col gap-5 sm:gap-6">
+          <div className="lg:col-span-8 flex flex-col gap-5 sm:gap-6 h-fit self-start">
             {/* Aplikasi Launcher Container */}
             <div className="card p-5 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-2xl shadow-md flex flex-col gap-5 transition-all">
               {isEditingFavorites ? (
@@ -980,7 +980,7 @@ function Beranda() {
 
                   {/* View 1: Dynamic User-Configurable Favorite Apps Grid */}
                   {!showAllApps && (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 pt-2">
                       {favoriteKeys.map((key) => {
                         const item = ALL_SERVICES_MAP[key];
                         if (!item) return null;
@@ -1066,23 +1066,7 @@ function Beranda() {
                     </div>
                   )}
 
-                  {/* Bottom Full-Width Toggle Button */}
-                  <button
-                    onClick={() => setShowAllApps(!showAllApps)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs sm:text-sm font-semibold border border-border-default transition-all flex items-center justify-center gap-2 cursor-pointer mt-1"
-                  >
-                    {showAllApps ? (
-                      <>
-                        <ChevronUp size={16} />
-                        <span>{t('home.apps_show_fav')}</span>
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown size={16} />
-                        <span>{t('home.apps_show_all')}</span>
-                      </>
-                    )}
-                  </button>
+
                 </>
               )}
             </div>

@@ -123,7 +123,7 @@ function parseTokenContext(req) {
       const username = (payload.preferred_username || payload.username || '').toLowerCase();
       if (!username) return null;
 
-      const dynExt = payload.sip_extension || (username === 'testuser' ? '1079348' : username === 'admin' ? '1074700' : username === 'dev1' ? '1003' : username === 'teacher1' ? '1002' : '1001');
+      const dynExt = payload.sip_extension || (username === 'testuser' ? '1079348' : (username === 'admin' || username === 'dev1') ? '1003' : username === 'teacher1' ? '1002' : '1001');
       const envSipSecret = process.env[`SIP_SECRET_${username.toUpperCase()}`] || process.env[`SIP_SECRET_${dynExt}`] || (process.env.NODE_ENV !== 'production' ? 'dev-mock-sip-secret' : null);
       return {
         authenticated: true,

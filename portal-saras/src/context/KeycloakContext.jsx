@@ -59,7 +59,7 @@ export const KeycloakProvider = ({ children }) => {
 
       // Extract dynamic token attributes mapped from Keycloak S4RAS Realm
       const tp = keycloak.tokenParsed || {};
-      const dynExt = tp.sip_extension || (username === 'testuser' ? '1079348' : hasAdmin ? '1074700' : hasTeacher ? '1002' : '1001');
+      const dynExt = tp.sip_extension || (username === 'testuser' ? '1079348' : hasAdmin ? '1003' : hasTeacher ? '1002' : '1001');
       const dynSecret = tp.sip_secret || '';
       const dynDept = tp.department || (username === 'testuser' ? 'Research Fellowship / S4RAS' : hasAdmin ? 'Rektorat & Administrasi Sistem' : hasTeacher ? 'Teknik Elektro & Telematika' : 'Teknik Informatika');
       const dynQuota = tp.storage_quota || (username === 'testuser' ? '200GB' : hasAdmin ? '500GB' : hasTeacher ? '50GB' : '15GB');
