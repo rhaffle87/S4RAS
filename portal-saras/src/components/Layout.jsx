@@ -144,16 +144,18 @@ function Layout({ children }) {
               >
                 <svg viewBox="0 0 100 100" className="w-7 h-7 shrink-0" aria-hidden="true">
                   <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
-                  <g stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" opacity="0.65">
-                    <line x1="40.5" y1="35" x2="58.5" y2="35"/>
-                    <line x1="35" y1="40.5" x2="35" y2="58.5"/>
-                    <line x1="65" y1="40.5" x2="65" y2="58.5"/>
-                    <line x1="40.5" y1="65" x2="58.5" y2="65"/>
+                  <g stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.45">
+                    <line x1="46" y1="34" x2="56" y2="34"/>
+                    <line x1="34" y1="46" x2="34" y2="56"/>
+                    <line x1="56" y1="68" x2="46" y2="68"/>
+                    <line x1="68" y1="56" x2="68" y2="46"/>
                   </g>
-                  <circle cx="35" cy="35" r="9.5" fill="#ffffff"/>
-                  <circle cx="65" cy="35" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
-                  <circle cx="35" cy="65" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
-                  <circle cx="65" cy="65" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
+                  <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" strokeWidth="3" opacity="0.6"/>
+                  <circle cx="68" cy="34" r="8" fill="#ffffff"/>
+                  <circle cx="68" cy="34" r="3" fill="#dc2626"/>
                 </svg>
                 <span className="text-xl font-bold tracking-tight text-text-primary">
                   my<span className="text-brand-light">S4RAS</span> Portal
@@ -244,35 +246,37 @@ function Layout({ children }) {
               </button>
               <svg viewBox="0 0 100 100" className="lg:hidden w-6 h-6 shrink-0" aria-hidden="true">
                 <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
-                <g stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" opacity="0.65">
-                  <line x1="40.5" y1="35" x2="58.5" y2="35"/>
-                  <line x1="35" y1="40.5" x2="35" y2="58.5"/>
-                  <line x1="65" y1="40.5" x2="65" y2="58.5"/>
-                  <line x1="40.5" y1="65" x2="58.5" y2="65"/>
+                <g stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.45">
+                  <line x1="46" y1="34" x2="56" y2="34"/>
+                  <line x1="34" y1="46" x2="34" y2="56"/>
+                  <line x1="56" y1="68" x2="46" y2="68"/>
+                  <line x1="68" y1="56" x2="68" y2="46"/>
                 </g>
-                <circle cx="35" cy="35" r="9.5" fill="#ffffff"/>
-                <circle cx="65" cy="35" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
-                <circle cx="35" cy="65" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
-                <circle cx="65" cy="65" r="7" fill="none" stroke="#ffffff" strokeWidth="3"/>
+                <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
+                <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" strokeWidth="3" opacity="0.6"/>
+                <circle cx="68" cy="34" r="8" fill="#ffffff"/>
+                <circle cx="68" cy="34" r="3" fill="#dc2626"/>
               </svg>
               <span className="lg:hidden text-base font-bold text-text-primary">
                 my<span className="text-brand-light">S4RAS</span> Portal
               </span>
             </div>
 
-            {/* Right TopBar Actions: Language, Softphone, Persona Badge, Avatar */}
-            <div className="flex items-center gap-2.5 sm:gap-4 ml-auto">
+            {/* Right TopBar Actions: Harmonious h-9 rounded-full pills */}
+            <div className="flex items-center gap-2.5 sm:gap-3 ml-auto">
               {/* Command palette trigger (Ctrl/Cmd+K) */}
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-                className="flex items-center gap-2 bg-white/4 light:bg-black/3 border border-border-default text-text-muted text-xs font-medium px-2.5 py-1.5 sm:px-3 rounded-full cursor-pointer transition-colors duration-200 hover:text-text-primary hover:bg-white/8"
+                className="h-9 px-3.5 rounded-full text-xs font-medium inline-flex items-center gap-2 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
                 aria-label={language === 'en' ? 'Search pages and services' : 'Cari halaman dan layanan'}
                 aria-keyshortcuts="Control+K Meta+K"
               >
                 <Search size={14} aria-hidden="true" />
                 <span className="hidden md:inline">{language === 'en' ? 'Search' : 'Cari'}</span>
-                <kbd className="hidden md:inline font-mono text-[10px] border border-border-default rounded px-1 py-px">
+                <kbd className="hidden md:inline font-mono text-[10px] border border-[var(--color-border-default)] rounded px-1.5 py-0.5 opacity-80">
                   {typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || '') ? '⌘K' : 'Ctrl K'}
                 </kbd>
               </button>
@@ -280,7 +284,8 @@ function Layout({ children }) {
               {/* Language Dropdown */}
               <div className="relative">
                 <button
-                  className="flex items-center gap-1 sm:gap-1.5 bg-white/4 light:bg-black/3 border border-border-default text-text-secondary text-xs sm:text-[0.8125rem] font-semibold px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full cursor-pointer transition-all duration-200 hover:bg-white/8 hover:text-text-primary"
+                  type="button"
+                  className="h-9 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
                   onClick={() => setLangOpen(!langOpen)}
                   aria-expanded={langOpen}
                   aria-haspopup="listbox"
@@ -314,34 +319,29 @@ function Layout({ children }) {
 
               {/* In-Browser WebRTC Softphone Button */}
               <button
+                type="button"
                 onClick={() => setPhoneOpen(true)}
-                className="flex items-center gap-1.5 bg-brand-subtle/80 hover:bg-brand-subtle border border-brand/30 text-brand-light text-xs font-semibold px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full cursor-pointer transition-all duration-200 active:scale-95 shadow-sm"
+                className="h-9 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-2 border transition-all bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/25 hover:bg-[#dc2626]/15 cursor-pointer active:scale-95 shadow-sm"
                 title="Buka S4RAS Campus WebPhone"
                 aria-label="Campus Phone"
               >
-                <Phone size={13} className="animate-pulse text-emerald-400 shrink-0" />
+                <Phone size={13} className="text-[#dc2626] shrink-0" />
                 <span className="hidden md:inline">Campus Phone</span>
-                <span className="hidden sm:inline font-mono text-[11px] opacity-80">
+                <span className="font-mono text-[11px] opacity-90">
                   ({sipExtension || '1001'})
                 </span>
               </button>
 
               {/* Persona / Role Badge */}
               <div 
-                className="hidden sm:flex items-center"
+                className="hidden sm:inline-flex items-center"
                 title={language === 'en'
                   ? `Role Persona: ${t('role.' + (persona || 'student'))}`
                   : `Peran Persona: ${t('role.' + (persona || 'student'))}`
                 }
               >
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${
-                  persona === 'dev'
-                    ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30'
-                    : persona === 'teacher'
-                    ? 'bg-rose-100 text-rose-900 border-rose-300 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30'
-                    : 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30'
-                }`}>
-                  <PersonaIcon size={12} />
+                <span className="h-9 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-2 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-primary)] border-[var(--color-border-default)] shadow-sm">
+                  <PersonaIcon size={13} className="text-[#dc2626] shrink-0" />
                   <span>{t('role.' + (persona || 'student')) || roleLabel || (persona === 'dev' ? 'Administrator' : persona === 'teacher' ? 'Dosen' : 'Mahasiswa')}</span>
                 </span>
               </div>
@@ -372,21 +372,28 @@ function Layout({ children }) {
               {children}
             </div>
 
-            {/* Bottom Campus Branding Footer (Matching myITS Screenshots) */}
+            {/* Bottom S4RAS Branding Footer */}
             <footer className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5 border-t border-border-default/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-text-muted select-none mt-auto">
-              <div>© 2026 Institut Teknologi Sepuluh Nopember</div>
+              <div>© 2026 S4RAS — Solution for Remote Area Services</div>
               <div className="flex items-center gap-3">
-                <span className="font-bold tracking-wider text-[11px] text-text-secondary uppercase">ADVANCING HUMANITY</span>
+                <span className="font-bold tracking-wider text-[11px] text-text-secondary uppercase">EMPOWERING 3T COMMUNITIES</span>
                 <div className="flex items-center gap-1.5 text-text-primary">
-                  <svg className="w-5 h-5 text-text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="12" cy="12" r="9" />
-                    <circle cx="12" cy="12" r="4" />
-                    <circle cx="12" cy="3" r="1.5" fill="currentColor" />
-                    <circle cx="12" cy="21" r="1.5" fill="currentColor" />
-                    <circle cx="3" cy="12" r="1.5" fill="currentColor" />
-                    <circle cx="21" cy="12" r="1.5" fill="currentColor" />
+                  <svg className="w-5 h-5 shrink-0" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                    <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
+                    <g stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.45">
+                      <line x1="46" y1="34" x2="56" y2="34"/>
+                      <line x1="34" y1="46" x2="34" y2="56"/>
+                      <line x1="56" y1="68" x2="46" y2="68"/>
+                      <line x1="68" y1="56" x2="68" y2="46"/>
+                    </g>
+                    <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
+                    <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                    <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                    <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" strokeWidth="3" opacity="0.6"/>
+                    <circle cx="68" cy="34" r="8" fill="#ffffff"/>
+                    <circle cx="68" cy="34" r="3" fill="#dc2626"/>
                   </svg>
-                  <span className="font-black text-xs tracking-tight text-text-primary">ITS</span>
+                  <span className="font-black text-xs tracking-tight text-text-primary">S4RAS</span>
                 </div>
               </div>
             </footer>

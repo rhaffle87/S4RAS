@@ -838,7 +838,7 @@ function Beranda() {
                         <div className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform mb-2`}>
                           <ServiceIcon iconName={item.icon} size={26} />
                         </div>
-                        <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors line-clamp-1">
+                        <span className="text-xs sm:text-sm font-bold text-[var(--color-text-primary)] group-hover:text-[#dc2626] transition-colors line-clamp-1">
                           {itemTitle}
                         </span>
                         <span className="text-[11px] text-text-muted mt-0.5 line-clamp-1">
@@ -856,7 +856,7 @@ function Beranda() {
                     <div className="w-14 h-14 rounded-2xl bg-neutral-bg3 border border-border-default flex items-center justify-center text-text-secondary group-hover:text-text-primary group-hover:border-brand/40 group-hover:scale-105 transition-all mb-2 shadow-sm">
                       <Edit3 size={24} />
                     </div>
-                    <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors">
+                    <span className="text-xs sm:text-sm font-bold text-[var(--color-text-primary)] group-hover:text-[#dc2626] transition-colors">
                       {t('home.edit_favorites')}
                     </span>
                     <span className="text-[11px] text-text-muted mt-0.5">
@@ -912,7 +912,7 @@ function Beranda() {
               <button
                 type="button"
                 onClick={() => setShowAllApps(!showAllApps)}
-                className="w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-text-secondary hover:text-text-primary text-xs sm:text-sm font-semibold border border-border-default transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+                className="w-full py-2.5 px-4 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] border border-[#e4e4e7] dark:bg-[#27272a] dark:hover:bg-[#3f3f46] dark:text-[#f4f4f5] dark:border-[#3f3f46] text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
               >
                 {showAllApps ? (
                   <>
@@ -1014,7 +1014,7 @@ function Beranda() {
 
               <Link
                 to="/pengumuman"
-                className="w-full py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-text-primary text-center no-underline border border-border-default transition-all"
+                className="w-full py-2.5 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] border border-[#e4e4e7] dark:bg-[#27272a] dark:hover:bg-[#3f3f46] dark:text-[#f4f4f5] dark:border-[#3f3f46] text-xs font-semibold text-center no-underline transition-all block"
               >
                 {t('home.view_all_announcements')}
               </Link>
