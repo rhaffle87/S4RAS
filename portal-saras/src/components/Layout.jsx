@@ -5,10 +5,11 @@ import {
   Home, User, Megaphone, Shield, LogOut, Menu, X, Settings, ChevronDown, Phone, Search,
   Terminal, BookOpen, GraduationCap 
 } from 'lucide-react';
-import SoftphoneModal from './SoftphoneModal';
 import CommandPalette from './CommandPalette';
 import SystemAlertBanner from './SystemAlertBanner';
 import { useThemeLanguage } from '../context/ThemeLanguageContext';
+
+const SoftphoneModal = React.lazy(() => import('./SoftphoneModal'));
 
 const NAV_ITEMS = [
   { to: '/home', label: 'Beranda', icon: Home },
@@ -114,13 +115,13 @@ function Layout({ children }) {
 
       <div className="flex h-screen bg-transparent relative overflow-hidden z-1">
         {/* Ambient background glows */}
-        <div className="ambient-glow fixed rounded-full pointer-events-none z-[-1] blur-[120px] top-[10%] left-[-250px] w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(239,68,68,0.16)_0%,transparent_90%)] light:bg-[radial-gradient(circle,rgba(239,68,68,0.06)_0%,transparent_90%)] animate-pulse-glow-1" aria-hidden="true" />
-        <div className="ambient-glow fixed rounded-full pointer-events-none z-[-1] blur-[120px] bottom-[-200px] right-[-200px] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(239,68,68,0.10)_0%,transparent_90%)] light:bg-[radial-gradient(circle,rgba(239,68,68,0.03)_0%,transparent_90%)] animate-pulse-glow-2" aria-hidden="true" />
+        <div className="ambient-glow fixed rounded-full pointer-events-none z-[-1] top-[10%] left-[-250px] w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(239,68,68,0.14)_0%,transparent_80%)] light:bg-[radial-gradient(circle,rgba(239,68,68,0.05)_0%,transparent_80%)] animate-pulse-glow-1" aria-hidden="true" />
+        <div className="ambient-glow fixed rounded-full pointer-events-none z-[-1] bottom-[-200px] right-[-200px] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(239,68,68,0.09)_0%,transparent_80%)] light:bg-[radial-gradient(circle,rgba(239,68,68,0.03)_0%,transparent_80%)] animate-pulse-glow-2" aria-hidden="true" />
 
         {/* Mobile backdrop overlay */}
         {mobileOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-[4px] z-45"
+            className="lg:hidden fixed inset-0 bg-black/75 z-45"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
@@ -129,7 +130,7 @@ function Layout({ children }) {
         {/* Full-Height Desktop / Responsive Sidebar */}
         <aside
           id="sidebar-nav"
-          className={`w-[260px] xl:w-[275px] bg-neutral-bg2/95 backdrop-blur-md border-r border-border-default flex flex-col justify-between p-5 h-full transition-transform duration-300 ease-in-out z-50 fixed top-0 bottom-0 left-0 lg:static max-lg:shadow-[10px_0_35px_rgba(0,0,0,0.6)] ${mobileOpen ? 'translate-x-0' : 'max-lg:-translate-x-full'}`}
+          className={`w-[260px] xl:w-[275px] bg-neutral-bg2 border-r border-border-default flex flex-col justify-between p-5 h-full transition-transform duration-300 ease-in-out z-50 fixed top-0 bottom-0 left-0 lg:static max-lg:shadow-[10px_0_35px_rgba(0,0,0,0.6)] ${mobileOpen ? 'translate-x-0' : 'max-lg:-translate-x-full'}`}
           role="navigation"
           aria-label="Navigasi utama"
         >
@@ -234,7 +235,7 @@ function Layout({ children }) {
         {/* Content View Container (TopBar + Page View + Campus Footer) */}
         <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden relative">
           {/* Confined Top Bar (Spans right content area only) */}
-          <header className="sticky top-0 h-16 bg-neutral-bg1/80 light:bg-white/80 backdrop-blur-lg border-b border-border-default flex items-center justify-between px-4 sm:px-6 lg:px-8 z-30 shrink-0">
+          <header className="sticky top-0 h-16 bg-neutral-bg1 light:bg-white border-b border-border-default flex items-center justify-between px-4 sm:px-6 lg:px-8 z-30 shrink-0">
             {/* Mobile Hamburger & Title */}
             <div className="flex items-center gap-3">
               <button
@@ -399,7 +400,7 @@ function Layout({ children }) {
 
         {/* Mobile Tab Bar (Bottom Thumb Zone < lg) */}
         <nav 
-          className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-neutral-bg1/90 light:bg-white/95 backdrop-blur-xl border-t border-border-default/80 flex items-center justify-around py-1.5 px-2 shadow-[0_-4px_25px_rgba(0,0,0,0.4)]"
+          className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-neutral-bg1 light:bg-white border-t border-border-default flex items-center justify-around py-1.5 px-2 shadow-[0_-4px_25px_rgba(0,0,0,0.4)]"
           role="navigation"
           aria-label="Navigasi bawah seluler"
         >
@@ -435,9 +436,13 @@ function Layout({ children }) {
           ))}
         </nav>
 
-        {/* WebRTC Softphone Modal */}
-        <SoftphoneModal isOpen={phoneOpen} onClose={() => setPhoneOpen(false)} />
-        <CommandPalette navItems={visibleNavItems} language={language} />
+        {/* WebRTC Softphone Modal — lazy loaded on demand */}
+        {phoneOpen && (
+          <React.Suspense fallback={null}>
+            <SoftphoneModal isOpen={phoneOpen} onClose={() => setPhoneOpen(false)} />
+          </React.Suspense>
+        )}
+        <CommandPalette navItems={visibleNavItems} language={language} isAdmin={Boolean(isAdmin)} />
       </div>
     </>
   );

@@ -32,7 +32,7 @@ export default function SoftphoneVideoCanvas({ activeCallTarget, localVideoRef, 
       </div>
 
       {/* Video Badge */}
-      <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10 text-[10px] text-white">
+      <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/85 px-2.5 py-1 rounded-md border border-white/10 text-[10px] text-white">
         <Video size={11} className="text-emerald-400" />
         <span>S4RAS HD Video Consultation</span>
       </div>

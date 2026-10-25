@@ -11,10 +11,10 @@ import { KeycloakProvider, useKeycloak } from './context/KeycloakContext';
 import Beranda from './pages/Beranda';
 import Akun from './pages/Akun';
 import Pengumuman from './pages/Pengumuman';
-import Admin from './pages/Admin';
 import Pengaturan from './pages/Pengaturan';
-
 import { ThemeLanguageProvider } from './context/ThemeLanguageContext';
+
+const Admin = React.lazy(() => import('./pages/Admin'));
 
 const Page = ({ children }) => (
   <motion.div
@@ -54,7 +54,20 @@ const AppRoutes = () => {
         <Route path="/akun" element={<Page><Akun /></Page>} />
         <Route path="/pengumuman" element={<Page><Pengumuman /></Page>} />
         <Route path="/pengaturan" element={<Page><Pengaturan /></Page>} />
-        <Route path="/admin" element={isAdmin ? <Page><Admin /></Page> : <Navigate to="/home" replace />} />
+        <Route
+          path="/admin"
+          element={
+            isAdmin ? (
+              <Page>
+                <React.Suspense fallback={<div className="p-8 text-center text-text-muted">Loading Admin...</div>}>
+                  <Admin />
+                </React.Suspense>
+              </Page>
+            ) : (
+              <Navigate to="/home" replace />
+            )
+          }
+        />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>

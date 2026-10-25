@@ -108,8 +108,8 @@ const APP_CATEGORIES = [
         desc: 'Layanan IPTV untuk siaran langsung dan katalog video pembelajaran',
         icon: 'Tv',
         url: 'https://iptv.s4ras.site',
-        color: 'from-purple-500/20 to-pink-600/20',
-        iconColor: 'text-purple-400'
+        color: 'from-brand/15 to-neutral-bg3',
+        iconColor: 'text-brand-light'
       },
       {
         key: 'dispatcharr',
@@ -117,8 +117,8 @@ const APP_CATEGORIES = [
         desc: 'Manajemen channel TV, panduan jadwal siaran EPG, dan proxy multimedia',
         icon: 'Radio',
         url: 'https://dispatcharr.s4ras.site',
-        color: 'from-pink-500/20 to-rose-600/20',
-        iconColor: 'text-pink-400'
+        color: 'from-brand/15 to-neutral-bg3',
+        iconColor: 'text-brand-light'
       },
       {
         key: 'jellyseerr',
@@ -621,7 +621,7 @@ function Beranda() {
                     <div className={`relative z-10 max-w-xl flex flex-col items-start gap-2 transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
                       {/* Minimal Badge + Mobile Date */}
                       <div className="flex items-center gap-2.5">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-white/90 border border-white/20 backdrop-blur-md">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 text-white/90 border border-white/20">
                           <PersonaIcon size={12} className="shrink-0" />
                           <span>{roleLabel || 'Civitas'} • {language === 'en' ? 'SSO ACTIVE' : 'SSO AKTIF'}</span>
                         </span>
@@ -648,14 +648,14 @@ function Beranda() {
                           href="https://moodle.s4ras.site/auth/oidc/"
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs font-semibold border border-white/20 backdrop-blur-md active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <span>{language === 'en' ? 'Open Moodle' : 'Buka Moodle'}</span>
                           <ExternalLink size={13} />
                         </a>
                         <button
                           onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 backdrop-blur-md active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/15 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <Phone size={13} />
                           <span>Campus WebPhone ({sipExtension || '1001'})</span>
@@ -711,7 +711,7 @@ function Beranda() {
                   <div className={`relative z-10 max-w-xl flex flex-col items-start gap-2 transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
                     {/* Minimal Badge + Mobile Date */}
                     <div className="flex items-center gap-2.5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-white/90 border border-white/20 backdrop-blur-md">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 text-white/90 border border-white/20">
                         {language === 'en' && slide.badge_en ? slide.badge_en : slide.badge}
                       </span>
                       <span className="text-xs text-white/70 font-medium sm:hidden">
@@ -735,7 +735,7 @@ function Beranda() {
                         href={slide.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs font-semibold border border-white/20 backdrop-blur-md active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                       >
                         <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Informasi Lengkap')}</span>
                         <ExternalLink size={13} />
@@ -751,20 +751,20 @@ function Beranda() {
           <button
             onClick={handlePrevSlide}
             aria-label="Slide sebelumnya"
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/75 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
+            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
           >
             <ChevronLeft size={20} />
           </button>
           <button
             onClick={handleNextSlide}
             aria-label="Slide berikutnya"
-            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/75 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
+            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
           >
             <ChevronRight size={20} />
           </button>
 
           {/* Pagination Indicator Dots - Expanding Smooth Pills */}
-          <div className="absolute bottom-3 right-8 sm:right-12 md:right-16 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 shadow-lg">
+          <div className="absolute bottom-3 right-8 sm:right-12 md:right-16 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 border border-white/10 shadow-lg">
             {HERO_SLIDES.map((_, idx) => (
               <button
                 key={idx}

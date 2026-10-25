@@ -38,7 +38,7 @@ const COPY = {
 
 const isInternal = (url) => typeof url === 'string' && url.startsWith('/');
 
-function CommandPalette({ navItems = [], language = 'id' }) {
+function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
   const copy = COPY[language] || COPY.id;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -97,7 +97,12 @@ function CommandPalette({ navItems = [], language = 'id' }) {
       Icon: n.icon,
       run: () => navigate(n.to),
     }));
-    const svc = services.map((s) => ({
+    const svc = services
+      .filter((s) => {
+        if (s.key === 'monitor' || s.key === 'benchmark') return Boolean(isAdmin);
+        return true;
+      })
+      .map((s) => ({
       id: `svc:${s.key}`,
       group: 'services',
       title: s.title,
@@ -121,7 +126,7 @@ function CommandPalette({ navItems = [], language = 'id' }) {
       },
     ];
     return [...pages, ...svc, ...actions];
-  }, [navItems, navigate, copy.phone, copy.phoneDesc]);
+  }, [navItems, navigate, copy.phone, copy.phoneDesc, isAdmin]);
 
   const flat = useMemo(() => {
     const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);

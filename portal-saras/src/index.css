@@ -1,41 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
   
-  /* Brand colors matching myITS reference */
-  --color-brand: #b91c1c;
-  --color-brand-hover: #dc2626;
+  /* Brand colors — S4RAS Crimson Red */
+  --color-brand: #dc2626;
+  --color-brand-hover: #b91c1c;
   --color-brand-light: #ef4444;
-  --color-brand-subtle: rgba(185, 28, 28, 0.15);
+  --color-brand-subtle: rgba(220, 38, 38, 0.12);
 
-  /* Dark theme background tones */
+  /* Dark theme background tones (Zinc palette) */
   --color-neutral-bg1: #09090b;
-  --color-neutral-bg2: #0f0f12;
-  --color-neutral-bg3: #16161a;
-  --color-neutral-bg4: #1f1f24;
-  --color-neutral-bg5: #2a2a31;
-  --color-neutral-bg6: #3a3a43;
+  --color-neutral-bg2: #121215;
+  --color-neutral-bg3: #18181b;
+  --color-neutral-bg4: #27272a;
+  --color-neutral-bg5: #3f3f46;
+  --color-neutral-bg6: #52525b;
 
   /* Text colors */
-  --color-text-primary: #ffffff;
+  --color-text-primary: #fafafa;
   --color-text-secondary: #a1a1aa;
-  --color-text-muted: #8b8b94;
+  --color-text-muted: #71717a;
 
   /* Borders */
-  --color-border-subtle: rgba(255, 255, 255, 0.04);
-  --color-border-default: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.15);
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-default: rgba(255, 255, 255, 0.10);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
 
-  /* Status */
-  --color-status-success: #10b981;
-  --color-status-warning: #f59e0b;
-  --color-status-error: #ef4444;
-  --color-status-info: #ef4444;
+  /* Status semantic colors */
+  --color-status-success: #16a34a;
+  --color-status-warning: #d97706;
+  --color-status-error: #dc2626;
+  --color-status-info: #2563eb;
 
-  /* Single-accent brand: the legacy purple scale resolves to neutral zinc so
-     only red (brand) and status colors stand out, matching s4ras.site. */
+  /* Neutral scale aliases */
   --color-purple-50: #fafafa;
   --color-purple-100: #f4f4f5;
   --color-purple-200: #e4e4e7;
@@ -48,34 +47,34 @@
   --color-purple-900: #18181b;
   --color-purple-950: #09090b;
 
-  /* Border radius adjustments */
+  /* Border radius */
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
 
-  /* Custom Glow Animations */
+  /* Ambient glow animations */
   --animate-pulse-glow-1: pulse-glow-1 10s infinite alternate ease-in-out;
   --animate-pulse-glow-2: pulse-glow-2 14s infinite alternate ease-in-out;
 
   @keyframes pulse-glow-1 {
     0%, 100% {
-      opacity: 0.5;
-      transform: translate(0, 0) scale(0.9);
+      opacity: 0.4;
+      transform: translate(0, 0) scale(0.95);
     }
     50% {
-      opacity: 1;
-      transform: translate(-30px, 20px) scale(1.1);
+      opacity: 0.8;
+      transform: translate(-20px, 15px) scale(1.05);
     }
   }
 
   @keyframes pulse-glow-2 {
     0%, 100% {
-      opacity: 0.4;
+      opacity: 0.35;
       transform: translate(0, 0) scale(0.95);
     }
     50% {
-      opacity: 0.9;
-      transform: translate(40px, -30px) scale(1.05);
+      opacity: 0.75;
+      transform: translate(25px, -20px) scale(1.05);
     }
   }
 }
@@ -90,29 +89,29 @@
   html.light {
     color-scheme: light;
     
-    /* Brand overrides - S4RAS Crimson Red */
+    /* Brand overrides */
     --color-brand: #dc2626;
     --color-brand-hover: #b91c1c;
-    --color-brand-light: #b91c1c;
-    --color-brand-subtle: rgba(220, 38, 38, 0.1);
+    --color-brand-light: #dc2626;
+    --color-brand-subtle: rgba(220, 38, 38, 0.08);
 
     /* Light theme background tones */
-    --color-neutral-bg1: #f3f4f6; /* light grey page bg */
-    --color-neutral-bg2: #ffffff; /* pure white cards/panels */
-    --color-neutral-bg3: #e5e7eb; /* list item/input bg */
-    --color-neutral-bg4: #d1d5db;
-    --color-neutral-bg5: #9ca3af;
-    --color-neutral-bg6: #6b7280;
+    --color-neutral-bg1: #f4f4f5;
+    --color-neutral-bg2: #ffffff;
+    --color-neutral-bg3: #e4e4e7;
+    --color-neutral-bg4: #d4d4d8;
+    --color-neutral-bg5: #a1a1aa;
+    --color-neutral-bg6: #71717a;
 
     /* Text colors */
-    --color-text-primary: #111827; /* dark grey text */
-    --color-text-secondary: #4b5563; /* medium grey text */
-    --color-text-muted: #5b6270;
+    --color-text-primary: #09090b;
+    --color-text-secondary: #27272a;
+    --color-text-muted: #52525b;
 
     /* Borders */
-    --color-border-subtle: rgba(0, 0, 0, 0.04);
-    --color-border-default: rgba(0, 0, 0, 0.08);
-    --color-border-strong: rgba(0, 0, 0, 0.15);
+    --color-border-subtle: rgba(0, 0, 0, 0.06);
+    --color-border-default: rgba(0, 0, 0, 0.12);
+    --color-border-strong: rgba(0, 0, 0, 0.22);
   }
 
   body {
@@ -125,17 +124,23 @@
     margin: 0;
   }
 
+  /* 3T Low-End Optimization: disable GPU-intensive backdrop blur */
+  *, *::before, *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
   /* Keyboard focus styles */
   *:focus-visible {
-    outline: 2px solid var(--color-brand-light);
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
   }
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -151,65 +156,65 @@
   background: var(--color-neutral-bg4);
 }
 
-/* Glassmorphism Utilities */
+/* Solid lightweight surfaces for low-end 3T devices */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-neutral-bg2);
+  border: 1px solid var(--color-border-default);
 }
 
 .glass-card {
-  background: rgba(15, 15, 18, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-neutral-bg2);
+  border: 1px solid var(--color-border-default);
   border-radius: 1rem;
 }
 
 .glass-panel {
-  background: rgba(9, 9, 11, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: var(--color-neutral-bg1);
+  border: 1px solid var(--color-border-default);
 }
 
 .glass-overlay {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.2s ease;
+  background: var(--color-neutral-bg3);
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-primary);
+  transition: border-color 0.15s ease;
 }
 
 .glass-input:focus {
-  border-color: var(--color-brand-light);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+  border-color: var(--color-brand);
+  background: var(--color-neutral-bg2);
 }
 
-/* Light Mode Glassmorphism Overrides */
+/* Light Mode Overrides */
 html.light .glass {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  border: 1px solid var(--color-border-default);
 }
 
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  background: #ffffff;
+  border: 1px solid var(--color-border-default);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: #ffffff;
+  border: 1px solid var(--color-border-default);
 }
 
 html.light .glass-input {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid var(--color-border-default);
   color: var(--color-text-primary);
 }
 
 html.light .glass-input:focus {
-  background: rgba(0, 0, 0, 0.05);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);
+  background: #ffffff;
+  border-color: var(--color-brand);
 }
 
 /* High-performance hardware-accelerated smooth scrolling */
@@ -217,37 +222,26 @@ html.light .glass-input:focus {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  will-change: scroll-position;
-  transform: translateZ(0);
 }
 
-/* General layout card adjustments */
+/* General layout card */
 .card {
   background-color: var(--color-neutral-bg2);
   border: 1px solid var(--color-border-default);
   border-radius: 1rem;
   padding: 1.5rem;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .card:hover {
   border-color: var(--color-border-strong);
-  transform: translateY(-2px);
 }
 
-/* Ambient animated background glows hardware isolation */
+/* Ambient animated background glows — lightweight radial gradients without blur */
 .ambient-glow {
   contain: strict;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
   pointer-events: none;
-}
-
-/* Performance: the glows are decorative and their gradients are already soft,
-   so skip the 120px blur filter, and drop them entirely on small screens or
-   when the user prefers reduced motion/data (target devices include low-end phones). */
-.ambient-glow {
-  filter: none;
+  filter: none !important;
 }
 
 @media (max-width: 1023px), (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) {
@@ -256,12 +250,10 @@ html.light .glass-input:focus {
   }
 }
 
-/* Hardware-isolated SVG container for continuous SMIL animations */
+/* Hardware-isolated SVG container */
 .svg-isolated {
   contain: content;
-  transform: translateZ(0);
 }
-
 
 /* Accessibility helper */
 .sr-only {
@@ -292,11 +284,6 @@ html.light .glass-input:focus {
 
 .skip-link:focus {
   top: 1rem;
-}
-
-:focus-visible {
-  outline: 2px solid #ef4444;
-  outline-offset: 2px;
 }
 
 /* Skeleton Loading Shimmer */

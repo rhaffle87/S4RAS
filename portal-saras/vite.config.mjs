@@ -7,8 +7,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
     define: {
-      'process.env.REACT_APP_BACKEND_API_URL': JSON.stringify(env.REACT_APP_BACKEND_API_URL || ''),
-      'process.env.REACT_APP_DEPLOY_TOKEN': JSON.stringify(env.REACT_APP_DEPLOY_TOKEN || ''),
+      'process.env.REACT_APP_BACKEND_API_URL': JSON.stringify(env.REACT_APP_BACKEND_API_URL || '')
     },
     build: {
       outDir: 'build'
@@ -21,4 +20,3 @@ export default defineConfig(({ mode }) => {
     }
   };
 });
-

@@ -124,7 +124,7 @@ export default function CampusCockpitHub({ className = '' }) {
   return (
     <section 
       aria-label="S4RAS Campus Cockpit Hub"
-      className={`relative w-full rounded-2xl bg-neutral-bg2/95 border border-border-default shadow-xl overflow-hidden backdrop-blur-md transition-all ${className}`}
+      className={`relative w-full rounded-2xl bg-neutral-bg2 border border-border-default shadow-xl overflow-hidden transition-all ${className}`}
     >
       {/* Top Cockpit Header Bar */}
       <div className="px-5 sm:px-7 py-4 sm:py-5 border-b border-border-default/80 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-neutral-bg3/60 via-transparent to-neutral-bg3/40">
@@ -363,19 +363,19 @@ export default function CampusCockpitHub({ className = '' }) {
               </div>
 
               {/* Card 4: IPTV & Media Streaming (Jellyfin) */}
-              <div className="p-5 rounded-2xl bg-neutral-bg3/60 hover:bg-neutral-bg3/80 border border-border-default/80 hover:border-purple-500/40 transition-all flex flex-col justify-between group shadow-sm">
+              <div className="p-5 rounded-2xl bg-neutral-bg3/60 hover:bg-neutral-bg3/80 border border-border-default/80 hover:border-brand/40 transition-all flex flex-col justify-between group shadow-sm">
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-500/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-105 transition-transform shadow-inner shrink-0">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-brand/20 to-red-600/20 border border-brand/30 flex items-center justify-center text-brand-light group-hover:scale-105 transition-transform shadow-inner shrink-0">
                       <Tv size={22} />
                     </div>
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-brand/10 text-brand-light border border-brand/20">
                       Jellyfin IPTV
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-bold text-text-primary m-0 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+                    <h3 className="text-sm font-bold text-text-primary m-0 group-hover:text-brand-light transition-colors">
                       {isEn ? 'Campus IPTV' : 'Siaran & Media Belajar'}
                     </h3>
                     <p className="text-xs text-text-muted mt-1 leading-relaxed">
@@ -392,15 +392,15 @@ export default function CampusCockpitHub({ className = '' }) {
                 </div>
 
                 <div className="pt-4 mt-2 border-t border-border-default/50 flex items-center justify-between">
-                  <span className="text-[11px] text-purple-700 dark:text-purple-300 flex items-center gap-1 font-medium">
-                    <Radio size={12} className="text-purple-600 dark:text-purple-400 animate-pulse" />
+                  <span className="text-[11px] text-text-muted flex items-center gap-1 font-medium">
+                    <Radio size={12} className="text-emerald-500 animate-pulse" />
                     {isEn ? 'Live On-Air' : 'Siaran Langsung'}
                   </span>
                   <a
                     href="https://iptv.s4ras.site"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors no-underline"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-brand-light hover:text-brand transition-colors no-underline"
                   >
                     <span>{isEn ? 'Watch Now' : 'Tonton Siaran'}</span>
                     <ArrowUpRight size={13} />
@@ -735,7 +735,7 @@ export default function CampusCockpitHub({ className = '' }) {
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm sm:text-base font-bold text-text-primary m-0 flex items-center gap-2">
-                  <Tv size={18} className="text-purple-400" />
+                  <Tv size={18} className="text-brand-light" />
                   {isEn ? 'Live Campus TV & National Broadcasts' : 'Siaran Langsung TV Kampus & Nasional'}
                 </h3>
                 <span className="text-xs text-text-muted">{media?.server || 'TnlLabB301'}</span>
@@ -745,11 +745,11 @@ export default function CampusCockpitHub({ className = '' }) {
                 {media?.liveChannels?.map((ch) => (
                   <div
                     key={ch.id}
-                    className="p-4 rounded-xl bg-neutral-bg3/60 border border-border-default hover:border-purple-500/40 transition-all flex flex-col justify-between gap-4 group"
+                    className="p-4 rounded-xl bg-neutral-bg3/60 border border-border-default hover:border-brand/40 transition-all flex flex-col justify-between gap-4 group"
                   >
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-brand/10 text-brand-light border border-brand/20">
                           {ch.category}
                         </span>
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
@@ -757,7 +757,7 @@ export default function CampusCockpitHub({ className = '' }) {
                           {ch.status}
                         </span>
                       </div>
-                      <h4 className="text-sm font-bold text-text-primary m-0 group-hover:text-purple-300 transition-colors">
+                      <h4 className="text-sm font-bold text-text-primary m-0 group-hover:text-brand-light transition-colors">
                         {ch.name}
                       </h4>
                       <span className="text-[11px] text-text-muted">{ch.resolution} • {ch.viewers} {isEn ? 'viewers' : 'penonton'}</span>
@@ -767,7 +767,7 @@ export default function CampusCockpitHub({ className = '' }) {
                       href={ch.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full py-2 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors no-underline"
+                      className="w-full py-2 rounded-lg bg-brand/10 hover:bg-brand/20 text-brand-light text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors no-underline"
                     >
                       <Play size={12} fill="currentColor" />
                       <span>{isEn ? 'Watch Stream' : 'Putar Siaran'}</span>
@@ -780,7 +780,7 @@ export default function CampusCockpitHub({ className = '' }) {
             {/* Featured On-Demand Media */}
             <div className="flex flex-col gap-4 pt-2">
               <h3 className="text-sm sm:text-base font-bold text-text-primary m-0 flex items-center gap-2">
-                <Play size={16} className="text-purple-400" />
+                <Play size={16} className="text-brand-light" />
                 {isEn ? 'Featured Academic On-Demand Library' : 'Katalog Video Kuliah & Rekaman'}
               </h3>
 
@@ -791,7 +791,7 @@ export default function CampusCockpitHub({ className = '' }) {
                     href={item.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-xl overflow-hidden bg-neutral-bg3/60 border border-border-default hover:border-purple-500/40 transition-all flex flex-col no-underline group"
+                    className="rounded-xl overflow-hidden bg-neutral-bg3/60 border border-border-default hover:border-brand/40 transition-all flex flex-col no-underline group"
                   >
                     <div className="relative w-full h-32 overflow-hidden bg-neutral-bg1">
                       <img
@@ -799,7 +799,7 @@ export default function CampusCockpitHub({ className = '' }) {
                         alt=""
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-black/60 text-white backdrop-blur-md">
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-black/80 text-white">
                         {item.badge}
                       </span>
                       <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded text-[10px] font-mono bg-black/70 text-white">
@@ -807,7 +807,7 @@ export default function CampusCockpitHub({ className = '' }) {
                       </span>
                     </div>
                     <div className="p-3.5 flex flex-col gap-1">
-                      <span className="text-xs font-bold text-text-primary group-hover:text-purple-300 transition-colors line-clamp-1">
+                      <span className="text-xs font-bold text-text-primary group-hover:text-brand-light transition-colors line-clamp-1">
                         {item.title}
                       </span>
                       <span className="text-[11px] text-text-muted">{item.speaker}</span>

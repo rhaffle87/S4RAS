@@ -22,7 +22,6 @@ import { useThemeLanguage } from '../context/ThemeLanguageContext';
 const BACKEND_URL =
   process.env.REACT_APP_BACKEND_API_URL ||
   (typeof window !== 'undefined' ? window.location.origin + '/api' : 'https://portal.s4ras.site/api');
-const DEPLOY_TOKEN = process.env.REACT_APP_DEPLOY_TOKEN || '';
 
 function Admin() {
   const { profile, isAdmin, keycloak } = useKeycloak();
@@ -49,7 +48,6 @@ function Admin() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(DEPLOY_TOKEN ? { 'X-Deploy-Token': DEPLOY_TOKEN } : {}),
           ...(keycloak?.token ? { 'Authorization': `Bearer ${keycloak.token}` } : {})
         },
         body: JSON.stringify({ triggeredBy: profile?.username || 'admin' })

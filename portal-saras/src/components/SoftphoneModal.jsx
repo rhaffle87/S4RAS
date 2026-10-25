@@ -420,7 +420,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 animate-fade-in">
       <div
         className={`bg-[#0a0c10] border border-white/10 rounded-2xl w-full overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[94vh] sm:max-h-[90vh] transition-all duration-300 ${
           isVideoActive && callState !== 'idle' ? 'max-w-4xl' : 'max-w-md'
