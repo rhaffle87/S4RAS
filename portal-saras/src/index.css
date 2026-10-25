@@ -299,6 +299,31 @@ html.light .glass-input:focus {
   border-radius: 0.5rem;
 }
 
+/* Modal slide-up and fade-in animations */
+@keyframes modalSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeInFast {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-modal-slide-up {
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-fast {
+  animation: fadeInFast 0.2s ease-out forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

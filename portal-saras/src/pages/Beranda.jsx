@@ -30,8 +30,7 @@ import {
 } from 'lucide-react';
 import Layout from '../components/Layout';
 import SkeletonCard from '../components/SkeletonCard';
-import services from '../config/services';
-import { fetchAnnouncements } from '../services/backend';
+import { fetchAnnouncements, DEFAULT_ANNOUNCEMENTS } from '../services/backend';
 import { useKeycloak } from '../context/KeycloakContext';
 import { useThemeLanguage } from '../context/ThemeLanguageContext';
 
@@ -308,8 +307,8 @@ const ALL_SERVICES_MAP = {
   }
 };
 
-const DEFAULT_FAVORITE_KEYS = ['status', 'moodle', 'sso', 'cloud', 'voip', 'iptv', 'monitor'];
-const FAVORITES_STORAGE_KEY = 's4ras_favorite_apps';
+const DEFAULT_FAVORITE_KEYS = ['status', 'moodle', 'sso', 'cloud', 'voip'];
+const FAVORITES_STORAGE_KEY = 's4ras_favorite_apps_v2';
 
 // Carousel Hero Slides with Subtle Modern Gradient Backgrounds & Fading Themed Imagery (6 Slides)
 const HERO_SLIDES = [
@@ -323,90 +322,63 @@ const HERO_SLIDES = [
     bgStyle: 'linear-gradient(135deg, #180a0e 0%, #0f1117 50%, #0a0c10 100%)'
   },
   {
-    id: 'recruitment',
+    id: 'learning',
     type: 'content',
-    badge: 'Open Recruitment',
-    badge_en: 'Open Recruitment',
-    title: 'S4RAS Global Engagement',
-    subtitle: 'Season 17 Research Fellowship riset komputasi terdistribusi dan cloud kampus untuk mahasiswa aktif.',
-    subtitle_en: 'Season 17 Research Fellowship in distributed computing and campus cloud for active students.',
-    date: '20 — 30 Oktober 2026',
-    ctaText: 'Informasi Lengkap',
-    ctaText_en: 'Learn More',
-    url: 'https://portal.s4ras.site/pengumuman',
-    bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #180d14 0%, #0f1117 50%, #0a0c10 100%)',
-    accentColor: '#f43f5e'
+    badge: 'Pembelajaran Digital',
+    badge_en: 'Digital Learning',
+    title: 'Ruang Kelas Digital & Pelatihan Terpadu',
+    title_en: 'Digital Classroom & Integrated Training',
+    subtitle: 'Akses materi pembelajaran SD, SMP, SMA serta modul pelatihan pertanian, peternakan, dan industri kreatif secara mandiri.',
+    subtitle_en: 'Access elementary to high school curriculum along with vocational training modules for agriculture, livestock, and creative industries.',
+    date: 'Moodle LMS S4RAS',
+    ctaText: 'Buka Kelas Belajar',
+    ctaText_en: 'Open Learning Class',
+    url: 'https://moodle.s4ras.site/auth/oidc/',
+    accentColor: '#ef4444',
+    bgImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop',
+    bgStyle: 'linear-gradient(135deg, #180a0e 0%, #0f1117 50%, #0a0c10 100%)'
   },
   {
-    id: 'seminar',
+    id: 'telephony',
     type: 'content',
-    badge: 'Pelatihan Teknis',
-    badge_en: 'Technical Training',
-    title: 'EPTA Embedded Systems',
-    subtitle: 'Workshop komputasi sistem tertanam, administrasi Linux, dan WebRTC SIP telephony berbobot SKPI.',
-    subtitle_en: 'Hands-on workshop on embedded computing, Linux administration, and WebRTC SIP telephony with SKPI credits.',
-    date: '02 — 05 November 2026',
-    ctaText: 'Detail Pelatihan',
-    ctaText_en: 'Training Details',
-    url: 'https://portal.s4ras.site/pengumuman',
-    bgImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #19120a 0%, #0f1117 50%, #0a0c10 100%)',
-    accentColor: '#f59e0b'
+    badge: 'Telekomunikasi VoIP',
+    badge_en: 'VoIP Telephony',
+    title: 'Komunikasi Suara & Video Tanpa Batas',
+    title_en: 'Seamless Voice & Video Communications',
+    subtitle: 'Hubungi pengajar dan sivitas melalui layanan WebPhone SIP/WebRTC lokal yang stabil dan hemat bandwidth.',
+    subtitle_en: 'Connect directly with teachers and peers through bandwidth-efficient local SIP and WebPhone communications.',
+    date: 'PJSIP & WebRTC Lokal',
+    ctaText: 'Buka Campus WebPhone',
+    ctaText_en: 'Open Campus WebPhone',
+    action: 'open-phone',
+    url: 'https://voip.s4ras.site',
+    accentColor: '#10b981',
+    bgImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop',
+    bgStyle: 'linear-gradient(135deg, #091612 0%, #0f1117 50%, #0a0c10 100%)'
   },
   {
-    id: 'cloud_collab',
+    id: 'multimedia_storage',
     type: 'content',
-    badge: 'Penyimpanan Berkas',
-    badge_en: 'Cloud Storage & SAN',
-    title: 'Nextcloud & Collabora Online',
-    subtitle: 'Penyimpanan awan terpusat mandiri dan penyuntingan dokumen kuliah bersama secara real-time di browser.',
-    subtitle_en: 'High-throughput independent campus storage with real-time collaborative document editing directly in browser.',
-    date: 'Aktif di SAN VM 207',
-    ctaText: 'Buka Repositori Berkas',
-    ctaText_en: 'Open Cloud Storage',
-    url: 'https://cloud.s4ras.site/apps/user_oidc/login/1',
-    bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #180a0e 0%, #0f1117 50%, #0a0c10 100%)',
-    accentColor: '#ef4444'
-  },
-  {
-    id: 'iptv_stream',
-    type: 'content',
-    badge: 'Multimedia Kampus',
-    badge_en: 'Campus Streaming',
-    title: 'Jellyfin IPTV & Video Belajar',
-    subtitle: 'Streaming siaran langsung edukasi dan repositori video materi tanpa buffering di jaringan gigabit kampus.',
-    subtitle_en: 'Zero-buffering educational broadcast streams and lecture video on-demand over gigabit campus LAN.',
-    date: 'Siaran Aktif 24/7',
-    ctaText: 'Tonton Siaran IPTV',
-    ctaText_en: 'Watch IPTV Stream',
+    badge: 'Multimedia & Storage',
+    badge_en: 'Multimedia & Storage',
+    title: 'Siaran Edukasi IPTV & Penyimpanan Awan Lokal',
+    title_en: 'Educational IPTV & Local Cloud Storage',
+    subtitle: 'Tonton tayangan edukatif bebas buffering dan kelola berkas kolaborasi dengan aman di jaringan lokal S4RAS.',
+    subtitle_en: 'Stream buffer-free educational broadcasts and collaborate securely on documents over the local S4RAS network.',
+    date: 'Jellyfin & Nextcloud',
+    ctaText: 'Jelajahi Media & Berkas',
+    ctaText_en: 'Explore Media & Drive',
     url: 'https://iptv.s4ras.site',
-    bgImage: 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #130a1c 0%, #0f1117 50%, #0a0c10 100%)',
-    accentColor: '#a855f7'
-  },
-  {
-    id: 'observability',
-    type: 'content',
-    badge: 'Telemetri Kluster',
-    badge_en: 'Cluster Telemetry',
-    title: 'Observabilitas 10 Node Kluster',
-    subtitle: 'Pemantauan real-time kesehatan 10 VM, beban konkurensi JMeter, dan metrik Prometheus berlatensi rendah.',
-    subtitle_en: 'Live observability across 10 Proxmox cluster nodes, Apache JMeter concurrency metrics, and Prometheus telemetry.',
-    date: '99.98% Uptime Terverifikasi',
-    ctaText: 'Lihat Dashboard Metrik',
-    ctaText_en: 'Open Metrics Dashboard',
-    url: 'https://monitor.s4ras.site',
-    bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #091612 0%, #0f1117 50%, #0a0c10 100%)',
-    accentColor: '#10b981'
+    accentColor: '#a855f7',
+    bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop',
+    bgStyle: 'linear-gradient(135deg, #130a1c 0%, #0f1117 50%, #0a0c10 100%)'
   }
 ];
 
 function Beranda() {
-  const [announcements, setAnnouncements] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [announcements, setAnnouncements] = useState(DEFAULT_ANNOUNCEMENTS);
+  const [loading, setLoading] = useState(false);
+  const [modalSearch, setModalSearch] = useState('');
   const [showAllApps, setShowAllApps] = useState(false);
   const [appSearch, setAppSearch] = useState('');
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -456,16 +428,39 @@ function Beranda() {
 
   const PersonaIcon = persona === 'dev' ? Terminal : persona === 'teacher' ? BookOpen : GraduationCap;
 
-  // Load announcements
+  // Load announcements (graceful fallback to built-in announcements)
   useEffect(() => {
     let mounted = true;
+    setLoading(true);
     fetchAnnouncements().then((data) => {
-      if (mounted) { setAnnouncements(data); setLoading(false); }
+      if (mounted && Array.isArray(data) && data.length > 0) {
+        setAnnouncements(data);
+      }
     }).catch(() => {
-      if (mounted) { setLoading(false); }
+      // Keep DEFAULT_ANNOUNCEMENTS
+    }).finally(() => {
+      if (mounted) setLoading(false);
     });
     return () => { mounted = false; };
   }, []);
+
+  const displayedAnnouncements = useMemo(() => {
+    if (Array.isArray(announcements) && announcements.length > 0) {
+      return announcements;
+    }
+    return DEFAULT_ANNOUNCEMENTS;
+  }, [announcements]);
+
+  const modalFilteredServices = useMemo(() => {
+    const all = Object.values(ALL_SERVICES_MAP);
+    if (!modalSearch.trim()) return all;
+    const q = modalSearch.toLowerCase();
+    return all.filter((s) => {
+      const title = (language === 'en' ? s.title_en : s.title) || '';
+      const subtitle = (language === 'en' ? s.subtitle_en : s.subtitle) || '';
+      return title.toLowerCase().includes(q) || subtitle.toLowerCase().includes(q);
+    });
+  }, [modalSearch, language]);
 
   // Carousel auto-advance with pause on hover and reset on user interaction
   const timerRef = useRef(null);
@@ -514,8 +509,8 @@ function Beranda() {
   }, [appSearch]);
 
   const handleOpenEditFavorites = () => {
-    setShowAllApps(false);
     setTempSelectedKeys([...favoriteKeys]);
+    setModalSearch('');
     setIsEditingFavorites(true);
   };
 
@@ -638,8 +633,8 @@ function Beranda() {
                       {/* Simple, Straightforward Subtitle */}
                       <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-lg m-0 mb-1">
                         {language === 'en'
-                          ? 'Single Sign-On session active. All academic resources, storage, VoIP, and learning streams are ready.'
-                          : 'Sesi Single Sign-On aktif. Seluruh layanan perkuliahan daring, penyimpanan berkas SAN, telepon VoIP, dan streaming pembelajaran siap digunakan.'}
+                          ? 'Single-door access to digital learning, VoIP telephony, educational IPTV broadcasting, and independent cloud storage.'
+                          : 'Akses satu pintu layanan pembelajaran digital, komunikasi VoIP, siaran edukasi IPTV, dan penyimpanan mandiri S4RAS.'}
                       </p>
 
                       {/* Minimalist Glass Action Buttons */}
@@ -731,15 +726,26 @@ function Beranda() {
 
                     {/* Minimalist Glass Action Button */}
                     <div className="pt-1">
-                      <a
-                        href={slide.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-                      >
-                        <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Informasi Lengkap')}</span>
-                        <ExternalLink size={13} />
-                      </a>
+                      {slide.action === 'open-phone' ? (
+                        <button
+                          type="button"
+                          onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
+                          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        >
+                          <Phone size={13} />
+                          <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Buka Campus WebPhone')}</span>
+                        </button>
+                      ) : (
+                        <a
+                          href={slide.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        >
+                          <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Informasi Lengkap')}</span>
+                          <ExternalLink size={13} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -786,289 +792,140 @@ function Beranda() {
           <div className="lg:col-span-8 flex flex-col gap-5 sm:gap-6 h-fit self-start">
             {/* Aplikasi Launcher Container */}
             <div className="card p-5 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-2xl shadow-md flex flex-col gap-5 transition-all">
-              {isEditingFavorites ? (
-                /* Mode Edit Favorit (Seamless In-Place Editor) */
-                <div className="flex flex-col gap-4.5 animate-fade-in">
-                  {/* Top Header of Edit Mode */}
-                  <div className="flex items-center justify-between flex-wrap gap-3 pb-3.5 border-b border-border-default/70">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-light shadow-sm">
-                        <Edit3 size={17} />
-                      </div>
-                      <div>
-                        <h3 className="text-base sm:text-lg font-bold text-text-primary m-0">
-                          {t('home.modal_fav_title')}
-                        </h3>
-                        <p className="text-xs text-text-secondary m-0 mt-0.5">
-                          {t('home.modal_fav_desc')}
-                        </p>
-                      </div>
-                    </div>
+              {/* Aplikasi Header: Clean title only (Image 3) */}
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-text-primary m-0">{t('home.apps')}</h3>
+              </div>
 
-                    {/* Top Action Controls */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand/10 text-brand-light border border-brand/20">
-                        {tempSelectedKeys.length} / 8 {t('home.modal_fav_selected')}
-                      </span>
-                      <button
-                        onClick={handleResetFavorites}
-                        className="text-xs text-text-muted hover:text-text-primary underline px-2 py-1 cursor-pointer bg-transparent border-none"
-                      >
-                        {t('home.modal_fav_reset')}
-                      </button>
-                      <button
-                        onClick={handleCloseEditFavorites}
-                        className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-semibold border border-border-default transition-all cursor-pointer"
-                      >
-                        {t('home.modal_fav_cancel')}
-                      </button>
-                      <button
-                        onClick={handleSaveFavorites}
-                        className="px-4 py-1.5 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5"
-                      >
-                        <Check size={14} />
-                        <span>{t('home.modal_fav_save')}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Clean 2-Column Responsive Service Picker Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                    {Object.values(ALL_SERVICES_MAP).map((service) => {
-                      const isSelected = tempSelectedKeys.includes(service.key);
-                      const title = language === 'en' ? service.title_en : service.title;
-                      const subtitle = language === 'en' ? service.subtitle_en : service.subtitle;
-
-                      return (
-                        <div
-                          key={service.key}
-                          onClick={() => handleToggleFavoriteKey(service.key)}
-                          className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer select-none group ${
-                            isSelected
-                              ? 'bg-brand/[0.04] border-brand/50 shadow-sm'
-                              : 'bg-white/[0.01] border-border-default hover:bg-white/[0.04] hover:border-border-default/80 opacity-60 hover:opacity-100'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                            <div
-                              className={`w-11 h-11 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm transition-transform group-hover:scale-105 ${
-                                isSelected
-                                  ? 'bg-gradient-to-tr from-brand-hover via-brand to-brand-light text-white'
-                                  : 'bg-neutral-bg3 border border-border-default text-text-muted'
-                              }`}
-                            >
-                              <ServiceIcon
-                                iconName={service.icon}
-                                size={20}
-                                className={isSelected ? 'text-white' : 'text-text-secondary'}
-                              />
-                            </div>
-                            <div className="flex flex-col min-w-0 flex-1">
-                              <span className="text-xs sm:text-sm font-bold text-text-primary truncate group-hover:text-brand-light transition-colors">
-                                {title}
-                              </span>
-                              <span className="text-[11px] text-text-secondary truncate mt-0.5">
-                                {subtitle}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Seamless Pill Toggle */}
-                          <div
-                            className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-all shrink-0 ml-3 ${
-                              isSelected
-                                ? 'bg-brand text-white border-brand shadow-sm scale-105'
-                                : 'border-border-default bg-neutral-bg3 text-transparent group-hover:border-brand/40'
-                            }`}
-                          >
-                            <Check size={14} className={isSelected ? 'block' : 'opacity-0'} />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Bottom Bar */}
-                  <div className="flex items-center justify-between pt-3 border-t border-border-default/60 flex-wrap gap-3">
-                    <span className="text-xs text-text-secondary">
-                      {language === 'en'
-                        ? 'Tip: Select between 1 and 8 shortcuts to display on your home screen.'
-                        : 'Tips: Pilih antara 1 hingga 8 pintasan untuk ditampilkan di beranda.'}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={handleCloseEditFavorites}
-                        className="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-semibold border border-border-default transition-all cursor-pointer"
-                      >
-                        {t('home.modal_fav_cancel')}
-                      </button>
-                      <button
-                        onClick={handleSaveFavorites}
-                        className="px-4 py-1.5 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5"
-                      >
-                        <Check size={14} />
-                        <span>{t('home.modal_fav_save')}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Normal Mode (Launcher Grid / Full Categorized Apps) */
-                <>
-                  {/* Aplikasi Header */}
-                  <div className="flex items-center justify-between flex-wrap gap-3">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-bold text-text-primary m-0">{t('home.apps')}</h3>
-                      <span className="text-xs px-2.5 py-0.5 rounded-full bg-white/5 text-text-muted border border-border-default font-medium">
-                        {showAllApps ? `${services.length} ${t('home.apps_integrated')}` : t('home.apps_favorites')}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {/* Header Edit Favorit Action */}
-                      {!showAllApps && (
-                        <button
-                          onClick={handleOpenEditFavorites}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-semibold border border-border-default transition-all cursor-pointer"
-                        >
-                          <Edit3 size={13} className="text-brand-light" />
-                          <span>{t('home.edit_favorites')}</span>
-                        </button>
-                      )}
-
-                      {/* Toggle Button Top */}
-                      <button
-                        onClick={() => setShowAllApps(!showAllApps)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-text-secondary hover:text-text-primary text-xs font-semibold border border-border-default transition-all cursor-pointer"
-                      >
-                        {showAllApps ? (
-                          <>
-                            <ChevronUp size={14} />
-                            <span>{t('home.apps_show_fav')}</span>
-                          </>
-                        ) : (
-                          <>
-                            <ChevronDown size={14} />
-                            <span>{t('home.apps_show_all')}</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Search Bar when expanded */}
-                  {showAllApps && (
-                    <div className="relative w-full">
-                      <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
-                      <input
-                        type="text"
-                        placeholder={t('home.apps_search')}
-                        value={appSearch}
-                        onChange={(e) => setAppSearch(e.target.value)}
-                        className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-neutral-bg3/80 border border-border-default text-text-primary text-xs sm:text-sm placeholder:text-text-muted focus:outline-none focus:border-brand-light focus:ring-1 focus:ring-brand-light/30 transition-all"
-                      />
-                      {appSearch && (
-                        <button
-                          onClick={() => setAppSearch('')}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-muted hover:text-text-primary rounded-md cursor-pointer"
-                        >
-                          <X size={14} />
-                        </button>
-                      )}
-                    </div>
+              {/* Search Bar when expanded */}
+              {showAllApps && (
+                <div className="relative w-full">
+                  <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+                  <input
+                    type="text"
+                    placeholder={t('home.apps_search')}
+                    value={appSearch}
+                    onChange={(e) => setAppSearch(e.target.value)}
+                    className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-neutral-bg3/80 border border-border-default text-text-primary text-xs sm:text-sm placeholder:text-text-muted focus:outline-none focus:border-brand-light focus:ring-1 focus:ring-brand-light/30 transition-all"
+                  />
+                  {appSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setAppSearch('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-muted hover:text-text-primary rounded-md cursor-pointer"
+                    >
+                      <X size={14} />
+                    </button>
                   )}
+                </div>
+              )}
 
-                  {/* View 1: Dynamic User-Configurable Favorite Apps Grid */}
-                  {!showAllApps && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 pt-2">
-                      {favoriteKeys.map((key) => {
-                        const item = ALL_SERVICES_MAP[key];
-                        if (!item) return null;
-                        const itemTitle = language === 'en' ? item.title_en : item.title;
-                        const itemSubtitle = language === 'en' ? item.subtitle_en : item.subtitle;
+              {/* View 1: 3-Column Symmetrical Favorite Apps Grid (Image 1 & Image 3) */}
+              {!showAllApps && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-2">
+                  {favoriteKeys.map((key) => {
+                    const item = ALL_SERVICES_MAP[key];
+                    if (!item) return null;
+                    const itemTitle = language === 'en' ? item.title_en : item.title;
+                    const itemSubtitle = language === 'en' ? item.subtitle_en : item.subtitle;
 
-                        return (
-                          <div
-                            key={key}
-                            onClick={() => handleAppClick(item)}
-                            className="flex flex-col items-center justify-center text-center p-3 rounded-2xl hover:bg-white/[0.04] transition-all duration-200 group cursor-pointer"
-                          >
-                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform mb-2`}>
-                              <ServiceIcon iconName={item.icon} size={26} />
-                            </div>
-                            <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors line-clamp-1">
-                              {itemTitle}
-                            </span>
-                            <span className="text-[11px] text-text-muted mt-0.5 line-clamp-1">
-                              {itemSubtitle}
-                            </span>
-                          </div>
-                        );
-                      })}
-
-                      {/* Edit Favorit Tile (Triggers in-place editor) */}
+                    return (
                       <div
-                        onClick={handleOpenEditFavorites}
+                        key={key}
+                        onClick={() => handleAppClick(item)}
                         className="flex flex-col items-center justify-center text-center p-3 rounded-2xl hover:bg-white/[0.04] transition-all duration-200 group cursor-pointer"
                       >
-                        <div className="w-14 h-14 rounded-2xl bg-neutral-bg3 border border-border-default flex items-center justify-center text-text-secondary group-hover:text-text-primary group-hover:border-brand/40 group-hover:scale-105 transition-all mb-2 shadow-sm">
-                          <Edit3 size={24} />
+                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${item.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform mb-2`}>
+                          <ServiceIcon iconName={item.icon} size={26} />
                         </div>
-                        <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors">
-                          {t('home.edit_favorites')}
+                        <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors line-clamp-1">
+                          {itemTitle}
                         </span>
-                        <span className="text-[11px] text-text-muted mt-0.5">
-                          {t('home.edit_favorites_sub')}
+                        <span className="text-[11px] text-text-muted mt-0.5 line-clamp-1">
+                          {itemSubtitle}
                         </span>
                       </div>
+                    );
+                  })}
+
+                  {/* Edit Favorit Tile (Triggers Center Modal Popup) */}
+                  <div
+                    onClick={handleOpenEditFavorites}
+                    className="flex flex-col items-center justify-center text-center p-3 rounded-2xl hover:bg-white/[0.04] transition-all duration-200 group cursor-pointer"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-neutral-bg3 border border-border-default flex items-center justify-center text-text-secondary group-hover:text-text-primary group-hover:border-brand/40 group-hover:scale-105 transition-all mb-2 shadow-sm">
+                      <Edit3 size={24} />
                     </div>
-                  )}
-
-                  {/* View 2: Categorized Full Applications Grid (10 Real Services) */}
-                  {showAllApps && (
-                    <div className="flex flex-col gap-6 pt-2">
-                      {filteredCategories.length === 0 ? (
-                        <div className="p-8 text-center text-text-muted text-sm bg-white/[0.01] rounded-xl border border-border-default">
-                          Tidak ditemukan aplikasi dengan kata kunci "{appSearch}".
-                        </div>
-                      ) : (
-                        filteredCategories.map((cat) => (
-                          <div key={cat.id} className="flex flex-col gap-3">
-                            <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider pl-1 border-l-2 border-brand-light">
-                              {language === 'en' ? cat.title_en : cat.title}
-                            </h4>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              {cat.items.map((item) => (
-                                <div
-                                  key={item.key}
-                                  onClick={() => handleAppClick(item)}
-                                  className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white/[0.02] border border-border-default hover:bg-white/[0.06] hover:border-brand/30 transition-all duration-200 cursor-pointer group"
-                                >
-                                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center ${item.iconColor} shrink-0 border border-white/10 group-hover:scale-105 transition-transform`}>
-                                    <ServiceIcon iconName={item.icon} size={20} />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="text-xs sm:text-[0.8125rem] font-bold text-text-primary truncate group-hover:text-brand-light transition-colors">
-                                      {item.title}
-                                    </div>
-                                    <div className="text-[11px] text-text-secondary truncate mt-0.5">
-                                      {item.desc}
-                                    </div>
-                                  </div>
-                                  <ExternalLink size={13} className="text-text-muted opacity-40 group-hover:opacity-100 group-hover:text-brand-light shrink-0 transition-opacity" />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  )}
-
-
-                </>
+                    <span className="text-xs sm:text-sm font-bold text-text-primary group-hover:text-brand-light transition-colors">
+                      {t('home.edit_favorites')}
+                    </span>
+                    <span className="text-[11px] text-text-muted mt-0.5">
+                      {t('home.edit_favorites_sub')}
+                    </span>
+                  </div>
+                </div>
               )}
+
+              {/* View 2: Categorized Full Applications Grid */}
+              {showAllApps && (
+                <div className="flex flex-col gap-6 pt-2">
+                  {filteredCategories.length === 0 ? (
+                    <div className="p-8 text-center text-text-muted text-sm bg-white/[0.01] rounded-xl border border-border-default">
+                      Tidak ditemukan aplikasi dengan kata kunci "{appSearch}".
+                    </div>
+                  ) : (
+                    filteredCategories.map((cat) => (
+                      <div key={cat.id} className="flex flex-col gap-3">
+                        <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider pl-1 border-l-2 border-brand-light">
+                          {language === 'en' ? cat.title_en : cat.title}
+                        </h4>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {cat.items.map((item) => (
+                            <div
+                              key={item.key}
+                              onClick={() => handleAppClick(item)}
+                              className="flex items-center gap-3.5 p-3.5 rounded-xl bg-white/[0.02] border border-border-default hover:bg-white/[0.06] hover:border-brand/30 transition-all duration-200 cursor-pointer group"
+                            >
+                              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center ${item.iconColor} shrink-0 border border-white/10 group-hover:scale-105 transition-transform`}>
+                                <ServiceIcon iconName={item.icon} size={20} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-xs sm:text-[0.8125rem] font-bold text-text-primary truncate group-hover:text-brand-light transition-colors">
+                                  {item.title}
+                                </div>
+                                <div className="text-[11px] text-text-secondary truncate mt-0.5">
+                                  {item.desc}
+                                </div>
+                              </div>
+                              <ExternalLink size={13} className="text-text-muted opacity-40 group-hover:opacity-100 group-hover:text-brand-light shrink-0 transition-opacity" />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {/* Bottom Full-Width Toggle Button (Image 1 & Image 3) */}
+              <button
+                type="button"
+                onClick={() => setShowAllApps(!showAllApps)}
+                className="w-full py-2.5 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-text-secondary hover:text-text-primary text-xs sm:text-sm font-semibold border border-border-default transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+              >
+                {showAllApps ? (
+                  <>
+                    <ChevronUp size={16} />
+                    <span>{t('home.apps_show_fav')}</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown size={16} />
+                    <span>{t('home.apps_show_all')}</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
 
@@ -1130,7 +987,7 @@ function Beranda() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-3.5">
-                  {announcements.slice(0, 3).map((item, idx) => {
+                  {displayedAnnouncements.slice(0, 3).map((item, idx) => {
                     const title = language === 'en' ? (item.title_en || item.title) : (item.title_id || item.title);
                     const desc = language === 'en' ? (item.desc_en || item.description) : (item.desc_id || item.description);
                     const badge = language === 'en' ? (item.badge_en || item.badge || 'Kegiatan') : (item.badge_id || item.badge || 'Kegiatan');
@@ -1165,7 +1022,152 @@ function Beranda() {
           </div>
         </div>
       </div>
+
+      {/* Modal Popup: Pilih Favorit (Slide-up + Fade-in, Image 4) */}
+      {isEditingFavorites && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-fast"
+          onClick={handleCloseEditFavorites}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-pilih-favorit-title"
+        >
+          <div
+            className="bg-white dark:bg-neutral-bg2 border border-border-default rounded-2xl shadow-2xl max-w-lg w-full p-6 flex flex-col gap-4 animate-modal-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header: Title + Close Button */}
+            <div className="flex items-center justify-between pb-3 border-b border-border-default/60">
+              <h3 id="modal-pilih-favorit-title" className="text-base sm:text-lg font-bold text-text-primary m-0">
+                {language === 'en'
+                  ? `Pilih Favorit (${tempSelectedKeys.length} terpilih)`
+                  : `Pilih Favorit (${tempSelectedKeys.length} terpilih)`}
+              </h3>
+              <button
+                type="button"
+                onClick={handleCloseEditFavorites}
+                className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-neutral-100 dark:hover:bg-white/5 transition-colors cursor-pointer bg-transparent border-none"
+                aria-label="Tutup"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full">
+              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+              <input
+                type="text"
+                placeholder={language === 'en' ? 'Cari...' : 'Cari...'}
+                value={modalSearch}
+                onChange={(e) => setModalSearch(e.target.value)}
+                className="w-full pl-9 pr-9 py-2 rounded-xl bg-neutral-bg1 dark:bg-neutral-bg3 border border-border-default text-text-primary text-xs sm:text-sm placeholder:text-text-muted focus:outline-none focus:border-brand-light focus:ring-1 focus:ring-brand-light/30 transition-all"
+                autoFocus
+              />
+              {modalSearch && (
+                <button
+                  type="button"
+                  onClick={() => setModalSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-muted hover:text-text-primary rounded-md cursor-pointer bg-transparent border-none"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Scrollable List of App Cards (Image 4) */}
+            <div className="max-h-80 overflow-y-auto space-y-2.5 pr-1 -mr-1">
+              {modalFilteredServices.map((service) => {
+                const isSelected = tempSelectedKeys.includes(service.key);
+                const title = language === 'en' ? service.title_en : service.title;
+                const subtitle = language === 'en' ? service.subtitle_en : service.subtitle;
+
+                return (
+                  <div
+                    key={service.key}
+                    onClick={() => handleToggleFavoriteKey(service.key)}
+                    className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-200 cursor-pointer select-none group ${
+                      isSelected
+                        ? 'bg-brand/[0.06] border-brand shadow-sm ring-1 ring-brand/20'
+                        : 'bg-neutral-bg1/50 dark:bg-white/[0.02] border-border-default hover:bg-neutral-100 dark:hover:bg-white/[0.05] hover:border-border-default/80 opacity-75 hover:opacity-100'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm transition-transform group-hover:scale-105 ${
+                          isSelected
+                            ? 'bg-gradient-to-tr from-brand-hover via-brand to-brand-light text-white'
+                            : 'bg-neutral-bg3 border border-border-default text-text-muted'
+                        }`}
+                      >
+                        <ServiceIcon
+                          iconName={service.icon}
+                          size={18}
+                          className={isSelected ? 'text-white' : 'text-text-secondary'}
+                        />
+                      </div>
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <span className="text-xs sm:text-sm font-bold text-text-primary truncate group-hover:text-brand-light transition-colors">
+                          {title}
+                        </span>
+                        <span className="text-[11px] text-text-secondary truncate mt-0.5">
+                          {subtitle}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Indicator Checkbox / Check */}
+                    <div
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-all shrink-0 ml-3 ${
+                        isSelected
+                          ? 'bg-brand text-white border-brand shadow-sm scale-105'
+                          : 'border-border-default bg-neutral-bg3 text-transparent group-hover:border-brand/40'
+                      }`}
+                    >
+                      <Check size={14} className={isSelected ? 'block' : 'opacity-0'} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="flex items-center justify-between pt-3 border-t border-border-default/60 flex-wrap gap-2">
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] text-text-muted">
+                  {language === 'en' ? 'Max 8 favorites' : 'Maksimal 8 favorit'}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleResetFavorites}
+                  className="text-[11px] text-text-muted hover:text-text-primary underline cursor-pointer bg-transparent border-none p-0"
+                >
+                  {t('home.modal_fav_reset')}
+                </button>
+              </div>
+              <div className="flex items-center gap-2.5 ml-auto">
+                <button
+                  type="button"
+                  onClick={handleCloseEditFavorites}
+                  className="px-4 py-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-neutral-100 dark:hover:bg-white/5 text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                >
+                  {language === 'en' ? 'Cancel' : 'Batal'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveFavorites}
+                  className="px-5 py-2 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+                >
+                  <Check size={14} />
+                  <span>{language === 'en' ? 'Save' : 'Simpan'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
+
   );
 }
 

@@ -214,8 +214,8 @@ function Layout({ children }) {
             </nav>
           </div>
 
-          {/* Bottom Sidebar Block: Logout and Campus Identity */}
-          <div className="flex flex-col gap-4 pt-4 mt-auto border-t border-border-default/60">
+          {/* Bottom Sidebar Block: Logout */}
+          <div className="pt-4 mt-auto border-t border-border-default/60">
             <button
               className="flex items-center gap-3.5 px-4 py-2.5 text-status-error hover:bg-red-500/10 text-sm font-medium rounded-xl bg-transparent border-none w-full text-left cursor-pointer transition-all duration-200"
               onClick={logout}
@@ -224,11 +224,6 @@ function Layout({ children }) {
               <LogOut size={18} aria-hidden="true" />
               <span>{t('nav.logout')}</span>
             </button>
-
-            <div className="px-3 pt-2 text-[11px] text-text-muted leading-tight select-none">
-              <div className="font-semibold text-text-secondary">S4RAS Network • 3T Services</div>
-              <div className="text-[10px] opacity-75 mt-0.5">SOLUTION FOR REMOTE AREA SERVICES • 2026</div>
-            </div>
           </div>
         </aside>
 
