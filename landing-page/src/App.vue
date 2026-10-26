@@ -9,26 +9,30 @@
           <a href="#faq">FAQ</a>
         </nav>
         <div class="tools">
-          <button class="chip" @click="setLang(lang === 'id' ? 'en' : 'id')" :aria-label="lang === 'id' ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">{{ lang.toUpperCase() }}</button>
-          <button class="chip" @click="toggleTheme" :aria-label="isDark ? t('theme.light') : t('theme.dark')">{{ isDark ? t('theme.light') : t('theme.dark') }}</button>
-          <a class="btn" href="https://portal.s4ras.site/home">{{ t('cta.portal') }}</a>
-          <button class="chip" @click="menuOpen = true" aria-haspopup="dialog">{{ t('menu') }}</button>
+          <button class="chip tool-desktop" @click="setLang(lang === 'id' ? 'en' : 'id')" :aria-label="lang === 'id' ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">{{ lang.toUpperCase() }}</button>
+          <button class="chip tool-desktop" @click="toggleTheme" :aria-label="isDark ? t('theme.light') : t('theme.dark')">{{ isDark ? t('theme.light') : t('theme.dark') }}</button>
+          <a class="btn tool-desktop" href="https://portal.s4ras.site/home">{{ t('cta.portal') }}</a>
+          <button class="chip btn-menu" @click="menuOpen = !menuOpen" :aria-expanded="menuOpen" :aria-label="t('menu')">{{ t('menu') }}</button>
         </div>
       </div>
     </header>
 
     <Transition name="menu">
-      <div v-if="menuOpen" class="menu" role="dialog" aria-modal="true" :aria-label="t('menu')" @keydown.esc="menuOpen = false">
+      <div v-if="menuOpen" class="menu" role="dialog" aria-modal="true" :aria-label="t('menu')">
         <div class="menu-top">
           <span class="brand"><LogoMark />S4RAS</span>
-          <button class="chip" ref="menuClose" @click="menuOpen = false">{{ t('close') }}</button>
+          <button class="chip btn-close" ref="menuClose" @click="menuOpen = false" :aria-label="t('close')">{{ t('close') }}</button>
         </div>
         <nav>
           <a href="#layanan" @click="menuOpen = false">{{ t('nav.services') }}</a>
           <a href="#arsitektur" @click="menuOpen = false">{{ t('nav.arch') }}</a>
           <a href="#faq" @click="menuOpen = false">FAQ</a>
-          <a href="https://portal.s4ras.site/home">{{ t('cta.portal') }}</a>
+          <a href="https://portal.s4ras.site/home" @click="menuOpen = false">{{ t('cta.portal') }}</a>
         </nav>
+        <div class="menu-tools">
+          <button class="chip" @click="setLang(lang === 'id' ? 'en' : 'id')" :aria-label="lang === 'id' ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">{{ lang.toUpperCase() }}</button>
+          <button class="chip" @click="toggleTheme" :aria-label="isDark ? t('theme.light') : t('theme.dark')">{{ isDark ? t('theme.light') : t('theme.dark') }}</button>
+        </div>
         <div class="menu-foot">Solution for Remote Area Services</div>
       </div>
     </Transition>
@@ -325,8 +329,21 @@ const bindStatement = () => {
   gsap.to(ws, { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.stmt', start: 'top 78%', end: 'bottom 45%', scrub: true } });
 };
 
+const onKeydown = (e) => {
+  if (e.key === 'Escape' && menuOpen.value) {
+    menuOpen.value = false;
+  }
+};
+
 watch(menuOpen, (open) => {
-  if (open) { lenis?.stop(); nextTick(() => menuClose.value?.focus()); } else { lenis?.start(); }
+  if (open) {
+    lenis?.stop();
+    window.addEventListener('keydown', onKeydown);
+    nextTick(() => menuClose.value?.focus());
+  } else {
+    lenis?.start();
+    window.removeEventListener('keydown', onKeydown);
+  }
 });
 watch(lang, () => nextTick(() => ctx?.add(bindStatement)));
 

@@ -112,4 +112,6 @@ docs/reports/5022211124_Glorio Davis Kristian.md
 
 *.pdf
 *.png
+!**/public/**/og-image.png
+!**/public/logo*.png
 
