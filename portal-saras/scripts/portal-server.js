@@ -37,7 +37,7 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const { safeCompare, parseTokenContext, setKeycloakPublicKey } = require('./lib/auth');
+const { safeCompare, parseTokenContext, setKeycloakPublicKey, getJwksKeys } = require('./lib/auth');
 const { CANONICAL_PERSONAS } = require('./lib/personas');
 const { calculateAcademicWeek } = require('./lib/academic');
 
@@ -64,6 +64,15 @@ if (!process.env.KEYCLOAK_PUBLIC_KEY && !process.env.JWT_SECRET) {
   } catch {
     // fallback
   }
+}
+
+// Prime JWKS cache at boot
+if (typeof getJwksKeys === 'function') {
+  getJwksKeys().then((keys) => {
+    if (keys && keys.length > 0) {
+      console.log(`[JWT Security] Cached ${keys.length} Keycloak JWKS keys at boot`);
+    }
+  }).catch(() => {});
 }
 
 

@@ -53,7 +53,7 @@ function setJwksKeys(keys, ttlMs = 10 * 60 * 1000) {
   }
 }
 
-async function getJwksKeys(jwksUrl = process.env.KEYCLOAK_JWKS_URL) {
+async function getJwksKeys(jwksUrl = process.env.KEYCLOAK_JWKS_URL || 'https://sso.s4ras.site/realms/S4RAS/protocol/openid-connect/certs') {
   const now = Date.now();
   if (jwksCache.keys.length > 0 && jwksCache.expiresAt > now) {
     return jwksCache.keys;
@@ -125,7 +125,20 @@ function verifyTokenSignatureAndPayload(rawToken, options = {}) {
   }
 
   // Authorized Party (azp) Client Allowlist
-  const defaultAllowedAzp = ['front-end', 'saras-portal', 'account', 'broker', 'admin-cli', 'moodle', 'nextcloud', 'jellyfin'];
+  const defaultAllowedAzp = [
+    'front-end',
+    'saras-portal',
+    'portal-s4ras',
+    'account',
+    'account-console',
+    'broker',
+    'admin-cli',
+    'moodle',
+    'nextcloud',
+    'jellyfin',
+    'realm-management',
+    'security-admin-console'
+  ];
   const allowedAzp = options.allowedAzp || (process.env.KEYCLOAK_ALLOWED_CLIENTS
     ? process.env.KEYCLOAK_ALLOWED_CLIENTS.split(',').map(s => s.trim().toLowerCase())
     : defaultAllowedAzp);
