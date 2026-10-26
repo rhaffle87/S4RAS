@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: prom/prometheus:v3.2.0
+    image: prom/prometheus:v3.3.1
     container_name: prometheus
     restart: always
     ports:
@@ -19,7 +19,7 @@ services:
       retries: 5
 
   grafana:
-    image: grafana/grafana:11.5.0
+    image: grafana/grafana:11.5.2
     container_name: grafana
     restart: always
     ports:
@@ -49,7 +49,7 @@ services:
       retries: 5
 
   alertmanager:
-    image: prom/alertmanager:v0.27.0
+    image: prom/alertmanager:v0.28.1
     container_name: alertmanager
     restart: always
     ports:
@@ -86,7 +86,7 @@ services:
       - '--path.rootfs=/rootfs'
 
   uptime-kuma:
-    image: louislam/uptime-kuma:1
+    image: louislam/uptime-kuma:1.23.16
     container_name: uptime-kuma
     restart: always
     ports:
@@ -95,7 +95,7 @@ services:
       - uptime_kuma_data:/app/data
 
   loki:
-    image: grafana/loki:3.0.0
+    image: grafana/loki:3.4.2
     container_name: loki
     restart: always
     ports:
@@ -106,7 +106,7 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
 
   promtail:
-    image: grafana/promtail:3.0.0
+    image: grafana/promtail:3.4.2
     container_name: promtail
     restart: always
     volumes:

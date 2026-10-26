@@ -36,5 +36,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "jiti": "^2.7.0"
+  },
+  "overrides": {
+    "proxy-addr": "^2.0.8"
   }
 }

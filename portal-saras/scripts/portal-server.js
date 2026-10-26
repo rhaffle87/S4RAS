@@ -261,12 +261,24 @@ setInterval(() => {
 
 function createRateLimiter(isSensitive = false) {
   return (req, res, next) => {
-    const rawIp = req.headers['cf-connecting-ip'] ||
-      (req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : req.ip) ||
-      'unknown';
+    // Only resolve proxy headers (cf-connecting-ip / x-forwarded-for) if direct socket connection
+    // arrives from a trusted local reverse proxy (Cloudflared / Caddy on loopback)
+    const remoteSocket = req.socket?.remoteAddress || '';
+    const isLocalProxy = remoteSocket === '127.0.0.1' || remoteSocket === '::1' || remoteSocket === '::ffff:127.0.0.1';
 
-    // Allow internal cluster loopbacks without limits
-    if (rawIp === '127.0.0.1' || rawIp === '::1' || rawIp.startsWith('192.168.10.') || rawIp.startsWith('100.')) {
+    let rawIp;
+    if (isLocalProxy) {
+      rawIp = req.headers['cf-connecting-ip'] ||
+        (req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0].trim() : remoteSocket);
+    } else {
+      rawIp = remoteSocket || req.ip || 'unknown';
+    }
+
+    // Allow internal cluster loopbacks without limits (only if directly on loopback or unproxied LAN)
+    if (rawIp === '127.0.0.1' || rawIp === '::1' || rawIp === '::ffff:127.0.0.1') {
+      return next();
+    }
+    if (!isLocalProxy && (rawIp.startsWith('192.168.10.') || rawIp.startsWith('100.'))) {
       return next();
     }
 
@@ -315,7 +327,7 @@ app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 // ── Service registry (mirrors src/config/services.js) ──────────────────────
 const SERVICES = {
   moodle:  { internal: 'http://192.168.10.203',      public: 'https://moodle.s4ras.site' },
-  sso:     { internal: 'http://192.168.10.206:8080',  public: 'https://sso.s4ras.site' },
+  sso:     { internal: 'http://192.168.10.206:9000/health/ready', public: 'https://sso.s4ras.site' },
   cloud:   { internal: ['http://192.168.10.207/status.php', 'http://192.168.10.207'], public: 'https://cloud.s4ras.site/status.php' },
   iptv:    { internal: 'http://192.168.10.200:8096',  public: 'https://iptv.s4ras.site' },
   dispatcharr: { internal: 'http://192.168.10.200:9191', public: 'https://dispatcharr.s4ras.site' },
@@ -465,7 +477,7 @@ const VALID_DEPLOY_TOKEN = process.env.DEPLOY_TOKEN;
 
 app.post('/api/deploy', async (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'testuser'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
 
   const reqToken = req.headers['x-deploy-token'] || req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const isTokenValid = Boolean(VALID_DEPLOY_TOKEN && safeCompare(reqToken, VALID_DEPLOY_TOKEN));
@@ -775,7 +787,7 @@ app.post('/api/webhooks/event', (req, res) => {
 
   // RBAC for user event dispatch: standard users cannot inject critical infrastructure / system events
   if (user && user.authenticated && !isClusterAuthorized) {
-    const isUserAdmin = Boolean(user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'testuser');
+    const isUserAdmin = Boolean(user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1');
     const FORBIDDEN_CLIENT_PREFIXES = ['system.', 'infra.', 'security.', 'voicemail.system', 'backup.', 'dr.'];
     const eventType = String(payload.type || '').toLowerCase();
     const isCritical = FORBIDDEN_CLIENT_PREFIXES.some((prefix) => eventType.startsWith(prefix));
@@ -1329,7 +1341,7 @@ app.get('/api/announcements/stream', (req, res) => {
 // Admin POST announcement endpoint (Phase 34.5)
 app.post('/api/announcements', (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'testuser'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
 
   const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const validAdminToken = process.env.ADMIN_TOKEN;
@@ -1431,8 +1443,30 @@ app.delete('/api/announcements/:id', (req, res) => {
 });
 
 
-// ── Proxy to JMeter Benchmark Report server on VM 209 ──────────────────────
+// ── Proxy to JMeter Benchmark Report server on VM 209 (Protected: Admin Only) ──────
 app.use('/benchmark', (req, res) => {
+  const user = parseTokenContext(req);
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+  const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
+  const validAdminToken = process.env.ADMIN_TOKEN;
+  const isTokenValid = Boolean(validAdminToken && safeCompare(reqToken, validAdminToken));
+
+  if (!isTokenValid && !isUserAdmin) {
+    if (user && user.authenticated) {
+      console.warn(`[Benchmark Security] Forbidden: Non-admin user '${user.username}' attempted accessing /benchmark from IP ${req.ip}`);
+      return res.status(403).json({
+        error: 'Forbidden: Admin role required to access cluster benchmark reports',
+        status: 'error',
+        timestamp: new Date().toISOString()
+      });
+    }
+    return res.status(401).json({
+      error: 'Unauthorized: Admin authentication token required to access cluster benchmark reports',
+      status: 'error',
+      timestamp: new Date().toISOString()
+    });
+  }
+
   const targetPath = req.url === '/' || req.url === '' ? '/' : req.url;
   const options = {
     hostname: '192.168.10.209',

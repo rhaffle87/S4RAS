@@ -1,6 +1,6 @@
 services:
   cache:
-    image: redis:7-alpine
+    image: redis:7.4.2-alpine
     container_name: redis_cache
     restart: unless-stopped
     ports:

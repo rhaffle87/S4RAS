@@ -60,5 +60,8 @@
   },
   "optionalDependencies": {
     "@rolldown/binding-linux-x64-gnu": "1.0.3"
+  },
+  "overrides": {
+    "proxy-addr": "^2.0.8"
   }
 }

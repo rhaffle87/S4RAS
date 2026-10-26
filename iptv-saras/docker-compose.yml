@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:latest
+    image: jellyfin/jellyfin:10.10.6
     container_name: jellyfin
     restart: unless-stopped
     network_mode: bridge
@@ -20,7 +20,7 @@ services:
       start_period: 30s
 
   dispatcharr:
-    image: ghcr.io/dispatcharr/dispatcharr:latest
+    image: ghcr.io/dispatcharr/dispatcharr:v0.8.2
     container_name: dispatcharr
     restart: unless-stopped
     ports:
@@ -40,7 +40,7 @@ services:
       start_period: 30s
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: fallenbagel/jellyseerr:v2.3.0
     container_name: jellyseerr
     restart: unless-stopped
     ports:

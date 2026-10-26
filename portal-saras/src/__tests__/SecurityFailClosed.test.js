@@ -226,6 +226,42 @@ function handleAnnouncementsEndpoint(req, adminToken, jwtSecret) {
 }
 
 // Simulated server handler matching portal-server.js /api/me/context
+// Simulated server handler matching portal-server.js /benchmark (Admin protected)
+function handleBenchmarkEndpoint(req, adminToken, jwtSecret) {
+  const authHeader = req.headers?.authorization || '';
+  let authUser = null;
+  if (authHeader.startsWith('Bearer ')) {
+    const raw = authHeader.slice(7).trim();
+    const payload = verifyTokenSignatureAndPayload(raw, jwtSecret);
+    if (payload) {
+      authUser = {
+        authenticated: true,
+        username: (payload.preferred_username || payload.username || '').toLowerCase(),
+        roles: payload.realm_access?.roles || ['student']
+      };
+    }
+  }
+
+  const isUserAdmin = Boolean(authUser && authUser.authenticated && (authUser.roles?.includes('admin') || authUser.roles?.includes('Super Admin') || authUser.username === 'admin' || authUser.username === 'dev1'));
+  const reqToken = req.headers?.['x-admin-token'] || authHeader.replace('Bearer ', '');
+  const isTokenValid = Boolean(adminToken && safeCompare(reqToken, adminToken));
+
+  if (!isTokenValid && !isUserAdmin) {
+    if (authUser && authUser.authenticated) {
+      return {
+        status: 403,
+        body: { error: 'Forbidden: Admin role required to access cluster benchmark reports' }
+      };
+    }
+    return {
+      status: 401,
+      body: { error: 'Unauthorized: Admin authentication token required to access cluster benchmark reports' }
+    };
+  }
+
+  return { status: 200, body: { status: 'proxied' } };
+}
+
 function handleMeContextEndpoint(req, jwtSecret) {
   const authHeader = req.headers?.authorization || '';
   if (!authHeader.startsWith('Bearer ')) {
@@ -566,4 +602,59 @@ describe('Strict RS256 JWT Verification (scripts/lib/auth.js)', () => {
       }
     });
   });
+
+  describe('Benchmark Proxy Policy (/benchmark) & Privilege De-escalation', () => {
+    it('returns 401 Unauthorized when request has no credentials', () => {
+      const res = handleBenchmarkEndpoint({ headers: {} }, 'valid-token', TEST_SECRET);
+      expect(res.status).toBe(401);
+      expect(res.body.error).toContain('Unauthorized');
+    });
+
+    it('returns 403 Forbidden when standard student attempts accessing /benchmark', () => {
+      const studentToken = createSignedToken({
+        preferred_username: 'student1',
+        realm_access: { roles: ['student'] },
+        exp: Math.floor(Date.now() / 1000) + 3600
+      }, 'HS256', TEST_SECRET);
+
+      const res = handleBenchmarkEndpoint({ headers: { authorization: `Bearer ${studentToken}` } }, 'valid-token', TEST_SECRET);
+      expect(res.status).toBe(403);
+      expect(res.body.error).toContain('Forbidden');
+    });
+
+    it('returns 403 Forbidden when testuser attempts administrative /benchmark access', () => {
+      const testuserToken = createSignedToken({
+        preferred_username: 'testuser',
+        realm_access: { roles: ['student'] },
+        exp: Math.floor(Date.now() / 1000) + 3600
+      }, 'HS256', TEST_SECRET);
+
+      const res = handleBenchmarkEndpoint({ headers: { authorization: `Bearer ${testuserToken}` } }, 'valid-token', TEST_SECRET);
+      expect(res.status).toBe(403);
+    });
+
+    it('returns 403 Forbidden when testuser attempts deployment on /api/deploy', () => {
+      const testuserToken = createSignedToken({
+        preferred_username: 'testuser',
+        realm_access: { roles: ['student'] },
+        exp: Math.floor(Date.now() / 1000) + 3600
+      }, 'HS256', TEST_SECRET);
+
+      const res = handleDeployEndpoint({ headers: { authorization: `Bearer ${testuserToken}` } }, 'valid-deploy-token', TEST_SECRET);
+      expect(res.status).toBe(403);
+    });
+
+    it('returns 200 OK when authenticated admin accesses /benchmark', () => {
+      const adminToken = createSignedToken({
+        preferred_username: 'admin',
+        realm_access: { roles: ['admin'] },
+        exp: Math.floor(Date.now() / 1000) + 3600
+      }, 'HS256', TEST_SECRET);
+
+      const res = handleBenchmarkEndpoint({ headers: { authorization: `Bearer ${adminToken}` } }, 'valid-token', TEST_SECRET);
+      expect(res.status).toBe(200);
+      expect(res.body.status).toBe('proxied');
+    });
+  });
+
 });

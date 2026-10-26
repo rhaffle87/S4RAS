@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgres:
-    image: bitnami/postgresql:15
+    image: bitnami/postgresql:15.12.0
     container_name: postgres
     restart: unless-stopped
     volumes:
@@ -21,7 +21,7 @@ services:
       retries: 10
 
   moodle:
-    image: bitnami/moodle:4.5.2
+    image: bitnami/moodle:4.5.4
     container_name: moodle
     restart: unless-stopped
     ports:
