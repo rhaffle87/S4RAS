@@ -39,6 +39,7 @@ if (fs.existsSync(envPath)) {
 
 const { safeCompare, parseTokenContext, setKeycloakPublicKey } = require('./lib/auth');
 const { CANONICAL_PERSONAS } = require('./lib/personas');
+const { calculateAcademicWeek } = require('./lib/academic');
 
 // Auto-discover Keycloak realm RSA public key if not configured
 if (!process.env.KEYCLOAK_PUBLIC_KEY && !process.env.JWT_SECRET) {
@@ -794,6 +795,20 @@ app.get('/api/events', (_req, res) => {
   });
 });
 
+// ── Academic Summary Endpoint (1-16 Academic Weeks) ───────────────────
+app.get('/api/summary', (req, res) => {
+  const academic = calculateAcademicWeek(new Date());
+  res.json({
+    status: 'ok',
+    academic_week: academic.week,
+    raw_week: academic.rawWeek,
+    semester: academic.semester,
+    semester_start: academic.semesterStart,
+    max_weeks: 16,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // ── Unified Academic Cockpit API (Phase 38) ───────────────────────────────
 app.get('/api/academic/summary', async (req, res) => {
   const user = parseTokenContext(req) || CANONICAL_PERSONAS.student;
@@ -812,6 +827,8 @@ app.get('/api/academic/summary', async (req, res) => {
     user: user.username,
     name: user.name,
     cohort: user.moodle_cohort,
+    academic_week: calculateAcademicWeek(new Date()).week,
+    semester: calculateAcademicWeek(new Date()).semester,
     roleCategory: isFaculty ? 'faculty' : isFellowOrAdmin ? 'research' : 'student',
     stats: {
       gpa: isFellowOrAdmin ? '4.00' : '3.88',

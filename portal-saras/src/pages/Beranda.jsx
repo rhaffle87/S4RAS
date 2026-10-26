@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   User,
   Activity,
-  Calendar as CalendarIcon,
   GraduationCap,
   KeyRound,
   Cloud,
@@ -32,6 +31,7 @@ import Layout from '../components/Layout';
 import SkeletonCard from '../components/SkeletonCard';
 import { fetchAnnouncements, DEFAULT_ANNOUNCEMENTS } from '../services/backend';
 import { useKeycloak } from '../context/KeycloakContext';
+import { calculateAcademicWeek } from '../utils/academicCalendar';
 import { useThemeLanguage } from '../context/ThemeLanguageContext';
 
 const ServiceIcon = ({ iconName, size = 20, className }) => {
@@ -407,7 +407,9 @@ function Beranda() {
   const { profile, persona, roleLabel, sipExtension } = useKeycloak();
   const { t, language } = useThemeLanguage();
 
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
+  const academicCalendar = useMemo(() => calculateAcademicWeek(today), [today]);
+  const academicWeek = academicCalendar.week;
   const dayName = today.toLocaleDateString(language === 'en' ? 'en-US' : 'id-ID', { weekday: 'long' });
   const formattedDate = today.toLocaleDateString(language === 'en' ? 'en-US' : 'id-ID', {
     day: 'numeric', month: 'long', year: 'numeric'
@@ -575,7 +577,7 @@ function Beranda() {
                   <div
                     key={slide.id}
                     style={{ background: slide.bgStyle }}
-                    className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end px-12 sm:px-16 md:px-20 pb-7 sm:pb-8 pt-6 overflow-hidden text-white"
+                    className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end p-5 sm:p-8 lg:p-10 overflow-hidden text-white"
                   >
                     {/* Full Fading Photographic Background Layer */}
                     {slide.bgImage && (
@@ -665,7 +667,7 @@ function Beranda() {
                 <div
                   key={slide.id}
                   style={{ background: slide.bgStyle }}
-                  className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end px-12 sm:px-16 md:px-20 pb-7 sm:pb-8 pt-6 overflow-hidden text-white"
+                  className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end p-5 sm:p-8 lg:p-10 overflow-hidden text-white"
                 >
                   {/* Full Fading Photographic Background Layer */}
                   {slide.bgImage && (
@@ -753,24 +755,24 @@ function Beranda() {
             })}
           </div>
 
-          {/* Carousel Controls: Left & Right Arrows with Tactile Feedback */}
+          {/* Carousel Controls: Left & Right Arrows with Tactile Feedback (hidden on small mobile) */}
           <button
             onClick={handlePrevSlide}
             aria-label="Slide sebelumnya"
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
+            className="hidden sm:flex absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
           >
             <ChevronLeft size={20} />
           </button>
           <button
             onClick={handleNextSlide}
             aria-label="Slide berikutnya"
-            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
+            className="hidden sm:flex absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
           >
             <ChevronRight size={20} />
           </button>
 
           {/* Pagination Indicator Dots - Expanding Smooth Pills */}
-          <div className="absolute bottom-3 right-8 sm:right-12 md:right-16 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 border border-white/10 shadow-lg">
+          <div className="absolute bottom-3 right-4 sm:right-8 md:right-12 z-20 flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-black/75 border border-white/10 shadow-lg">
             {HERO_SLIDES.map((_, idx) => (
               <button
                 key={idx}
@@ -787,7 +789,7 @@ function Beranda() {
         </div>
 
         {/* Two-Column Grid Layout (Left: Apps ~65%, Right: Widgets ~35%) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
           {/* Left Column (Primary Content Area, span 8 cols) */}
           <div className="lg:col-span-8 flex flex-col gap-5 sm:gap-6 h-fit self-start">
             {/* Aplikasi Launcher Container */}
@@ -822,7 +824,7 @@ function Beranda() {
 
               {/* View 1: 3-Column Symmetrical Favorite Apps Grid (Image 1 & Image 3) */}
               {!showAllApps && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6 pt-2">
                   {favoriteKeys.map((key) => {
                     const item = ALL_SERVICES_MAP[key];
                     if (!item) return null;
@@ -956,20 +958,19 @@ function Beranda() {
               </Link>
             </div>
 
-            {/* Widget 2: Date & Academic Week Calendar Card */}
-            <div className="card p-5 bg-neutral-bg2/90 border border-border-default rounded-2xl shadow-md flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg sm:text-xl font-black text-text-primary m-0">
-                  {dayName}
-                </h3>
-                <CalendarIcon size={18} className="text-text-muted" />
-              </div>
+            {/* Widget 2: Date & Academic Week Calendar Card (Image 1) */}
+            <div className="card p-5 bg-neutral-bg2/90 border border-border-default rounded-2xl shadow-md flex flex-col gap-1.5">
+              <h3 className="text-lg sm:text-xl font-black text-text-primary m-0">
+                {dayName}
+              </h3>
               <div className="text-xs sm:text-sm font-semibold text-brand-light">
                 {formattedDate}
               </div>
-              <div className="mt-2 pt-3 border-t border-border-default/60 flex items-center gap-2 text-xs font-medium text-text-secondary">
-                <span className="w-1 h-3.5 rounded-full bg-brand-light shrink-0" />
-                <span>{t('home.academic_week')}</span>
+              <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#f4f4f5] dark:bg-zinc-800/80 px-3.5 py-2.5">
+                <span className="w-1.5 h-5 rounded-full bg-[#dc2626] shrink-0" />
+                <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                  {t('home.academic_week', { week: academicWeek })}
+                </span>
               </div>
             </div>
 
@@ -1026,14 +1027,14 @@ function Beranda() {
       {/* Modal Popup: Pilih Favorit (Slide-up + Fade-in, Image 4) */}
       {isEditingFavorites && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-fast"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in-fast"
           onClick={handleCloseEditFavorites}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-pilih-favorit-title"
         >
           <div
-            className="bg-white dark:bg-neutral-bg2 border border-border-default rounded-2xl shadow-2xl max-w-lg w-full p-6 flex flex-col gap-4 animate-modal-slide-up"
+            className="bg-white dark:bg-neutral-bg2 border border-border-default rounded-2xl shadow-2xl max-w-lg w-full max-h-[85dvh] p-4 sm:p-6 flex flex-col gap-4 animate-modal-slide-up"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header: Title + Close Button */}
@@ -1076,7 +1077,7 @@ function Beranda() {
             </div>
 
             {/* Scrollable List of App Cards (Image 4) */}
-            <div className="max-h-80 overflow-y-auto space-y-2.5 pr-1 -mr-1">
+            <div className="max-h-[50vh] sm:max-h-80 overflow-y-auto space-y-2.5 pr-1 -mr-1 flex-1 min-h-0">
               {modalFilteredServices.map((service) => {
                 const isSelected = tempSelectedKeys.includes(service.key);
                 const title = language === 'en' ? service.title_en : service.title;

@@ -197,14 +197,14 @@ function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
 
   return (
     <div
-      className="fixed inset-0 z-[120] flex items-start justify-center px-4 pt-[12vh] bg-black/60"
+      className="fixed inset-0 z-[120] flex items-start justify-center p-3 sm:px-4 pt-[8vh] sm:pt-[12vh] bg-black/60 backdrop-blur-sm"
       onMouseDown={close}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={copy.label}
-        className="w-full max-w-xl rounded-2xl border border-border-strong bg-neutral-bg2 shadow-2xl overflow-hidden"
+        className="w-full max-w-xl max-h-[85dvh] flex flex-col rounded-2xl border border-border-strong bg-neutral-bg2 shadow-2xl overflow-hidden"
         onMouseDown={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 px-4 border-b border-border-default">
@@ -238,7 +238,7 @@ function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
           ref={listRef}
           role="listbox"
           aria-label={copy.label}
-          className="max-h-[50vh] overflow-y-auto p-2 m-0 list-none"
+          className="max-h-[55vh] flex-1 min-h-0 overflow-y-auto p-2 m-0 list-none"
         >
           {flat.map((it, i) => {
             const header = it.group !== lastGroup ? groupLabel[it.group] : null;

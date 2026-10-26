@@ -85,6 +85,10 @@ function Layout({ children }) {
     setMobileOpen((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   const getInitials = () => {
     if (profile?.firstName) {
       return (profile.firstName[0] + (profile.lastName?.[0] || '')).toUpperCase();
@@ -130,7 +134,7 @@ function Layout({ children }) {
         {/* Full-Height Desktop / Responsive Sidebar */}
         <aside
           id="sidebar-nav"
-          className={`w-[260px] xl:w-[275px] bg-neutral-bg2 border-r border-border-default flex flex-col justify-between p-5 h-full transition-transform duration-300 ease-in-out z-50 fixed top-0 bottom-0 left-0 lg:static max-lg:shadow-[10px_0_35px_rgba(0,0,0,0.6)] ${mobileOpen ? 'translate-x-0' : 'max-lg:-translate-x-full'}`}
+          className={`w-72 max-w-[85vw] lg:w-[260px] xl:w-[275px] bg-neutral-bg2 border-r border-border-default flex flex-col justify-between p-5 h-full transition-transform duration-300 ease-in-out z-50 fixed top-0 bottom-0 left-0 lg:static max-lg:shadow-[10px_0_35px_rgba(0,0,0,0.6)] ${mobileOpen ? 'translate-x-0' : 'max-lg:-translate-x-full'}`}
           role="navigation"
           aria-label="Navigasi utama"
         >
@@ -270,22 +274,22 @@ function Layout({ children }) {
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-                className="h-9 px-3.5 rounded-full text-xs font-medium inline-flex items-center gap-2 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
+                className="h-9 w-9 p-0 justify-center sm:w-auto sm:px-3.5 rounded-full text-xs font-medium inline-flex items-center gap-2 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer shrink-0"
                 aria-label={language === 'en' ? 'Search pages and services' : 'Cari halaman dan layanan'}
                 aria-keyshortcuts="Control+K Meta+K"
               >
                 <Search size={14} aria-hidden="true" />
-                <span className="hidden md:inline">{language === 'en' ? 'Search' : 'Cari'}</span>
-                <kbd className="hidden md:inline font-mono text-[10px] border border-[var(--color-border-default)] rounded px-1.5 py-0.5 opacity-80">
+                <span className="hidden sm:inline">{language === 'en' ? 'Search' : 'Cari'}</span>
+                <kbd className="hidden sm:inline font-mono text-[10px] border border-[var(--color-border-default)] rounded px-1.5 py-0.5 opacity-80">
                   {typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || '') ? '⌘K' : 'Ctrl K'}
                 </kbd>
               </button>
 
               {/* Language Dropdown */}
-              <div className="relative">
+              <div className="relative shrink-0">
                 <button
                   type="button"
-                  className="h-9 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
+                  className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1 sm:gap-1.5 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
                   onClick={() => setLangOpen(!langOpen)}
                   aria-expanded={langOpen}
                   aria-haspopup="listbox"
@@ -321,12 +325,12 @@ function Layout({ children }) {
               <button
                 type="button"
                 onClick={() => setPhoneOpen(true)}
-                className="h-9 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-2 border transition-all bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/25 hover:bg-[#dc2626]/15 cursor-pointer active:scale-95 shadow-sm"
+                className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 sm:gap-2 border transition-all bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/25 hover:bg-[#dc2626]/15 cursor-pointer active:scale-95 shadow-sm shrink-0"
                 title="Buka S4RAS Campus WebPhone"
                 aria-label="Campus Phone"
               >
                 <Phone size={13} className="text-[#dc2626] shrink-0" />
-                <span className="hidden md:inline">Campus Phone</span>
+                <span className="hidden sm:inline">Campus Phone</span>
                 <span className="font-mono text-[11px] opacity-90">
                   ({sipExtension || '1001'})
                 </span>
@@ -334,7 +338,7 @@ function Layout({ children }) {
 
               {/* Persona / Role Badge */}
               <div 
-                className="hidden sm:inline-flex items-center"
+                className="hidden md:inline-flex items-center shrink-0"
                 title={language === 'en'
                   ? `Role Persona: ${t('role.' + (persona || 'student'))}`
                   : `Peran Persona: ${t('role.' + (persona || 'student'))}`
@@ -373,7 +377,7 @@ function Layout({ children }) {
             </div>
 
             {/* Bottom S4RAS Branding Footer */}
-            <footer className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5 border-t border-border-default/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-text-muted select-none mt-auto">
+            <footer className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5 border-t border-border-default/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left text-xs text-text-muted select-none mt-auto">
               <div>© 2026 S4RAS — Solution for Remote Area Services</div>
               <div className="flex items-center gap-3">
                 <span className="font-bold tracking-wider text-[11px] text-text-secondary uppercase">EMPOWERING 3T COMMUNITIES</span>
