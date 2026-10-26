@@ -201,6 +201,11 @@ export default function SoftphoneModal({ isOpen, onClose }) {
     const ext = targetExt || dialedNumber;
     if (!ext) return;
 
+    if (!sipSecret) {
+      setIvrMessage('Perlu login untuk otentikasi SIP');
+      return;
+    }
+
     const matched = EXTENSION_DIRECTORY.find((s) => s.ext === ext) || {
       ext,
       label: `Ekstensi ${ext}`,
@@ -436,10 +441,16 @@ export default function SoftphoneModal({ isOpen, onClose }) {
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-bold text-white tracking-tight">S4RAS Campus Softphone</h3>
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Cluster Online
-                </span>
+                {sipSecret ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Cluster Online
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                    Perlu Login
+                  </span>
+                )}
                 {isVideoActive && (
                   <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#b91c1c]/20 text-[#ef4444] border border-[#b91c1c]/30">
                     <Video size={10} />

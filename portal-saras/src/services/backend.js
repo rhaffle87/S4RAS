@@ -334,7 +334,7 @@ export const fetchClusterEvents = async () => {
 export const dispatchClusterEvent = async (eventData, authOrSecret = '') => {
   try {
     const headers = { 'Content-Type': 'application/json' };
-    const authVal = authOrSecret || process.env.REACT_APP_CLUSTER_EVENT_SECRET || '';
+    const authVal = authOrSecret || '';
     if (authVal) {
       if (authVal.startsWith('Bearer ') || authVal.split('.').length === 3) {
         headers['Authorization'] = authVal.startsWith('Bearer ') ? authVal : `Bearer ${authVal}`;

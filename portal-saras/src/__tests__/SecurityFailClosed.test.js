@@ -3,6 +3,7 @@
 import crypto from 'crypto';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { dispatchClusterEvent } from '../services/backend';
+import authLib from '../../scripts/lib/auth.js';
 
 // Helper matching portal-server.js safeCompare implementation
 function safeCompare(a, b) {
@@ -465,6 +466,104 @@ describe('Fail-Closed Security Architecture & Token Policy', () => {
       expect(global.fetch).toHaveBeenCalled();
       expect(capturedHeaders['Authorization']).toBe(`Bearer ${fakeJwt}`);
       expect(capturedHeaders['X-Webhook-Secret']).toBeUndefined();
+    });
+  });
+describe('Strict RS256 JWT Verification (scripts/lib/auth.js)', () => {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+      modulusLength: 2048,
+      publicKeyEncoding: { type: 'spki', format: 'pem' },
+      privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+    });
+
+    const otherKeyPair = crypto.generateKeyPairSync('rsa', {
+      modulusLength: 2048,
+      publicKeyEncoding: { type: 'spki', format: 'pem' },
+      privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+    });
+
+    function makeRs256Token(payload, key = privateKey) {
+      const header = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
+      const pl = Buffer.from(JSON.stringify(payload)).toString('base64url');
+      const signer = crypto.createSign('RSA-SHA256');
+      signer.update(`${header}.${pl}`);
+      const sig = signer.sign(key, 'base64url');
+      return `${header}.${pl}.${sig}`;
+    }
+
+    it('verifies valid RS256 token against public key PEM', () => {
+      const token = makeRs256Token({
+        preferred_username: 'student1',
+        exp: Math.floor(Date.now() / 1000) + 300,
+        nbf: Math.floor(Date.now() / 1000) - 10,
+        azp: 'saras-portal'
+      });
+      const decoded = authLib.verifyTokenSignatureAndPayload(token, { publicKey });
+      expect(decoded).not.toBeNull();
+      expect(decoded.preferred_username).toBe('student1');
+    });
+
+    it('rejects RS256 token signed by untrusted/different private key', () => {
+      const forgedToken = makeRs256Token({
+        preferred_username: 'student1',
+        exp: Math.floor(Date.now() / 1000) + 300,
+        azp: 'saras-portal'
+      }, otherKeyPair.privateKey);
+      const decoded = authLib.verifyTokenSignatureAndPayload(forgedToken, { publicKey });
+      expect(decoded).toBeNull();
+    });
+
+    it('rejects expired RS256 token', () => {
+      const expiredToken = makeRs256Token({
+        preferred_username: 'student1',
+        exp: Math.floor(Date.now() / 1000) - 60,
+        azp: 'saras-portal'
+      });
+      const decoded = authLib.verifyTokenSignatureAndPayload(expiredToken, { publicKey });
+      expect(decoded).toBeNull();
+    });
+
+    it('strictly rejects non-RS256 algorithms such as HS256', () => {
+      const hsToken = createSignedToken({ preferred_username: 'student1', exp: Math.floor(Date.now() / 1000) + 300, azp: 'saras-portal' }, 'HS256', TEST_SECRET);
+      const decoded = authLib.verifyTokenSignatureAndPayload(hsToken, { publicKey });
+      expect(decoded).toBeNull();
+    });
+
+    it('strictly rejects alg: none tokens', () => {
+      const noneToken = createSignedToken({ preferred_username: 'student1', exp: Math.floor(Date.now() / 1000) + 300, azp: 'saras-portal' }, 'none');
+      const decoded = authLib.verifyTokenSignatureAndPayload(noneToken, { publicKey });
+      expect(decoded).toBeNull();
+    });
+
+    it('rejects token when issuer does not match KEYCLOAK_ISSUER', () => {
+      const token = makeRs256Token({
+        preferred_username: 'student1',
+        iss: 'https://evil.attacker.com/auth/realms/fake',
+        exp: Math.floor(Date.now() / 1000) + 300,
+        azp: 'saras-portal'
+      });
+      const decoded = authLib.verifyTokenSignatureAndPayload(token, {
+        publicKey,
+        expectedIssuer: 'https://sso.s4ras.site/realms/S4RAS'
+      });
+      expect(decoded).toBeNull();
+    });
+
+    it('resolves SIP secrets from SIP_SECRETS_JSON and returns null for unmapped users', () => {
+      const origEnv = process.env.SIP_SECRETS_JSON;
+      try {
+        process.env.SIP_SECRETS_JSON = JSON.stringify({
+          '1001': 'secure-pass-1001',
+          'student1': 'secure-pass-1001'
+        });
+        expect(authLib.getSipSecret('1001', 'student1')).toBe('secure-pass-1001');
+        expect(authLib.getSipSecret('9999', 'unknown_user')).toBeNull();
+      } finally {
+        if (origEnv !== undefined) {
+          process.env.SIP_SECRETS_JSON = origEnv;
+        } else {
+          delete process.env.SIP_SECRETS_JSON;
+        }
+      }
     });
   });
 });

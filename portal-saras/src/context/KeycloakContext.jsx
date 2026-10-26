@@ -218,6 +218,18 @@ export const KeycloakProvider = ({ children }) => {
         console.debug('[Keycloak] authenticated after init', { tokenParsed: keycloakInstance.tokenParsed });
         keycloakInstance.loadUserProfile().then(profileData => {
           setProfile(profileData);
+          fetch('/api/me/context', {
+            headers: { Authorization: `Bearer ${keycloakInstance.token}` }
+          })
+            .then(res => res.ok ? res.json() : null)
+            .then(ctx => {
+              if (ctx?.telephony) {
+                if (ctx.telephony.extension) setSipExtension(ctx.telephony.extension);
+                if (ctx.telephony.secret) setSipSecret(ctx.telephony.secret);
+                if (ctx.telephony.iceServers) setIceServers(ctx.telephony.iceServers);
+              }
+            })
+            .catch(err => console.debug('[Keycloak] Context fetch failed', err));
         }).catch(err => {
           console.warn('[Keycloak] profile fetch failed', err);
         });

@@ -31,7 +31,8 @@
 **/.env.*.local
 !**/.env.example
 **/config/secrets.json
-**/secrets/
+**/secrets/*
+!**/secrets/*.example
 **/*.pem
 **/*.key
 **/*.keystore

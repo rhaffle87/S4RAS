@@ -1,3 +1,4 @@
+import os
 import urllib.request
 import json
 import base64
@@ -5,9 +6,9 @@ import hmac
 import hashlib
 import time
 
-JWT_SECRET = 's4ras-production-shared-secret-2026'
-ADMIN_TOKEN = '399403a0e07a1915374499fc5d30f49cc884f1c2428381b86767f07c1675d595'
-BASE = 'http://127.0.0.1:3000'
+JWT_SECRET = os.environ.get('JWT_SECRET', 'test-jwt-signing-secret')
+ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', '')
+BASE = os.environ.get('PORTAL_BASE_URL', 'http://127.0.0.1:3000')
 
 def b64url_encode(data):
     if isinstance(data, str):

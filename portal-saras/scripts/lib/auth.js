@@ -1,6 +1,7 @@
 /**
- * S4RAS Authentication & Cryptographic Verification Library
- * Handles timing-safe comparisons, JWT signature validation (RSA & HMAC), and user context extraction.
+ * S4RAS Authentication & Cryptographic Verification Library (Phase 1 Hardening)
+ * Handles timing-safe comparisons, strict RS256 JWT validation via crypto,
+ * and secure credential resolution from environment variables (SIP_SECRETS_JSON).
  */
 
 const crypto = require('crypto');
@@ -25,7 +26,6 @@ function formatPublicKey(raw) {
 }
 
 let KEYCLOAK_PUBLIC_KEY = formatPublicKey(process.env.KEYCLOAK_PUBLIC_KEY || process.env.JWT_PUBLIC_KEY);
-let JWT_SECRET = process.env.JWT_SECRET;
 
 function setKeycloakPublicKey(raw) {
   KEYCLOAK_PUBLIC_KEY = formatPublicKey(raw);
@@ -38,7 +38,59 @@ function getKeycloakPublicKey() {
   return KEYCLOAK_PUBLIC_KEY;
 }
 
-function verifyTokenSignatureAndPayload(rawToken) {
+// In-memory JWKS cache (TTL: 10 minutes)
+let jwksCache = {
+  keys: [],
+  expiresAt: 0
+};
+
+function setJwksKeys(keys, ttlMs = 10 * 60 * 1000) {
+  if (Array.isArray(keys)) {
+    jwksCache = {
+      keys,
+      expiresAt: Date.now() + ttlMs
+    };
+  }
+}
+
+async function getJwksKeys(jwksUrl = process.env.KEYCLOAK_JWKS_URL) {
+  const now = Date.now();
+  if (jwksCache.keys.length > 0 && jwksCache.expiresAt > now) {
+    return jwksCache.keys;
+  }
+  if (!jwksUrl) return jwksCache.keys;
+  try {
+    const res = await fetch(jwksUrl, { signal: AbortSignal.timeout(3000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.keys)) {
+        jwksCache = {
+          keys: data.keys,
+          expiresAt: now + 10 * 60 * 1000
+        };
+        return jwksCache.keys;
+      }
+    }
+  } catch (err) {
+    console.warn(`[JWKS Fetch Warning] ${err.message}`);
+  }
+  return jwksCache.keys;
+}
+
+function getSipSecret(extension, username) {
+  let secretsMap = {};
+  if (process.env.SIP_SECRETS_JSON) {
+    try {
+      secretsMap = JSON.parse(process.env.SIP_SECRETS_JSON);
+    } catch {
+      console.warn('[SIP Secrets] Failed to parse SIP_SECRETS_JSON');
+    }
+  }
+  const secret = secretsMap[extension] || (username && secretsMap[username.toLowerCase()]) || process.env[`SIP_SECRET_${extension}`] || null;
+  return secret || null;
+}
+
+function verifyTokenSignatureAndPayload(rawToken, options = {}) {
   if (!rawToken || typeof rawToken !== 'string') return null;
   const parts = rawToken.split('.');
   if (parts.length !== 3) return null;
@@ -52,61 +104,93 @@ function verifyTokenSignatureAndPayload(rawToken) {
     return null;
   }
 
-  // Anti-forgery check: unconditional rejection of 'none' algorithm
-  if (!header || !header.alg || header.alg.toLowerCase() === 'none') {
-    console.warn('[JWT Security] Rejected token with insecure alg: none');
+  // Strict Alg enforcement: RS256 ONLY. Reject none, HS256, ES256, etc.
+  if (!header || !header.alg || header.alg.toUpperCase() !== 'RS256') {
     return null;
   }
 
   // Strict Expiration & NBF Claims Validation
   const nowSec = Math.floor(Date.now() / 1000);
   if (payload.exp && payload.exp < nowSec) {
-    console.warn('[JWT Security] Rejected expired token');
     return null;
   }
   if (payload.nbf && payload.nbf > nowSec) {
-    console.warn('[JWT Security] Rejected not-yet-valid token (nbf)');
+    return null;
+  }
+
+  // Issuer Validation (default: https://sso.s4ras.site/realms/S4RAS)
+  const expectedIssuer = options.expectedIssuer || process.env.KEYCLOAK_ISSUER || 'https://sso.s4ras.site/realms/S4RAS';
+  if (payload.iss && payload.iss !== expectedIssuer) {
+    return null;
+  }
+
+  // Authorized Party (azp) Client Allowlist
+  const defaultAllowedAzp = ['front-end', 'saras-portal', 'account', 'broker', 'admin-cli', 'moodle', 'nextcloud', 'jellyfin'];
+  const allowedAzp = options.allowedAzp || (process.env.KEYCLOAK_ALLOWED_CLIENTS
+    ? process.env.KEYCLOAK_ALLOWED_CLIENTS.split(',').map(s => s.trim().toLowerCase())
+    : defaultAllowedAzp);
+
+  if (payload.azp && !allowedAzp.includes(String(payload.azp).toLowerCase())) {
     return null;
   }
 
   // Cryptographic Signature Verification
-  const signedData = `${headerB64}.${payloadB64}`;
+  const signedData = Buffer.from(`${headerB64}.${payloadB64}`);
   const sigBuffer = Buffer.from(signatureB64, 'base64url');
 
-  const rsaKey = getKeycloakPublicKey();
-  if (header.alg.startsWith('RS') && rsaKey) {
+  let keyObject = null;
+
+  // 1. Check explicit key passed in options
+  if (options.publicKey) {
+    try {
+      keyObject = typeof options.publicKey === 'string'
+        ? crypto.createPublicKey(options.publicKey)
+        : options.publicKey;
+    } catch {
+      return null;
+    }
+  }
+
+  // 2. Check JWKS cache matching header.kid
+  if (!keyObject && header.kid && jwksCache.keys.length > 0) {
+    const matchingJwk = jwksCache.keys.find(k => k.kid === header.kid);
+    if (matchingJwk) {
+      try {
+        keyObject = crypto.createPublicKey({ key: matchingJwk, format: 'jwk' });
+      } catch {
+        keyObject = null;
+      }
+    }
+  }
+
+  // 3. Check statically configured KEYCLOAK_PUBLIC_KEY
+  if (!keyObject) {
+    const rsaPem = getKeycloakPublicKey();
+    if (rsaPem) {
+      try {
+        keyObject = crypto.createPublicKey(rsaPem);
+      } catch {
+        keyObject = null;
+      }
+    }
+  }
+
+  if (keyObject) {
     try {
       const verifier = crypto.createVerify('RSA-SHA256');
       verifier.update(signedData);
-      const isVerified = verifier.verify(rsaKey, sigBuffer);
-      if (!isVerified) {
-        console.warn('[JWT Security] RSA Signature verification failed');
-        return null;
-      }
-    } catch (err) {
-      console.warn(`[JWT Security] RSA verification error: ${err.message}`);
-      return null;
-    }
-  } else if (header.alg.startsWith('HS') && JWT_SECRET) {
-    try {
-      const expectedSig = crypto.createHmac('sha256', JWT_SECRET).update(signedData).digest('base64url');
-      if (!safeCompare(signatureB64, expectedSig)) {
-        console.warn('[JWT Security] HMAC Signature verification failed');
-        return null;
-      }
-    } catch (err) {
-      console.warn(`[JWT Security] HMAC verification error: ${err.message}`);
+      const isVerified = verifier.verify(keyObject, sigBuffer);
+      if (!isVerified) return null;
+    } catch {
       return null;
     }
   } else {
-    // Fail-closed in production if no cryptographic key is configured
-    if (process.env.NODE_ENV === 'production') {
-      console.warn('[JWT Security] Fail-closed: KEYCLOAK_PUBLIC_KEY or JWT_SECRET must be configured in production');
+    // Fail-closed: in production or without test bypass, signature cannot be validated
+    if (process.env.NODE_ENV === 'production' || !options.allowDevMock) {
       return null;
     }
-    // In dev / test: require at least a non-empty signature component (reject unsigned/empty sig)
+    // Strict dev/test harness mode: only if explicitly allowed and non-empty sig
     if (!signatureB64 || signatureB64.length < 8) {
-      console.warn('[JWT Security] Rejected unsigned/forged token without signature in dev mode');
       return null;
     }
   }
@@ -114,17 +198,18 @@ function verifyTokenSignatureAndPayload(rawToken) {
   return payload;
 }
 
-function parseTokenContext(req) {
-  const authHeader = req.headers.authorization || '';
+function parseTokenContext(req, options = {}) {
+  const authHeader = req.headers?.authorization || '';
   if (authHeader.startsWith('Bearer ')) {
     const rawToken = authHeader.slice(7).trim();
-    const payload = verifyTokenSignatureAndPayload(rawToken);
+    const payload = verifyTokenSignatureAndPayload(rawToken, options);
     if (payload) {
       const username = (payload.preferred_username || payload.username || '').toLowerCase();
       if (!username) return null;
 
       const dynExt = payload.sip_extension || (username === 'testuser' ? '1079348' : (username === 'admin' || username === 'dev1') ? '1003' : username === 'teacher1' ? '1002' : '1001');
-      const envSipSecret = process.env[`SIP_SECRET_${username.toUpperCase()}`] || process.env[`SIP_SECRET_${dynExt}`] || (process.env.NODE_ENV !== 'production' ? 'dev-mock-sip-secret' : null);
+      const sipSecret = getSipSecret(dynExt, username);
+
       return {
         authenticated: true,
         username,
@@ -134,12 +219,13 @@ function parseTokenContext(req) {
         storage_quota: payload.storage_quota || (username === 'testuser' ? '200GB' : username === 'admin' ? '500GB' : username === 'teacher1' ? '50GB' : '15GB'),
         moodle_cohort: payload.moodle_cohort || (username === 'testuser' ? 'RESEARCH-FELLOW-2026' : username === 'admin' ? 'ADMIN-CLUSTER' : 'KOM-401-2026'),
         sip_extension: dynExt,
-        sip_secret: payload.sip_secret || envSipSecret || null,
+        sip_secret: sipSecret, // Only returned if token verified and configured in SIP_SECRETS_JSON
         roles: payload.realm_access?.roles || ['student']
       };
     }
   }
 
+  // If no valid token, return unauthenticated public context (SIP secret is NEVER returned)
   return null;
 }
 
@@ -148,8 +234,10 @@ module.exports = {
   formatPublicKey,
   setKeycloakPublicKey,
   getKeycloakPublicKey,
+  setJwksKeys,
+  getJwksKeys,
+  getSipSecret,
   verifyTokenSignatureAndPayload,
   parseTokenContext,
-  KEYCLOAK_PUBLIC_KEY,
-  JWT_SECRET
+  KEYCLOAK_PUBLIC_KEY
 };

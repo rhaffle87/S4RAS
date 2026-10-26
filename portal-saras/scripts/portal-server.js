@@ -1322,8 +1322,8 @@ app.post('/api/announcements', (req, res) => {
   const user = parseTokenContext(req);
   const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'testuser'));
 
-  const reqToken = req.headers['x-admin-token'] || req.headers['x-deploy-token'] || req.headers.authorization?.replace('Bearer ', '');
-  const validAdminToken = process.env.ADMIN_TOKEN || VALID_DEPLOY_TOKEN;
+  const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
+  const validAdminToken = process.env.ADMIN_TOKEN;
   const isTokenValid = Boolean(validAdminToken && safeCompare(reqToken, validAdminToken));
 
   if (!isTokenValid && !isUserAdmin) {
@@ -1382,8 +1382,8 @@ app.delete('/api/announcements/:id', (req, res) => {
   const user = parseTokenContext(req);
   const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
 
-  const reqToken = req.headers['x-admin-token'] || req.headers['x-deploy-token'] || req.headers.authorization?.replace('Bearer ', '');
-  const validAdminToken = process.env.ADMIN_TOKEN || VALID_DEPLOY_TOKEN;
+  const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
+  const validAdminToken = process.env.ADMIN_TOKEN;
   const isTokenValid = Boolean(validAdminToken && safeCompare(reqToken, validAdminToken));
 
   if (!isTokenValid && !isUserAdmin) {
