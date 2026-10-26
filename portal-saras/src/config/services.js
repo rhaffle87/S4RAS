@@ -30,7 +30,7 @@ const services = [
     title: 'Jellyfin IPTV',
     description: 'Layanan IPTV untuk siaran dan konten video.',
     iconName: 'Tv',
-    url: 'https://iptv.s4ras.site',
+    url: 'https://iptv.s4ras.site/sso/OID/start/keycloak',
     internalUrl: 'http://192.168.10.200:8096'
   },
   {
@@ -55,6 +55,7 @@ const services = [
     description: 'Layanan telepon berbasis IP untuk civitas.',
     iconName: 'Phone',
     url: 'https://voip.s4ras.site',
+    action: 'open-phone',
     internalUrl: 'http://192.168.10.202'
   },
   {
@@ -62,7 +63,7 @@ const services = [
     title: 'Monitoring',
     description: 'Dashboard monitoring untuk infrastruktur S4RAS.',
     iconName: 'BarChart3',
-    url: 'https://monitor.s4ras.site',
+    url: 'https://monitor.s4ras.site/login/generic_oauth',
     internalUrl: 'http://192.168.10.204:3000'
   },
   {

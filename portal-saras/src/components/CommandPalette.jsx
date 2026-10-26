@@ -107,10 +107,15 @@ function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
       group: 'services',
       title: s.title,
       desc: s.description,
-      external: !isInternal(s.url),
+      external: s.action === 'open-phone' ? false : !isInternal(s.url),
       run: () => {
-        if (isInternal(s.url)) window.location.assign(s.url);
-        else window.open(s.url, '_blank', 'noopener,noreferrer');
+        if (s.action === 'open-phone') {
+          window.dispatchEvent(new CustomEvent('open-campus-phone'));
+        } else if (isInternal(s.url)) {
+          window.location.assign(s.url);
+        } else {
+          window.open(s.url, '_blank', 'noopener,noreferrer');
+        }
       },
       keywords: s.key,
     }));

@@ -106,7 +106,7 @@ const APP_CATEGORIES = [
         title: 'Jellyfin IPTV',
         desc: 'Layanan IPTV untuk siaran langsung dan katalog video pembelajaran',
         icon: 'Tv',
-        url: 'https://iptv.s4ras.site',
+        url: 'https://iptv.s4ras.site/sso/OID/start/keycloak',
         color: 'from-brand/15 to-neutral-bg3',
         iconColor: 'text-brand-light'
       },
@@ -157,7 +157,7 @@ const APP_CATEGORIES = [
         title: 'Monitoring Grafana',
         desc: 'Dashboard telemetri infrastruktur kluster dan metrik server real-time',
         icon: 'BarChart3',
-        url: 'https://monitor.s4ras.site',
+        url: 'https://monitor.s4ras.site/login/generic_oauth',
         color: 'from-amber-500/20 to-yellow-600/20',
         iconColor: 'text-amber-400'
       },
@@ -239,7 +239,7 @@ const ALL_SERVICES_MAP = {
     subtitle: 'Streaming Edukasi Lokal',
     subtitle_en: 'Local Media Streaming',
     icon: 'Tv',
-    url: 'https://iptv.s4ras.site',
+    url: 'https://iptv.s4ras.site/sso/OID/start/keycloak',
     gradient: 'from-red-600 to-rose-700',
     color: 'from-rose-500/20 to-red-600/20',
     iconColor: 'text-rose-400'
@@ -288,7 +288,7 @@ const ALL_SERVICES_MAP = {
     subtitle: 'Telemetri Klaster 3T',
     subtitle_en: '3T Cluster Telemetry',
     icon: 'BarChart3',
-    url: 'https://monitor.s4ras.site',
+    url: 'https://monitor.s4ras.site/login/generic_oauth',
     gradient: 'from-rose-600 to-red-700',
     color: 'from-rose-500/20 to-red-600/20',
     iconColor: 'text-rose-400'
