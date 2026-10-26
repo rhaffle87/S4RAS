@@ -82,10 +82,12 @@ def update_acl(api_key, tailnet=DEFAULT_TAILNET):
 def invite_user(api_key, email=NATHAN_EMAIL, tailnet=DEFAULT_TAILNET, role="admin"):
     url = f"https://api.tailscale.com/api/v2/tailnet/{tailnet}/user-invites"
     print(f"[*] Sending invite to '{email}' as '{role}' on '{tailnet}'...")
-    payload = {"email": email, "role": role}
+    payload = [{"email": email, "role": role}]
     code, res = api_request(url, api_key, method="POST", data=payload)
     if code in (200, 201):
         print(f"[+] Invite sent successfully to {email}! (HTTP {code})")
+        if isinstance(res, list) and len(res) > 0:
+            print(f"[+] Invite URL: {res[0].get('inviteUrl')}")
         return True
     else:
         print(f"[-] Failed to invite user (HTTP {code}): {res}")
