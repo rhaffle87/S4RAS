@@ -655,6 +655,22 @@ describe('Strict RS256 JWT Verification (scripts/lib/auth.js)', () => {
       expect(res.status).toBe(200);
       expect(res.body.status).toBe('proxied');
     });
+
+    it('returns 200 OK when authenticated nathan1 (Super Admin) accesses /benchmark and /api/deploy', () => {
+      const nathanToken = createSignedToken({
+        preferred_username: 'nathan1',
+        realm_access: { roles: ['admin', 'Super Admin'] },
+        exp: Math.floor(Date.now() / 1000) + 3600
+      }, 'HS256', TEST_SECRET);
+
+      const resBenchmark = handleBenchmarkEndpoint({ headers: { authorization: `Bearer ${nathanToken}` } }, 'valid-token', TEST_SECRET);
+      expect(resBenchmark.status).toBe(200);
+      expect(resBenchmark.body.status).toBe('proxied');
+
+      const resDeploy = handleDeployEndpoint({ headers: { authorization: `Bearer ${nathanToken}` } }, 'valid-deploy-token', TEST_SECRET);
+      expect(resDeploy.status).toBe(200);
+      expect(resDeploy.body.status).toBe('success');
+    });
   });
 
 });

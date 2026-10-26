@@ -48,7 +48,7 @@ export const KeycloakProvider = ({ children }) => {
       const hasAdmin =
         realmRoles.some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator') ||
         clientRoles.some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin') ||
-        username === 'admin' || username === 'dev1';
+        username === 'admin' || username === 'dev1' || username === 'nathan1';
 
       const hasTeacher =
         realmRoles.some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher') ||
@@ -65,7 +65,7 @@ export const KeycloakProvider = ({ children }) => {
       const computedPersona = (username === 'testuser' || hasAdmin) ? 'dev' : hasTeacher ? 'teacher' : 'student';
       setPersona(computedPersona);
 
-      const computedRoleLabel = (username === 'testuser') ? 'Research Fellow' : hasAdmin ? 'Administrator' : hasTeacher ? 'Dosen' : 'Mahasiswa';
+      const computedRoleLabel = (username === 'nathan1') ? 'Super Admin' : (username === 'testuser') ? 'Research Fellow' : hasAdmin ? 'Administrator' : hasTeacher ? 'Dosen' : 'Mahasiswa';
       setRoleLabel(computedRoleLabel);
 
       // Extract dynamic token attributes mapped from Keycloak S4RAS Realm
@@ -73,9 +73,9 @@ export const KeycloakProvider = ({ children }) => {
       const rawExt = tp.sip_extension || (hasAdmin ? '1003' : hasTeacher ? '1002' : '1001');
       const dynExt = normalizeSipExtension(rawExt, hasAdmin, hasTeacher);
       const dynSecret = tp.sip_secret || '';
-      const dynDept = tp.department || (username === 'testuser' ? 'Research Fellowship / S4RAS' : hasAdmin ? 'Rektorat & Administrasi Sistem' : hasTeacher ? 'Teknik Elektro & Telematika' : 'Teknik Informatika');
-      const dynQuota = tp.storage_quota || (username === 'testuser' ? '200GB' : hasAdmin ? '500GB' : hasTeacher ? '50GB' : '15GB');
-      const dynCohort = tp.moodle_cohort || (username === 'testuser' ? 'RESEARCH-FELLOW-2026' : hasAdmin ? 'ADMIN-CLUSTER' : hasTeacher ? 'FACULTY-2026' : 'KOM-401-2026');
+      const dynDept = tp.department || (username === 'nathan1' ? 'Co-Developer & Cluster Architecture' : username === 'testuser' ? 'Research Fellowship / S4RAS' : hasAdmin ? 'Rektorat & Administrasi Sistem' : hasTeacher ? 'Teknik Elektro & Telematika' : 'Teknik Informatika');
+      const dynQuota = tp.storage_quota || (username === 'nathan1' ? '500GB' : username === 'testuser' ? '200GB' : hasAdmin ? '500GB' : hasTeacher ? '50GB' : '15GB');
+      const dynCohort = tp.moodle_cohort || (username === 'nathan1' ? 'ADMIN-CLUSTER' : username === 'testuser' ? 'RESEARCH-FELLOW-2026' : hasAdmin ? 'ADMIN-CLUSTER' : hasTeacher ? 'FACULTY-2026' : 'KOM-401-2026');
 
       setSipExtension(dynExt);
       setSipSecret(dynSecret);

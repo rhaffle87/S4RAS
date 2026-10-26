@@ -477,7 +477,7 @@ const VALID_DEPLOY_TOKEN = process.env.DEPLOY_TOKEN;
 
 app.post('/api/deploy', async (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1'));
 
   const reqToken = req.headers['x-deploy-token'] || req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const isTokenValid = Boolean(VALID_DEPLOY_TOKEN && safeCompare(reqToken, VALID_DEPLOY_TOKEN));
@@ -787,7 +787,7 @@ app.post('/api/webhooks/event', (req, res) => {
 
   // RBAC for user event dispatch: standard users cannot inject critical infrastructure / system events
   if (user && user.authenticated && !isClusterAuthorized) {
-    const isUserAdmin = Boolean(user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1');
+    const isUserAdmin = Boolean(user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1');
     const FORBIDDEN_CLIENT_PREFIXES = ['system.', 'infra.', 'security.', 'voicemail.system', 'backup.', 'dr.'];
     const eventType = String(payload.type || '').toLowerCase();
     const isCritical = FORBIDDEN_CLIENT_PREFIXES.some((prefix) => eventType.startsWith(prefix));
@@ -840,7 +840,7 @@ app.get('/api/academic/summary', async (req, res) => {
     return res.json(cached);
   }
 
-  const isFellowOrAdmin = user.username === 'testuser' || user.username === 'admin' || user.username === 'dev1';
+  const isFellowOrAdmin = user.username === 'testuser' || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1';
   const isFaculty = user.username === 'teacher1';
 
   const academicData = {
@@ -1341,7 +1341,7 @@ app.get('/api/announcements/stream', (req, res) => {
 // Admin POST announcement endpoint (Phase 34.5)
 app.post('/api/announcements', (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1'));
 
   const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const validAdminToken = process.env.ADMIN_TOKEN;
@@ -1401,7 +1401,7 @@ app.post('/api/announcements', (req, res) => {
 // Admin DELETE announcement endpoint
 app.delete('/api/announcements/:id', (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1'));
 
   const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const validAdminToken = process.env.ADMIN_TOKEN;
@@ -1446,7 +1446,7 @@ app.delete('/api/announcements/:id', (req, res) => {
 // ── Proxy to JMeter Benchmark Report server on VM 209 (Protected: Admin Only) ──────
 app.use('/benchmark', (req, res) => {
   const user = parseTokenContext(req);
-  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1'));
+  const isUserAdmin = Boolean(user && user.authenticated && (user.roles?.includes('admin') || user.roles?.includes('Super Admin') || user.username === 'admin' || user.username === 'dev1' || user.username === 'nathan1'));
   const reqToken = req.headers['x-admin-token'] || req.headers.authorization?.replace('Bearer ', '');
   const validAdminToken = process.env.ADMIN_TOKEN;
   const isTokenValid = Boolean(validAdminToken && safeCompare(reqToken, validAdminToken));

@@ -231,7 +231,7 @@ function parseTokenContext(req, options = {}) {
       const username = (payload.preferred_username || payload.username || '').toLowerCase();
       if (!username) return null;
 
-      const isAdmin = username === 'admin' || username === 'dev1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator');
+      const isAdmin = username === 'admin' || username === 'dev1' || username === 'nathan1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator');
       const isTeacher = username === 'teacher1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher');
       const rawExt = payload.sip_extension || (isAdmin ? '1003' : isTeacher ? '1002' : '1001');
       const dynExt = normalizeSipExtension(rawExt, isAdmin, isTeacher);
@@ -242,9 +242,9 @@ function parseTokenContext(req, options = {}) {
         username,
         name: payload.name || `${payload.given_name || ''} ${payload.family_name || ''}`.trim() || username,
         email: payload.email || `${username}@s4ras.site`,
-        department: payload.department || (username === 'testuser' ? 'Research Fellowship / S4RAS' : username === 'admin' ? 'Rektorat & Administrasi Sistem' : username === 'teacher1' ? 'Teknik Elektro & Telematika' : 'Teknik Informatika'),
-        storage_quota: payload.storage_quota || (username === 'testuser' ? '200GB' : username === 'admin' ? '500GB' : username === 'teacher1' ? '50GB' : '15GB'),
-        moodle_cohort: payload.moodle_cohort || (username === 'testuser' ? 'RESEARCH-FELLOW-2026' : username === 'admin' ? 'ADMIN-CLUSTER' : 'KOM-401-2026'),
+        department: payload.department || (username === 'nathan1' ? 'Co-Developer & Cluster Architecture' : username === 'testuser' ? 'Research Fellowship / S4RAS' : username === 'admin' ? 'Rektorat & Administrasi Sistem' : username === 'teacher1' ? 'Teknik Elektro & Telematika' : 'Teknik Informatika'),
+        storage_quota: payload.storage_quota || (username === 'nathan1' ? '500GB' : username === 'testuser' ? '200GB' : username === 'admin' ? '500GB' : username === 'teacher1' ? '50GB' : '15GB'),
+        moodle_cohort: payload.moodle_cohort || (username === 'nathan1' ? 'ADMIN-CLUSTER' : username === 'testuser' ? 'RESEARCH-FELLOW-2026' : username === 'admin' ? 'ADMIN-CLUSTER' : 'KOM-401-2026'),
         sip_extension: dynExt,
         sip_secret: sipSecret, // Only returned if token verified and configured in SIP_SECRETS_JSON
         roles: payload.realm_access?.roles || ['student']
