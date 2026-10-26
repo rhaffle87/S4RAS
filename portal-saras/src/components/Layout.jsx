@@ -325,13 +325,14 @@ function Layout({ children }) {
               <button
                 type="button"
                 onClick={() => setPhoneOpen(true)}
-                className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 sm:gap-2 border transition-all bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/25 hover:bg-[#dc2626]/15 cursor-pointer active:scale-95 shadow-sm shrink-0"
-                title="Buka S4RAS Campus WebPhone"
-                aria-label="Campus Phone"
+                className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 sm:gap-2 border transition-all bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] text-[var(--color-text-primary)] border-[var(--color-border-default)] cursor-pointer active:scale-95 shadow-sm shrink-0"
+                title="Buka S4RAS WebPhone"
+                aria-label="WebPhone"
               >
-                <Phone size={13} className="text-[#dc2626] shrink-0" />
-                <span className="hidden sm:inline">Campus Phone</span>
-                <span className="font-mono text-[11px] opacity-90">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                <Phone size={13} className="text-[var(--color-text-secondary)] shrink-0" />
+                <span className="hidden sm:inline">WebPhone</span>
+                <span className="font-mono text-[11px] text-[var(--color-text-secondary)]">
                   ({sipExtension || '1001'})
                 </span>
               </button>

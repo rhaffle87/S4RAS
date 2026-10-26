@@ -11,7 +11,8 @@ export default function SoftphoneScreen({
   handleClear,
   cameraError,
   ivrMessage,
-  onCallVoicemail
+  onCallVoicemail,
+  onSelectQuickDial
 }) {
   const [voicemailCount, setVoicemailCount] = useState(0);
 
@@ -32,28 +33,30 @@ export default function SoftphoneScreen({
 
   if (callState === 'idle') {
     return (
-      <div className="bg-[#050608] border border-white/15 rounded-xl p-3.5 mb-3 shadow-[inset_0_2px_10px_rgba(0,0,0,0.8)]">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>IDLE · SIAP MEMANGGIL</span>
-            <span className="ml-1 px-1 py-0.2 rounded text-[8px] font-mono bg-rose-500/15 text-rose-400 border border-rose-500/30">ICE/TURN</span>
+      <div className="bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl p-4 mb-3 transition-colors">
+        {/* Status Bar */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            <span className="text-xs font-medium text-[var(--color-text-secondary)]">
+              Siap Memanggil
+            </span>
           </div>
           <button
             onClick={onCallVoicemail}
-            className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] font-mono text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            title="Dengarkan Pesan Suara (Ext 500)"
+            className="rounded-lg px-2.5 py-1 bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="Dengarkan Kotak Suara (Ext 500 / *97)"
           >
-            <Voicemail size={11} className={voicemailCount > 0 ? 'text-amber-400 animate-pulse' : 'text-neutral-400'} />
-            <span>Voicemail: {voicemailCount} Baru</span>
+            <Voicemail size={13} className={voicemailCount > 0 ? 'text-amber-400' : 'text-[var(--color-text-secondary)]'} />
+            <span>Voicemail ({voicemailCount})</span>
           </button>
         </div>
 
         {/* Digits Readout */}
-        <div className="flex items-center justify-between min-h-[36px]">
-          <span className="text-2xl font-mono font-bold text-white tracking-widest pl-1">
+        <div className="flex items-center justify-between min-h-[38px]">
+          <span className="text-2xl font-mono font-bold text-[var(--color-text-primary)] tracking-widest pl-0.5">
             {dialedNumber || (
-              <span className="text-neutral-600 tracking-normal font-sans text-sm">
+              <span className="text-[var(--color-text-muted)] tracking-normal font-sans text-xs sm:text-sm">
                 Tekan nomor ekstensi...
               </span>
             )}
@@ -62,14 +65,14 @@ export default function SoftphoneScreen({
             <div className="flex items-center gap-1">
               <button
                 onClick={handleBackspace}
-                className="p-1 text-neutral-400 hover:text-white rounded hover:bg-white/10 cursor-pointer"
+                className="p-1.5 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] rounded-lg hover:bg-[var(--color-neutral-bg3)] transition-colors cursor-pointer"
                 title="Hapus Karakter"
               >
                 <Delete size={16} />
               </button>
               <button
                 onClick={handleClear}
-                className="text-[11px] text-neutral-400 hover:text-[#ef4444] px-1.5 py-0.5 rounded hover:bg-white/10 cursor-pointer font-sans"
+                className="text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] px-2 py-1 rounded-lg hover:bg-[var(--color-neutral-bg3)] transition-colors cursor-pointer font-sans"
               >
                 Reset
               </button>
@@ -77,12 +80,35 @@ export default function SoftphoneScreen({
           )}
         </div>
 
-        {/* Audio Visualizer Dots (Resting) */}
-        <div className="flex items-center justify-center gap-1.5 mt-2">
-          {[...Array(8)].map((_, i) => (
-            <span key={i} className="w-1 h-1 rounded-full bg-emerald-500/30" />
-          ))}
-        </div>
+        {/* Quick Dial Chips (when idle & empty) */}
+        {!dialedNumber && (
+          <div className="mt-3 pt-3 border-t border-[var(--color-border-default)] flex items-center justify-between gap-1.5 flex-wrap">
+            <span className="text-[11px] text-[var(--color-text-muted)] font-medium">Pintasan:</span>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => onSelectQuickDial && onSelectQuickDial('1000')}
+                className="rounded-lg px-2.5 py-1 bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] inline-flex items-center gap-1 transition-colors cursor-pointer font-medium"
+              >
+                Operator (1000)
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectQuickDial && onSelectQuickDial('600')}
+                className="rounded-lg px-2.5 py-1 bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] inline-flex items-center gap-1 transition-colors cursor-pointer font-medium"
+              >
+                Uji Audio (600)
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectQuickDial && onSelectQuickDial('*97')}
+                className="rounded-lg px-2.5 py-1 bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] inline-flex items-center gap-1 transition-colors cursor-pointer font-medium"
+              >
+                Voicemail (*97)
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -90,18 +116,22 @@ export default function SoftphoneScreen({
   // Active call screen
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="bg-[#12141c] border border-white/10 rounded-xl px-4 py-2 mb-3 w-full max-w-xs flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>
+      <div className="bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl px-4 py-2.5 mb-3 w-full max-w-xs flex items-center justify-between transition-colors">
+        <div className="flex items-center gap-2">
+          <span
+            className={`w-2 h-2 rounded-full shrink-0 ${
+              callState === 'calling' ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'
+            }`}
+          />
+          <span className="text-xs font-medium text-[var(--color-text-secondary)]">
             {callState === 'calling'
-              ? 'CALLING...'
+              ? 'Memanggil...'
               : callState === 'connected'
-              ? 'TERHUBUNG'
-              : 'ENDED'}
+              ? 'Terhubung'
+              : 'Panggilan Berakhir'}
           </span>
         </div>
-        <span className="font-mono text-xs font-bold text-white">
+        <span className="font-mono text-xs font-semibold text-[var(--color-text-primary)]">
           {callState === 'calling' ? '--:--' : formatTime(callDuration)}
         </span>
       </div>
@@ -113,7 +143,7 @@ export default function SoftphoneScreen({
             <span
               key={i}
               style={{ height: `${h}px` }}
-              className="w-1 bg-emerald-400 rounded-full animate-pulse"
+              className="w-1 bg-emerald-500/80 rounded-full animate-pulse"
             />
           ))}
         </div>
@@ -126,8 +156,8 @@ export default function SoftphoneScreen({
       )}
 
       {ivrMessage && (
-        <div className="w-full bg-[#b91c1c]/15 border border-[#b91c1c]/30 rounded-xl p-2.5 text-xs text-[#ef4444] text-center mb-4 animate-fade-in max-w-xs">
-          <Radio size={13} className="inline mr-1 animate-pulse" />
+        <div className="w-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl p-2.5 text-xs text-[var(--color-text-primary)] text-center mb-4 max-w-xs transition-colors">
+          <Radio size={13} className="inline mr-1 text-[var(--color-text-secondary)]" />
           {ivrMessage}
         </div>
       )}

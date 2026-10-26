@@ -10,14 +10,14 @@ export default function SoftphoneKeypad({
 }) {
   if (isCallActive) {
     return (
-      <div className="w-full mt-4 border-t border-white/10 pt-3 max-w-xs">
-        <p className="text-[10px] text-neutral-400 mb-1.5 uppercase font-mono">IVR DTMF Pad</p>
+      <div className="w-full mt-4 border-t border-[var(--color-border-default)] pt-3 max-w-xs">
+        <p className="text-[10px] text-[var(--color-text-secondary)] mb-1.5 uppercase font-mono">IVR DTMF Pad</p>
         <div className="grid grid-cols-4 gap-1.5">
           {['1', '2', '3', '4'].map((k) => (
             <button
               key={k}
               onClick={() => onKeyPress(k)}
-              className="py-1.5 rounded-lg bg-[#12141c] hover:bg-white/10 border border-white/10 text-white text-xs font-bold font-mono transition-colors active:scale-95 cursor-pointer"
+              className="py-1.5 rounded-lg bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-[var(--color-text-primary)] text-xs font-bold font-mono transition-colors active:scale-95 cursor-pointer"
             >
               {k}
             </button>
@@ -35,11 +35,11 @@ export default function SoftphoneKeypad({
           <button
             key={key}
             onClick={() => onKeyPress(key)}
-            className="h-12 rounded-xl bg-[#12141c] hover:bg-white/10 active:bg-[#b91c1c]/25 border border-white/10 hover:border-white/20 active:border-[#b91c1c] flex flex-col items-center justify-center transition-all active:scale-95 cursor-pointer shadow-sm"
+            className="h-12 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] active:scale-[0.98] border border-[var(--color-border-default)] flex flex-col items-center justify-center transition-all cursor-pointer shadow-sm"
           >
-            <span className="text-base font-bold text-white font-mono leading-none">{key}</span>
+            <span className="text-base font-bold text-[var(--color-text-primary)] font-mono leading-none">{key}</span>
             {sub && (
-              <span className="text-[9px] text-neutral-400 font-semibold tracking-wider mt-0.5">
+              <span className="text-[9px] text-[var(--color-text-secondary)] font-semibold tracking-wider mt-0.5">
                 {sub}
               </span>
             )}
@@ -52,13 +52,13 @@ export default function SoftphoneKeypad({
         <button
           disabled={!dialedNumber}
           onClick={onCall}
-          className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 font-bold text-sm transition-all shadow-lg ${
+          className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm transition-all shadow-md ${
             dialedNumber
-              ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white cursor-pointer shadow-[0_4px_20px_rgba(16,185,129,0.35)] active:scale-98'
-              : 'bg-[#12141c] text-neutral-600 cursor-not-allowed border border-white/5'
+              ? 'bg-[var(--color-text-primary)] text-[var(--color-neutral-bg1)] hover:opacity-90 cursor-pointer active:scale-98'
+              : 'bg-[var(--color-neutral-bg2)] text-[var(--color-text-muted)] cursor-not-allowed border border-[var(--color-border-default)]'
           }`}
         >
-          <Phone size={16} />
+          <Phone size={15} />
           <span>Panggil Ekstensi</span>
         </button>
       </div>

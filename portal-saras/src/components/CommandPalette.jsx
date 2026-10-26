@@ -17,8 +17,8 @@ const COPY = {
     services: 'Layanan',
     actions: 'Aksi',
     empty: 'Tidak ada hasil untuk',
-    phone: 'Buka Campus Phone',
-    phoneDesc: 'Telepon WebRTC kampus',
+    phone: 'Buka WebPhone (Telefoni)',
+    phoneDesc: 'Layanan komunikasi suara WebRTC & VoIP',
     results: (n) => `${n} hasil`,
     hints: ['↑↓ pilih', '↵ buka', 'esc tutup'],
   },
@@ -29,8 +29,8 @@ const COPY = {
     services: 'Services',
     actions: 'Actions',
     empty: 'No results for',
-    phone: 'Open Campus Phone',
-    phoneDesc: 'Campus WebRTC phone',
+    phone: 'Open WebPhone (Telephony)',
+    phoneDesc: 'WebRTC voice & VoIP telephony service',
     results: (n) => `${n} result${n === 1 ? '' : 's'}`,
     hints: ['↑↓ select', '↵ open', 'esc close'],
   },
@@ -122,11 +122,29 @@ function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
         desc: copy.phoneDesc,
         Icon: Phone,
         run: () => window.dispatchEvent(new Event('open-campus-phone')),
-        keywords: 'telepon voip phone sip',
+        keywords: 'telepon voip phone sip webrtc dialer softphone',
+      },
+      {
+        id: 'action:call-operator',
+        group: 'actions',
+        title: language === 'en' ? 'Call Operator (1000)' : 'Panggil Operator (1000)',
+        desc: language === 'en' ? 'S4RAS Technical Support & Helpdesk' : 'Pusat Bantuan & Layanan Operator S4RAS',
+        Icon: Phone,
+        run: () => window.dispatchEvent(new CustomEvent('open-campus-phone', { detail: { ext: '1000' } })),
+        keywords: 'operator bantuan helpdesk telepon 1000',
+      },
+      {
+        id: 'action:call-echo',
+        group: 'actions',
+        title: language === 'en' ? 'Audio Echo Test (600)' : 'Uji Audio & Gema (600)',
+        desc: language === 'en' ? 'Loopback microphone & latency test' : 'Uji mikrofon dan latensi audio VoIP',
+        Icon: Phone,
+        run: () => window.dispatchEvent(new CustomEvent('open-campus-phone', { detail: { ext: '600' } })),
+        keywords: 'echo test uji audio gema 600',
       },
     ];
     return [...pages, ...svc, ...actions];
-  }, [navItems, navigate, copy.phone, copy.phoneDesc, isAdmin]);
+  }, [navItems, navigate, copy.phone, copy.phoneDesc, isAdmin, language]);
 
   const flat = useMemo(() => {
     const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);

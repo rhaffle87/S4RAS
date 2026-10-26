@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
-  Phone, PhoneCall, PhoneOff, Mic, MicOff, Volume2, VolumeX, Shield, X,
+  Phone, PhoneCall, PhoneOff, Mic, MicOff, Volume2, VolumeX, ShieldCheck, X,
   Clock, RotateCcw, Trash2, Video, VideoOff, BookOpen, Search, Server
 } from 'lucide-react';
 import { useKeycloak } from '../context/KeycloakContext';
@@ -31,19 +31,44 @@ const DIALPAD_KEYS = [
   { key: '#', sub: '' },
 ];
 
-const EXTENSION_DIRECTORY = [
-  { ext: '1000', label: 'Automated Campus IVR', desc: 'Menu Suara Interaktif Utama Kampus', category: 'service', badge: 'Layanan PBX', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '600', label: 'VoIP Audio Echo Test', desc: 'Uji Latensi & Loopback Kualitas Mikrofon', category: 'service', badge: 'Layanan PBX', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '800', label: 'Campus Conference Bridge', desc: 'Ruang Konferensi Audio Multi-Pihak', category: 'service', badge: 'Layanan PBX', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '500', label: 'Voicemail Central', desc: 'Pusat Kotak Suara & Rekaman Pesan Sivitas', category: 'service', badge: 'Layanan PBX', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '1001', label: 'Budi Pratama', desc: 'Perwakilan Mahasiswa / Student Council', category: 'student', badge: 'Mahasiswa', roleColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
-  { ext: '1002', label: 'Dr. Hendra Wijaya', desc: 'Dosen Komputasi Awan / Faculty Desk', category: 'academic', badge: 'Dosen', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '1003', label: 'IT DevOps Team', desc: 'Infrastruktur Cloud & Pemeliharaan Server', category: 'admin', badge: 'DevOps', roleColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
-  { ext: '1004', label: 'Academic Video Consultation', desc: 'Konsultasi Akademik Tatap Muka (VP8 HD)', category: 'admin', badge: 'Video HD', roleColor: 'bg-red-500/15 text-red-400 border-red-500/30' },
-  { ext: '1074700', label: 'S4RAS Administrator', desc: 'Operator WebRTC & Security Center', category: 'admin', badge: 'Admin', roleColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30' },
-  { ext: '1079348', label: 'Sivitas Peneliti', desc: 'Research Fellow & Cluster Architect', category: 'admin', badge: 'Fellow', roleColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
-  { ext: '201', label: 'VM 201 PBX Trunk', desc: 'Rute Trunk Inter-PBX Asterisk 20 Simpul 1', category: 'trunk', badge: 'Trunk', roleColor: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
+export const DIRECTORY_CATEGORIES = [
+  {
+    id: 'support',
+    title: 'Pusat Bantuan & Koordinasi 3T',
+    items: [
+      { ext: '1000', label: 'Operator Bantuan S4RAS', desc: 'Pusat Bantuan & Layanan Komunikasi 3T', badge: 'Operator' },
+      { ext: '1003', label: 'Administrator Sistem', desc: 'Keamanan Klaster & Administrasi Server', badge: 'Admin' },
+      { ext: '8000', label: 'Konferensi Suara Desa/Kelas', desc: 'Ruang Konferensi Audio Multi-Pihak', badge: 'Konferensi' },
+      { ext: '800', label: 'Campus Conference Bridge', desc: 'Bridge Konferensi Suara Alternatif', badge: 'Bridge' },
+    ]
+  },
+  {
+    id: 'civitas',
+    title: 'Sivitas & Pengajar (LMS/Edukasi)',
+    items: [
+      { ext: '1002', label: 'Dr. Hendra Wijaya', desc: 'Dosen Komputasi Awan / Faculty Desk', badge: 'Dosen' },
+      { ext: '1001', label: 'Budi Pratama', desc: 'Perwakilan Siswa / Student Council', badge: 'Mahasiswa' },
+      { ext: '1004', label: 'Konsultasi Video Akademik', desc: 'Konsultasi Tatap Muka (VP8 HD)', badge: 'Video HD' },
+      { ext: '1079348', label: 'Sivitas Peneliti', desc: 'Research Fellow & Cluster Architect', badge: 'Peneliti' },
+    ]
+  },
+  {
+    id: 'utilities',
+    title: 'Utilitas & Diagnostik Jaringan (PBX)',
+    items: [
+      { ext: '*97', label: 'Kotak Suara (Voicemail)', desc: 'Pusat Pesan Suara & Rekaman Sivitas', badge: 'Voicemail' },
+      { ext: '500', label: 'Voicemail Central PBX', desc: 'Akses Saluran Pesan Suara Alternatif', badge: 'Voicemail' },
+      { ext: '600', label: 'Uji Gema Audio (Echo Test)', desc: 'Uji Latensi & Loopback Kualitas Mikrofon', badge: 'Echo Test' },
+      { ext: '*60', label: 'Informasi Waktu Server', desc: 'Voice Clock Waktu Nyata Server Asterisk', badge: 'Waktu' },
+      { ext: '700', label: 'Simulasi Antrean Layanan', desc: 'Uji Distribusi Panggilan Otomatis PBX', badge: 'Antrean' },
+      { ext: '201', label: 'VM 201 PBX Trunk', desc: 'Rute Trunk Inter-PBX Asterisk 20 Simpul 1', badge: 'Trunk' },
+    ]
+  }
 ];
+
+export const EXTENSION_DIRECTORY = DIRECTORY_CATEGORIES.flatMap(cat =>
+  cat.items.map(item => ({ ...item, category: cat.id }))
+);
 
 export const WEBRTC_ICE_SERVERS = [
   { urls: 'stun:192.168.10.202:3478' }
@@ -139,52 +164,160 @@ export default function SoftphoneModal({ isOpen, onClose }) {
       osc1.stop(ctx.currentTime + 0.16);
       osc2.stop(ctx.currentTime + 0.16);
     } catch {
-      // Ignore audio failure
+      // Audio context may fail if user hasn't interacted with document
     }
   }, [getAudioContext]);
 
-  // Speech synthesis for automated IVR
-  const speakText = useCallback((text) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      utterance.lang = 'en-US';
-      window.speechSynthesis.speak(utterance);
+  // Play realistic Ringback Tone (440Hz + 480Hz with European 2s on / 4s off cadence)
+  const playRingback = useCallback(() => {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return () => {};
+
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+
+      osc1.frequency.value = 440;
+      osc2.frequency.value = 480;
+
+      gainNode.gain.setValueAtTime(0.06, ctx.currentTime);
+      // Fade out after 1.8s
+      gainNode.gain.setValueAtTime(0.06, ctx.currentTime + 1.8);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.95);
+
+      osc1.connect(gainNode);
+      osc2.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      osc1.start();
+      osc2.start();
+      osc1.stop(ctx.currentTime + 2.0);
+      osc2.stop(ctx.currentTime + 2.0);
+
+      return () => {
+        try {
+          osc1.stop();
+          osc2.stop();
+        } catch {}
+      };
+    } catch {
+      return () => {};
+    }
+  }, [getAudioContext]);
+
+  // Play Busy / Call Ended Reorder Tone
+  const playBusyTone = useCallback(() => {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.frequency.value = 480;
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.4);
+    } catch {}
+  }, [getAudioContext]);
+
+  // Start Echo Test audio loopback simulation
+  const startEchoLoopback = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      echoStreamRef.current = stream;
+
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const source = ctx.createMediaStreamSource(stream);
+      const delay = ctx.createDelay();
+      delay.delayTime.value = 0.28; // 280ms acoustic loopback latency
+
+      const feedback = ctx.createGain();
+      feedback.gain.value = 0.35;
+
+      const masterGain = ctx.createGain();
+      masterGain.gain.value = 0.6;
+
+      source.connect(delay);
+      delay.connect(feedback);
+      feedback.connect(delay);
+      delay.connect(masterGain);
+      masterGain.connect(ctx.destination);
+
+      echoDelayRef.current = { source, delay, feedback, masterGain };
+    } catch {
+      // Microphone permissions denied or not supported
+    }
+  }, [getAudioContext]);
+
+  // Stop Echo Test loopback
+  const stopEchoLoopback = useCallback(() => {
+    if (echoStreamRef.current) {
+      echoStreamRef.current.getTracks().forEach((track) => track.stop());
+      echoStreamRef.current = null;
+    }
+    if (echoDelayRef.current) {
+      try {
+        echoDelayRef.current.source.disconnect();
+        echoDelayRef.current.delay.disconnect();
+        echoDelayRef.current.feedback.disconnect();
+        echoDelayRef.current.masterGain.disconnect();
+      } catch {}
+      echoDelayRef.current = null;
     }
   }, []);
 
-  // Keypad click handler
+  // Handle Video Consultation stream toggle
+  const toggleVideo = async () => {
+    if (isVideoActive) {
+      if (localMediaStreamRef.current) {
+        localMediaStreamRef.current.getTracks().forEach((t) => t.stop());
+        localMediaStreamRef.current = null;
+      }
+      setIsVideoActive(false);
+      setCameraError('');
+    } else {
+      try {
+        setCameraError('');
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false,
+        });
+        localMediaStreamRef.current = stream;
+        setIsVideoActive(true);
+        if (localVideoRef.current) {
+          localVideoRef.current.srcObject = stream;
+        }
+      } catch (err) {
+        setCameraError('Gagal mengakses kamera: ' + (err.message || 'Izin ditolak'));
+        setIsVideoActive(false);
+      }
+    }
+  };
+
+  // Keyboard interaction
   const handleKeyPress = (char) => {
     playDTMF(char);
-    if (callState === 'connected' && (activeCallTarget?.ext === '1000' || dialedNumber === '1000')) {
-      if (char === '1') {
-        const msg = 'Routing to Student Services on Extension 1001.';
-        setIvrMessage(msg);
-        speakText(msg);
-      } else if (char === '2') {
-        const msg = 'Routing to Faculty Support on Extension 1002.';
-        setIvrMessage(msg);
-        speakText(msg);
-      } else if (char === '3') {
-        const msg = 'Routing to Network Operations Center on Extension 1003.';
-        setIvrMessage(msg);
-        speakText(msg);
-      } else if (char === '4') {
-        const msg = 'Entering Echo Audio Diagnostics mode.';
-        setIvrMessage(msg);
-        speakText(msg);
-      } else {
-        const msg = 'Invalid option. Press 1 for Student, 2 for Faculty, 3 for DevOps, 4 for Echo.';
-        setIvrMessage(msg);
-        speakText(msg);
+    if (callState === 'idle') {
+      if (dialedNumber.length < 15) {
+        setDialedNumber((prev) => prev + char);
       }
-      return;
-    }
-
-    if (dialedNumber.length < 10) {
-      setDialedNumber((prev) => prev + char);
+    } else if (callState === 'connected') {
+      // Send DTMF in-band during active call (e.g. IVR menu selections)
+      if (activeCallTarget?.ext === '1000') {
+        if (char === '1') setIvrMessage('Menu 1: Layanan Administrasi Akademik & KRS');
+        else if (char === '2') setIvrMessage('Menu 2: Bantuan Teknis Jaringan & SSO S4RAS');
+        else if (char === '3') setIvrMessage('Menu 3: Posko Darurat & Operator Desa 3T');
+        else setIvrMessage(`DTMF Terkirim: [${char}]`);
+      }
     }
   };
 
@@ -196,206 +329,110 @@ export default function SoftphoneModal({ isOpen, onClose }) {
     setDialedNumber('');
   };
 
-  // Start Call
-  const handleCall = (targetExt = dialedNumber) => {
+  // Handle call initiation
+  const handleCall = (targetExt = null) => {
     const ext = targetExt || dialedNumber;
     if (!ext) return;
 
-    if (!sipSecret) {
-      setIvrMessage('Perlu login untuk otentikasi SIP');
-      return;
-    }
-
-    const matched = EXTENSION_DIRECTORY.find((s) => s.ext === ext) || {
+    const matched = EXTENSION_DIRECTORY.find((item) => item.ext === ext);
+    const target = matched || {
       ext,
       label: `Ekstensi ${ext}`,
-      desc: 'PBX Subscriber',
-      badge: 'Inter-PBX'
+      desc: 'Panggilan SIP PJSIP',
+      badge: 'SIP User',
     };
 
-    setActiveCallTarget(matched);
+    setActiveCallTarget(target);
     setCallState('calling');
     setCallDuration(0);
     setIvrMessage('');
 
-    // Simulate ringback tone
-    const ctx = getAudioContext();
-    let ringOsc1, ringOsc2, ringGain;
-    if (ctx) {
-      try {
-        ringOsc1 = ctx.createOscillator();
-        ringOsc2 = ctx.createOscillator();
-        ringGain = ctx.createGain();
-        ringOsc1.frequency.value = 440;
-        ringOsc2.frequency.value = 480;
-        ringGain.gain.setValueAtTime(0.08, ctx.currentTime);
-        ringOsc1.connect(ringGain);
-        ringOsc2.connect(ringGain);
-        ringGain.connect(ctx.destination);
-        ringOsc1.start();
-        ringOsc2.start();
-      } catch {
-        // audio fail
-      }
+    playRingback();
+
+    // If calling video endpoint, auto-start camera
+    if (ext === '1004') {
+      toggleVideo();
     }
 
+    // Simulate network latency & PBX pickup
     setTimeout(() => {
-      if (ringOsc1) {
-        try {
-          ringOsc1.stop();
-          ringOsc2.stop();
-        } catch {
-          // pass
-        }
-      }
       setCallState('connected');
-      if (ext === '1004') {
-        setIsVideoActive(true);
-      }
 
-      if (ext === '1000') {
-        const welcome = 'Welcome to S4RAS Campus Automated Telephony. Press 1 for Student, 2 for Faculty, 3 for IT DevOps, 4 for Echo Test.';
-        setIvrMessage(welcome);
-        speakText(welcome);
-      } else if (ext === '800' || ext === '888') {
-        const welcome = 'Connected to Campus Multi-Party Conference Room 800. You are now speaking with active participants.';
-        setIvrMessage(welcome);
-        speakText(welcome);
-      } else if (ext === '500' || ext === '*98') {
-        const welcome = 'Comedian Mail. Please enter your mailbox number followed by the pound key.';
-        setIvrMessage(welcome);
-        speakText(welcome);
-      } else if (ext === '600') {
-        const welcome = 'Echo test activated. Speak now to test audio latency.';
-        setIvrMessage(welcome);
-        speakText(welcome);
+      // Start call timer
+      timerRef.current = setInterval(() => {
+        setCallDuration((prev) => prev + 1);
+      }, 1000);
 
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-            echoStreamRef.current = stream;
-            try {
-              const audioCtx = getAudioContext();
-              if (audioCtx) {
-                const micNode = audioCtx.createMediaStreamSource(stream);
-                const delayNode = audioCtx.createDelay();
-                delayNode.delayTime.value = 0.35; // 350ms echo delay
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.value = 0.8;
-                micNode.connect(delayNode);
-                delayNode.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                echoDelayRef.current = delayNode;
-              }
-            } catch {
-              // Pass
-            }
-          }).catch(() => {});
+      // Handle specific extension behaviors
+      if (ext === '600') {
+        startEchoLoopback();
+      } else if (ext === '1000') {
+        setIvrMessage('Selamat datang di Layanan Suara S4RAS. Tekan 1 untuk Akademik, 2 untuk IT, 3 untuk Operator.');
+        if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance('Selamat datang di Layanan Suara S4RAS. Silakan pilih menu.');
+          u.lang = 'id-ID';
+          window.speechSynthesis.speak(u);
         }
-      } else {
-        const msg = `Connected to ${matched.label} on SIP Trunk PBX.`;
-        setIvrMessage(msg);
       }
-    }, 1800);
+    }, 2200);
   };
 
-  // Video consultation stream toggle
-  const toggleVideo = async () => {
-    if (isVideoActive) {
-      if (localMediaStreamRef.current) {
-        localMediaStreamRef.current.getTracks().forEach((track) => track.stop());
-        localMediaStreamRef.current = null;
-      }
-      setIsVideoActive(false);
-    } else {
-      setCameraError('');
-      try {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          const cameraPromise = navigator.mediaDevices.getUserMedia({
-            video: { width: { ideal: 640 }, height: { ideal: 480 }, frameRate: { ideal: 24 } },
-            audio: false
-          });
-          const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1200));
-          const stream = await Promise.race([cameraPromise, timeoutPromise]);
-          localMediaStreamRef.current = stream;
-          if (localVideoRef.current) {
-            localVideoRef.current.srcObject = stream;
-          }
-        }
-      } catch (err) {
-        if (err?.message !== 'timeout') {
-          console.warn('Webcam access notice:', err);
-        }
-        setCameraError('Simulasi umpan video WebRTC aktif (VP8/H.264 passthrough).');
-      }
-      setIsVideoActive(true);
-    }
-  };
-
-  // End Call
+  // Handle call termination
   const handleHangup = () => {
+    playBusyTone();
+    setCallState('ended');
+
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    stopEchoLoopback();
+
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
-    if (echoStreamRef.current) {
-      echoStreamRef.current.getTracks().forEach((t) => t.stop());
-      echoStreamRef.current = null;
-    }
+
     if (localMediaStreamRef.current) {
       localMediaStreamRef.current.getTracks().forEach((t) => t.stop());
       localMediaStreamRef.current = null;
     }
     setIsVideoActive(false);
 
-    const targetExt = activeCallTarget?.ext || dialedNumber;
-    const targetLabel = activeCallTarget?.label || `Ext ${targetExt}`;
-    if (targetExt) {
-      const entry = {
+    // Save call to local history
+    if (activeCallTarget) {
+      const record = {
         id: Date.now(),
-        ext: targetExt,
-        label: targetLabel,
-        timestamp: new Date().toISOString(),
+        ext: activeCallTarget.ext,
+        label: activeCallTarget.label,
         duration: callDuration,
+        timestamp: new Date().toISOString(),
       };
-      const updated = [entry, ...callHistory.filter((h) => h.ext !== targetExt || Date.now() - h.id > 1000)].slice(0, 30);
-      try {
-        localStorage.setItem('s4ras_call_history', JSON.stringify(updated));
-      } catch {
-        // storage quota
-      }
-      setCallHistory(updated);
+      setCallHistory((prev) => {
+        const next = [record, ...prev.slice(0, 19)];
+        try {
+          localStorage.setItem('s4ras_call_history', JSON.stringify(next));
+        } catch {}
+        return next;
+      });
     }
 
-    setCallState('ended');
     setTimeout(() => {
       setCallState('idle');
+      setCallDuration(0);
       setActiveCallTarget(null);
       setIvrMessage('');
-      setCallDuration(0);
-    }, 1200);
+    }, 1500);
   };
 
   const handleClearHistory = () => {
+    setCallHistory([]);
     try {
       localStorage.removeItem('s4ras_call_history');
     } catch {}
-    setCallHistory([]);
   };
 
-  // Call duration counter
-  useEffect(() => {
-    if (callState === 'connected') {
-      timerRef.current = setInterval(() => {
-        setCallDuration((prev) => prev + 1);
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [callState]);
-
-  // Clean up audio and video on unmount
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
@@ -416,56 +453,62 @@ export default function SoftphoneModal({ isOpen, onClose }) {
     return `${mins.toString().padStart(2, '0')}:${remainder.toString().padStart(2, '0')}`;
   };
 
-  // Filtered directory items
-  const filteredDirectory = EXTENSION_DIRECTORY.filter((item) => {
-    const matchesCat = directoryFilter === 'all' || item.category === directoryFilter;
+  // Filtered categories and items
+  const filteredCategories = DIRECTORY_CATEGORIES.map((cat) => {
+    if (directoryFilter !== 'all' && cat.id !== directoryFilter) return null;
     const q = directorySearch.toLowerCase().trim();
-    const matchesSearch = !q || item.ext.includes(q) || item.label.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
-    return matchesCat && matchesSearch;
-  });
+    const matchingItems = cat.items.filter((item) => {
+      return !q || item.ext.includes(q) || item.label.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+    });
+    if (matchingItems.length === 0) return null;
+    return { ...cat, items: matchingItems };
+  }).filter(Boolean);
+
+  const totalDirectoryCount = EXTENSION_DIRECTORY.length;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
       <div
-        className={`bg-[#0a0c10] border border-white/10 rounded-2xl w-full overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[85dvh] transition-all duration-300 ${
+        className={`bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] rounded-2xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[85dvh] text-[var(--color-text-primary)] transition-all duration-300 ${
           isVideoActive && callState !== 'idle' ? 'max-w-4xl' : 'max-w-md'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Academic Header */}
-        <div className="bg-[#12141c] border-b border-white/10 p-3.5 sm:p-4 flex items-center justify-between">
+        {/* Header */}
+        <div className="bg-[var(--color-neutral-bg2)] border-b border-[var(--color-border-default)] p-3.5 sm:p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#b91c1c]/25 to-[#ef4444]/15 border border-[#b91c1c]/40 flex items-center justify-center text-[#ef4444] shadow-[0_0_15px_rgba(185,28,28,0.2)]">
-              <PhoneCall size={18} />
-            </div>
+            <Phone className="w-5 h-5 text-[var(--color-text-primary)] mt-0.5 shrink-0" />
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-white tracking-tight">S4RAS Campus Softphone</h3>
+                <h3 className="text-sm font-semibold text-[var(--color-text-primary)] tracking-tight">
+                  Telefoni S4RAS (WebPhone)
+                </h3>
                 {sipSecret ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Cluster Online
+                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                    <span>Terhubung</span>
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
-                    Perlu Login
+                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                    <span>Perlu Login</span>
                   </span>
                 )}
                 {isVideoActive && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#b91c1c]/20 text-[#ef4444] border border-[#b91c1c]/30">
-                    <Video size={10} />
-                    VP8 HD
+                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                    <Video size={11} className="text-emerald-500" />
+                    <span>VP8 HD</span>
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-neutral-400 m-0">
-                PJSIP PBX Trunk · Ekstensi <span className="font-mono text-[#ef4444] font-bold">{myExtension}</span> ({roleLabel})
+              <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
+                PJSIP WebRTC • Ekstensi {myExtension} ({roleLabel})
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-neutral-400 hover:text-white p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+            className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] p-1.5 rounded-lg hover:bg-[var(--color-neutral-bg3)] transition-colors cursor-pointer"
             aria-label="Tutup Softphone"
           >
             <X size={18} />
@@ -474,13 +517,13 @@ export default function SoftphoneModal({ isOpen, onClose }) {
 
         {/* Sub-Navigation Tabs */}
         {callState === 'idle' && (
-          <div className="flex border-b border-white/10 bg-[#12141c]/60 px-3 pt-2 gap-1">
+          <div className="flex border-b border-[var(--color-border-default)] bg-[var(--color-neutral-bg2)]/60 px-4 pt-2 gap-2">
             <button
               onClick={() => setActiveTab('dialer')}
-              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs border-b-2 transition-all cursor-pointer ${
                 activeTab === 'dialer'
-                  ? 'border-[#b91c1c] text-[#ef4444]'
-                  : 'border-transparent text-neutral-400 hover:text-white'
+                  ? 'border-[var(--color-text-primary)] text-[var(--color-text-primary)] font-semibold'
+                  : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
               }`}
             >
               <Phone size={13} />
@@ -488,21 +531,21 @@ export default function SoftphoneModal({ isOpen, onClose }) {
             </button>
             <button
               onClick={() => setActiveTab('directory')}
-              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs border-b-2 transition-all cursor-pointer ${
                 activeTab === 'directory'
-                  ? 'border-[#b91c1c] text-[#ef4444]'
-                  : 'border-transparent text-neutral-400 hover:text-white'
+                  ? 'border-[var(--color-text-primary)] text-[var(--color-text-primary)] font-semibold'
+                  : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
               }`}
             >
               <BookOpen size={13} />
-              <span>Direktori ({EXTENSION_DIRECTORY.length})</span>
+              <span>Direktori ({totalDirectoryCount})</span>
             </button>
             <button
               onClick={() => setActiveTab('history')}
-              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 pb-2.5 px-3 text-xs border-b-2 transition-all cursor-pointer ${
                 activeTab === 'history'
-                  ? 'border-[#b91c1c] text-[#ef4444]'
-                  : 'border-transparent text-neutral-400 hover:text-white'
+                  ? 'border-[var(--color-text-primary)] text-[var(--color-text-primary)] font-semibold'
+                  : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
               }`}
             >
               <Clock size={13} />
@@ -512,7 +555,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
         )}
 
         {/* Modal Main Body */}
-        <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between overflow-y-auto">
+        <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between overflow-y-auto">
           {callState !== 'idle' ? (
             /* Active Call Screen (Dual-Mode when Video Active) */
             <div className={`flex-1 flex flex-col ${isVideoActive ? 'lg:flex-row gap-4' : 'items-center justify-center py-2 sm:py-4'} text-center`}>
@@ -529,19 +572,19 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 {!isVideoActive && (
                   <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 transition-all duration-300 ${
                     callState === 'calling'
-                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 animate-pulse'
+                      ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30 animate-pulse'
                       : callState === 'connected'
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_25px_rgba(16,185,129,0.35)]'
-                      : 'bg-red-500/20 text-red-400 border border-red-500/40'
+                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-red-500/15 text-red-400 border border-red-500/30'
                   }`}>
-                    {callState === 'calling' ? <PhoneCall size={34} className="animate-bounce" /> : <Phone size={34} />}
+                    {callState === 'calling' ? <PhoneCall size={32} className="animate-bounce" /> : <Phone size={32} />}
                   </div>
                 )}
 
-                <h4 className="text-base sm:text-lg font-bold text-white m-0 mb-1">
+                <h4 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] m-0 mb-1">
                   {activeCallTarget?.label || dialedNumber}
                 </h4>
-                <p className="text-xs text-neutral-400 m-0 mb-2">
+                <p className="text-xs text-[var(--color-text-secondary)] m-0 mb-3 font-sans">
                   {activeCallTarget?.desc || 'SIP Extension'} · Ext {activeCallTarget?.ext || dialedNumber}
                 </p>
 
@@ -555,17 +598,18 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                   handleClear={handleClear}
                   cameraError={cameraError}
                   ivrMessage={ivrMessage}
-                  onCallVoicemail={() => handleCall('500')}
+                  onCallVoicemail={() => handleCall('*97')}
+                  onSelectQuickDial={(ext) => setDialedNumber(ext)}
                 />
 
-                {/* Action Buttons */}
-                <div className="flex items-center gap-3 mt-1">
+                {/* In-Call Action Buttons */}
+                <div className="flex items-center gap-3 mt-2">
                   <button
                     onClick={() => setIsMuted(!isMuted)}
                     className={`p-3 rounded-full border transition-all cursor-pointer ${
                       isMuted
                         ? 'bg-red-500/20 border-red-500/40 text-red-400'
-                        : 'bg-[#12141c] border-white/10 text-neutral-400 hover:text-white'
+                        : 'bg-[var(--color-neutral-bg2)] border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)]'
                     }`}
                     title={isMuted ? 'Unmute' : 'Mute'}
                   >
@@ -576,8 +620,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                     onClick={toggleVideo}
                     className={`p-3 rounded-full border transition-all cursor-pointer ${
                       isVideoActive
-                        ? 'bg-[#b91c1c]/25 border-[#b91c1c]/50 text-[#ef4444] shadow-[0_0_15px_rgba(185,28,28,0.3)]'
-                        : 'bg-[#12141c] border-white/10 text-neutral-400 hover:text-white'
+                        ? 'bg-[var(--color-neutral-bg1)] border-[var(--color-border-default)] text-emerald-400'
+                        : 'bg-[var(--color-neutral-bg2)] border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)]'
                     }`}
                     title={isVideoActive ? 'Tutup Kamera Video' : 'Buka Kamera Video'}
                   >
@@ -586,18 +630,18 @@ export default function SoftphoneModal({ isOpen, onClose }) {
 
                   <button
                     onClick={handleHangup}
-                    className="p-4 rounded-full bg-gradient-to-br from-[#b91c1c] to-[#ef4444] hover:from-red-700 hover:to-red-600 text-white shadow-[0_4px_18px_rgba(239,68,68,0.4)] transition-all active:scale-95 cursor-pointer"
+                    className="p-3.5 rounded-full bg-[#dc2626] hover:bg-[#b91c1c] text-white shadow-md transition-all active:scale-95 cursor-pointer"
                     title="Akhiri Panggilan"
                   >
-                    <PhoneOff size={22} />
+                    <PhoneOff size={20} />
                   </button>
 
                   <button
                     onClick={() => setIsSpeakerOn(!isSpeakerOn)}
                     className={`p-3 rounded-full border transition-all cursor-pointer ${
                       isSpeakerOn
-                        ? 'bg-[#12141c] border-white/10 text-white'
-                        : 'bg-[#12141c]/50 border-white/5 text-neutral-500'
+                        ? 'bg-[var(--color-neutral-bg2)] border-[var(--color-border-default)] text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)]'
+                        : 'bg-[var(--color-neutral-bg2)] border-[var(--color-border-default)] text-[var(--color-text-muted)]'
                     }`}
                     title={isSpeakerOn ? 'Speaker On' : 'Speaker Off'}
                   >
@@ -621,13 +665,13 @@ export default function SoftphoneModal({ isOpen, onClose }) {
               <div>
                 {/* Search Bar */}
                 <div className="relative mb-3">
-                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]" />
                   <input
                     type="text"
                     value={directorySearch}
                     onChange={(e) => setDirectorySearch(e.target.value)}
                     placeholder="Cari nama, ekstensi, atau divisi..."
-                    className="w-full bg-[#12141c] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[#b91c1c] transition-colors font-sans"
+                    className="w-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl pl-9 pr-3 py-2 text-xs text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-border-strong)] transition-colors font-sans"
                   />
                 </div>
 
@@ -635,18 +679,17 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 <div className="flex flex-wrap gap-1.5 mb-3">
                   {[
                     { id: 'all', label: 'Semua' },
-                    { id: 'academic', label: 'Dosen' },
-                    { id: 'student', label: 'Mahasiswa' },
-                    { id: 'service', label: 'Layanan PBX' },
-                    { id: 'trunk', label: 'Trunk' }
+                    { id: 'support', label: 'Layanan 3T' },
+                    { id: 'civitas', label: 'Sivitas & Dosen' },
+                    { id: 'utilities', label: 'Utilitas PBX' }
                   ].map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => setDirectoryFilter(cat.id)}
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
                         directoryFilter === cat.id
-                          ? 'bg-[#b91c1c] text-white shadow-[0_2px_10px_rgba(185,28,28,0.4)]'
-                          : 'bg-[#12141c] text-neutral-400 hover:text-white border border-white/5'
+                          ? 'bg-[var(--color-text-primary)] text-[var(--color-neutral-bg1)] shadow-sm'
+                          : 'bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-default)]'
                       }`}
                     >
                       {cat.label}
@@ -654,53 +697,60 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                   ))}
                 </div>
 
-                {/* Contact List */}
-                <div className="space-y-1.5 max-h-[46vh] overflow-y-auto pr-1">
-                  {filteredDirectory.map((item) => (
-                    <div
-                      key={item.ext}
-                      className="p-2.5 rounded-xl bg-[#12141c] border border-white/10 flex items-center justify-between gap-2 hover:border-[#b91c1c]/40 transition-all group"
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="font-mono text-xs font-bold text-[#ef4444] bg-[#b91c1c]/10 border border-[#b91c1c]/25 px-2 py-0.5 rounded-md shrink-0">
-                          {item.ext}
-                        </span>
-                        <div className="min-w-0">
-                          <p className="text-xs font-bold text-white truncate m-0 group-hover:text-[#ef4444] transition-colors">
-                            {item.label}
-                          </p>
-                          <p className="text-[10px] text-neutral-400 truncate m-0 font-sans">
-                            {item.desc}
-                          </p>
-                        </div>
+                {/* Contact List Grouped by Category */}
+                <div className="space-y-4 max-h-[46vh] overflow-y-auto pr-1">
+                  {filteredCategories.map((group) => (
+                    <div key={group.id} className="space-y-1.5">
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)] px-1">
+                        {group.title}
                       </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full border ${item.roleColor}`}>
-                          {item.badge}
-                        </span>
-                        <button
-                          onClick={() => handleCall(item.ext)}
-                          className="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 text-[11px] font-semibold flex items-center gap-1 transition-all cursor-pointer active:scale-95"
+                      {group.items.map((item) => (
+                        <div
+                          key={item.ext}
+                          className="p-2.5 rounded-xl bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] flex items-center justify-between gap-2 hover:bg-[var(--color-neutral-bg3)] transition-colors group"
                         >
-                          <PhoneCall size={11} />
-                          <span>Panggil</span>
-                        </button>
-                      </div>
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="font-mono text-xs font-semibold text-[var(--color-text-primary)] bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] px-2 py-0.5 rounded-md shrink-0">
+                              {item.ext}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="text-xs font-semibold text-[var(--color-text-primary)] truncate m-0">
+                                {item.label}
+                              </p>
+                              <p className="text-[10px] text-[var(--color-text-secondary)] truncate m-0 font-sans mt-0.5">
+                                {item.desc}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)]">
+                              {item.badge}
+                            </span>
+                            <button
+                              onClick={() => handleCall(item.ext)}
+                              className="h-8 px-3 rounded-xl bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95"
+                            >
+                              <PhoneCall size={12} className="text-[var(--color-text-primary)]" />
+                              <span>Panggil</span>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   ))}
-                  {filteredDirectory.length === 0 && (
-                    <div className="py-8 text-center text-neutral-500 text-xs">
+                  {filteredCategories.length === 0 && (
+                    <div className="py-8 text-center text-[var(--color-text-muted)] text-xs">
                       Tidak ada kontak yang cocok dengan pencarian.
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="mt-3 pt-2.5 border-t border-white/10">
+              <div className="mt-3 pt-2.5 border-t border-[var(--color-border-default)]">
                 <button
                   onClick={() => setActiveTab('dialer')}
-                  className="w-full py-2 rounded-xl bg-[#12141c] hover:bg-white/5 border border-white/10 text-neutral-300 text-xs font-semibold transition-colors cursor-pointer"
+                  className="w-full py-2 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] text-xs font-medium transition-colors cursor-pointer"
                 >
                   Kembali ke Dialpad
                 </button>
@@ -711,13 +761,13 @@ export default function SoftphoneModal({ isOpen, onClose }) {
             <div className="flex-1 flex flex-col justify-between overflow-y-auto">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-neutral-400">
+                  <span className="text-xs font-semibold text-[var(--color-text-secondary)]">
                     Riwayat Panggilan ({callHistory.length})
                   </span>
                   {callHistory.length > 0 && (
                     <button
                       onClick={handleClearHistory}
-                      className="flex items-center gap-1 text-[11px] text-red-400 hover:underline hover:bg-red-500/10 px-2 py-0.5 rounded transition-colors cursor-pointer"
+                      className="flex items-center gap-1 text-[11px] text-red-400 hover:underline px-2 py-0.5 rounded transition-colors cursor-pointer"
                     >
                       <Trash2 size={12} />
                       <span>Hapus Semua</span>
@@ -726,7 +776,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 </div>
 
                 {callHistory.length === 0 ? (
-                  <div className="py-12 text-center text-neutral-500">
+                  <div className="py-12 text-center text-[var(--color-text-muted)]">
                     <Clock size={36} className="mx-auto mb-2 opacity-30" />
                     <p className="text-xs m-0">Belum ada panggilan yang dicatat.</p>
                   </div>
@@ -735,22 +785,22 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                     {callHistory.map((item) => (
                       <div
                         key={item.id}
-                        className="p-2.5 rounded-xl bg-[#12141c] border border-white/10 flex items-center justify-between gap-2 transition-colors hover:border-[#b91c1c]/40"
+                        className="p-2.5 rounded-xl bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] flex items-center justify-between gap-2 transition-colors hover:bg-[var(--color-neutral-bg3)]"
                       >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-8 h-8 rounded-full bg-[var(--color-neutral-bg1)] text-[var(--color-text-secondary)] border border-[var(--color-border-default)] flex items-center justify-center shrink-0">
                             <PhoneCall size={14} />
                           </div>
-                          <div>
-                            <p className="text-xs font-bold text-white m-0">{item.label}</p>
-                            <p className="text-[10px] text-neutral-400 font-mono m-0">
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold text-[var(--color-text-primary)] m-0 truncate">{item.label}</p>
+                            <p className="text-[10px] text-[var(--color-text-secondary)] font-mono m-0 mt-0.5">
                               Ext {item.ext} · Durasi: {formatTime(item.duration || 0)}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-neutral-500">
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-[10px] text-[var(--color-text-muted)]">
                             {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                           <button
@@ -758,7 +808,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                               setActiveTab('dialer');
                               handleCall(item.ext);
                             }}
-                            className="p-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-400 border border-emerald-500/30 transition-colors cursor-pointer"
+                            className="h-8 px-2.5 rounded-lg bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] transition-colors cursor-pointer inline-flex items-center gap-1 text-xs"
                             title="Panggil Kembali"
                           >
                             <RotateCcw size={13} />
@@ -770,10 +820,10 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 )}
               </div>
 
-              <div className="mt-3 pt-2.5 border-t border-white/10">
+              <div className="mt-3 pt-2.5 border-t border-[var(--color-border-default)]">
                 <button
                   onClick={() => setActiveTab('dialer')}
-                  className="w-full py-2 rounded-xl bg-[#12141c] hover:bg-white/5 border border-white/10 text-neutral-300 text-xs font-semibold transition-colors cursor-pointer"
+                  className="w-full py-2 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] text-xs font-medium transition-colors cursor-pointer"
                 >
                   Kembali ke Dialpad
                 </button>
@@ -792,7 +842,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 handleClear={handleClear}
                 cameraError={cameraError}
                 ivrMessage={ivrMessage}
-                onCallVoicemail={() => handleCall('500')}
+                onCallVoicemail={() => handleCall('*97')}
+                onSelectQuickDial={(ext) => setDialedNumber(ext)}
               />
               <SoftphoneKeypad
                 keys={DIALPAD_KEYS}
@@ -805,14 +856,14 @@ export default function SoftphoneModal({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* Academic Footer Info */}
-        <div className="bg-[#12141c]/90 border-t border-white/10 px-4 py-2.5 text-[10px] text-neutral-400 flex items-center justify-between">
+        {/* Footer */}
+        <div className="bg-[var(--color-neutral-bg2)]/80 border-t border-[var(--color-border-default)] px-4 py-2.5 text-[10px] text-[var(--color-text-secondary)] flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Shield size={12} className="text-[#ef4444]" />
+            <ShieldCheck size={12} className="text-[var(--color-text-secondary)]" />
             <span>Encrypted WebRTC / SRTP</span>
           </div>
           <div className="flex items-center gap-1.5 font-mono">
-            <Server size={11} className="text-neutral-500" />
+            <Server size={11} className="text-[var(--color-text-muted)]" />
             <span>Asterisk 22 & 20 Trunk</span>
           </div>
         </div>
