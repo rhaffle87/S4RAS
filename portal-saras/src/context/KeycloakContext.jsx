@@ -2,6 +2,17 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Keycloak from 'keycloak-js';
 
+export function normalizeSipExtension(rawExt, isAdmin, isTeacher) {
+  const extStr = String(rawExt || '').trim();
+  const num = parseInt(extStr, 10);
+  if (!isNaN(num) && num >= 1000 && num <= 1099) {
+    return extStr;
+  }
+  if (isAdmin) return '1003';
+  if (isTeacher) return '1002';
+  return '1001';
+}
+
 const KeycloakContext = createContext();
 
 export const useKeycloak = () => useContext(KeycloakContext);
@@ -59,7 +70,8 @@ export const KeycloakProvider = ({ children }) => {
 
       // Extract dynamic token attributes mapped from Keycloak S4RAS Realm
       const tp = keycloak.tokenParsed || {};
-      const dynExt = tp.sip_extension || (username === 'testuser' ? '1079348' : hasAdmin ? '1003' : hasTeacher ? '1002' : '1001');
+      const rawExt = tp.sip_extension || (hasAdmin ? '1003' : hasTeacher ? '1002' : '1001');
+      const dynExt = normalizeSipExtension(rawExt, hasAdmin, hasTeacher);
       const dynSecret = tp.sip_secret || '';
       const dynDept = tp.department || (username === 'testuser' ? 'Research Fellowship / S4RAS' : hasAdmin ? 'Rektorat & Administrasi Sistem' : hasTeacher ? 'Teknik Elektro & Telematika' : 'Teknik Informatika');
       const dynQuota = tp.storage_quota || (username === 'testuser' ? '200GB' : hasAdmin ? '500GB' : hasTeacher ? '50GB' : '15GB');
@@ -218,13 +230,20 @@ export const KeycloakProvider = ({ children }) => {
         console.debug('[Keycloak] authenticated after init', { tokenParsed: keycloakInstance.tokenParsed });
         keycloakInstance.loadUserProfile().then(profileData => {
           setProfile(profileData);
+          const realmRoles = [
+            ...(keycloakInstance.realmAccess?.roles || []),
+            ...(keycloakInstance.tokenParsed?.realm_access?.roles || [])
+          ];
+          const uName = (profileData?.username || keycloakInstance.tokenParsed?.preferred_username || '').toLowerCase();
+          const userIsAdmin = realmRoles.some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator') || uName === 'admin' || uName === 'dev1';
+          const userIsTeacher = realmRoles.some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher') || uName === 'teacher1';
           fetch('/api/me/context', {
             headers: { Authorization: `Bearer ${keycloakInstance.token}` }
           })
             .then(res => res.ok ? res.json() : null)
             .then(ctx => {
               if (ctx?.telephony) {
-                if (ctx.telephony.extension) setSipExtension(ctx.telephony.extension);
+                if (ctx.telephony.extension) setSipExtension(normalizeSipExtension(ctx.telephony.extension, userIsAdmin, userIsTeacher));
                 if (ctx.telephony.secret) setSipSecret(ctx.telephony.secret);
                 if (ctx.telephony.iceServers) setIceServers(ctx.telephony.iceServers);
               }
@@ -268,7 +287,7 @@ export const KeycloakProvider = ({ children }) => {
         .then((data) => {
           if (data?.telephony) {
             if (data.telephony.secret) setSipSecret(data.telephony.secret);
-            if (data.telephony.extension) setSipExtension(data.telephony.extension);
+            if (data.telephony.extension) setSipExtension(normalizeSipExtension(data.telephony.extension, isAdmin, isTeacher));
             if (Array.isArray(data.telephony.iceServers) && data.telephony.iceServers.length > 0) {
               setIceServers(data.telephony.iceServers);
             }
@@ -276,7 +295,7 @@ export const KeycloakProvider = ({ children }) => {
         })
         .catch(() => {});
     }
-  }, [authenticated, keycloak?.token]);
+  }, [authenticated, keycloak?.token, isAdmin, isTeacher]);
 
   const logout = () => {
     if (keycloak) {

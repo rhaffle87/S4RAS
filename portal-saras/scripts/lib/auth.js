@@ -77,6 +77,17 @@ async function getJwksKeys(jwksUrl = process.env.KEYCLOAK_JWKS_URL || 'https://s
   return jwksCache.keys;
 }
 
+function normalizeSipExtension(rawExt, isAdmin, isTeacher) {
+  const extStr = String(rawExt || '').trim();
+  const num = parseInt(extStr, 10);
+  if (!isNaN(num) && num >= 1000 && num <= 1099) {
+    return extStr;
+  }
+  if (isAdmin) return '1003';
+  if (isTeacher) return '1002';
+  return '1001';
+}
+
 function getSipSecret(extension, username) {
   let secretsMap = {};
   if (process.env.SIP_SECRETS_JSON) {
@@ -220,7 +231,10 @@ function parseTokenContext(req, options = {}) {
       const username = (payload.preferred_username || payload.username || '').toLowerCase();
       if (!username) return null;
 
-      const dynExt = payload.sip_extension || (username === 'testuser' ? '1079348' : (username === 'admin' || username === 'dev1') ? '1003' : username === 'teacher1' ? '1002' : '1001');
+      const isAdmin = username === 'admin' || username === 'dev1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator');
+      const isTeacher = username === 'teacher1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher');
+      const rawExt = payload.sip_extension || (isAdmin ? '1003' : isTeacher ? '1002' : '1001');
+      const dynExt = normalizeSipExtension(rawExt, isAdmin, isTeacher);
       const sipSecret = getSipSecret(dynExt, username);
 
       return {
@@ -252,5 +266,6 @@ module.exports = {
   getSipSecret,
   verifyTokenSignatureAndPayload,
   parseTokenContext,
+  normalizeSipExtension,
   KEYCLOAK_PUBLIC_KEY
 };

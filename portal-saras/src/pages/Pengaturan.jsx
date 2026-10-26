@@ -62,193 +62,203 @@ function Pengaturan() {
     <Layout>
       <div className="flex flex-col gap-6 max-w-4xl">
         {/* Page Title Header */}
-        <h2 className="text-xl sm:text-2xl font-bold text-text-primary m-0">
+        <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-text-primary)] m-0">
           {t('set.title')}
         </h2>
 
-        {/* Primary Settings Cards (Matching myITS Reference) */}
+        {/* Primary Settings Cards (Clean Monochrome Vertical Flow) */}
         <div className="flex flex-col gap-4 relative z-20">
           {/* Card 1: Mode Tampilan */}
           <div 
-            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible hover:transform-none"
+            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: showThemeDropdown ? 60 : 30 }}
           >
             <div className="flex items-start gap-4">
-              <Moon size={24} className="text-text-primary shrink-0 mt-0.5" />
-              <div className="flex flex-col">
-                <h3 className="text-base font-bold text-text-primary m-0">
+              <Moon className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
+              <div className="flex flex-col flex-1">
+                <h3 className="text-base font-semibold text-[var(--color-text-primary)] m-0">
                   {t('set.theme_title')}
                 </h3>
-                <p className="text-xs text-text-secondary m-0 mt-0.5">
+                <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
                   {t('set.theme_desc')}
                 </p>
+
+                <div className="mt-4 relative dropdown-container w-full sm:w-60">
+                  <button
+                    onClick={() => {
+                      setShowThemeDropdown(!showThemeDropdown);
+                      setShowLangDropdown(false);
+                    }}
+                    className="w-full h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center justify-between gap-2 transition-colors cursor-pointer"
+                    aria-haspopup="listbox"
+                    aria-expanded={showThemeDropdown}
+                  >
+                    <span>{theme === 'dark' ? t('set.theme.dark') : t('set.theme.light')}</span>
+                    <ChevronDown size={16} className={`text-[var(--color-text-muted)] transition-transform duration-200 ${showThemeDropdown ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {showThemeDropdown && (
+                    <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
+                      <li
+                        onClick={() => toggleTheme('dark')}
+                        className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
+                          theme === 'dark' ? 'bg-brand text-white font-bold' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-neutral-bg3)] hover:text-[var(--color-text-primary)]'
+                        }`}
+                        role="option"
+                        aria-selected={theme === 'dark'}
+                      >
+                        <span>{t('set.theme.dark')}</span>
+                        {theme === 'dark' && <Check size={14} />}
+                      </li>
+                      <li
+                        onClick={() => toggleTheme('light')}
+                        className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
+                          theme === 'light' ? 'bg-brand text-white font-bold' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-neutral-bg3)] hover:text-[var(--color-text-primary)]'
+                        }`}
+                        role="option"
+                        aria-selected={theme === 'light'}
+                      >
+                        <span>{t('set.theme.light')}</span>
+                        {theme === 'light' && <Check size={14} />}
+                      </li>
+                    </ul>
+                  )}
+                </div>
               </div>
-            </div>
-
-            <div className="relative dropdown-container sm:ml-14 w-full sm:w-60">
-              <button
-                onClick={() => {
-                  setShowThemeDropdown(!showThemeDropdown);
-                  setShowLangDropdown(false);
-                }}
-                className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-neutral-bg3/80 border border-border-default text-text-primary text-xs sm:text-sm font-semibold hover:border-brand/40 transition-all cursor-pointer"
-                aria-haspopup="listbox"
-                aria-expanded={showThemeDropdown}
-              >
-                <span>{theme === 'dark' ? t('set.theme.dark') : t('set.theme.light')}</span>
-                <ChevronDown size={16} className={`text-text-muted transition-transform duration-200 ${showThemeDropdown ? 'rotate-180' : ''}`} />
-              </button>
-
-              {showThemeDropdown && (
-                <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
-                  <li
-                    onClick={() => toggleTheme('dark')}
-                    className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
-                      theme === 'dark' ? 'bg-brand text-white font-bold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'
-                    }`}
-                    role="option"
-                    aria-selected={theme === 'dark'}
-                  >
-                    <span>{t('set.theme.dark')}</span>
-                    {theme === 'dark' && <Check size={14} />}
-                  </li>
-                  <li
-                    onClick={() => toggleTheme('light')}
-                    className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
-                      theme === 'light' ? 'bg-brand text-white font-bold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'
-                    }`}
-                    role="option"
-                    aria-selected={theme === 'light'}
-                  >
-                    <span>{t('set.theme.light')}</span>
-                    {theme === 'light' && <Check size={14} />}
-                  </li>
-                </ul>
-              )}
             </div>
           </div>
 
           {/* Card 2: Bahasa */}
           <div 
-            className="card p-6 sm:p-7 bg-neutral-bg2/90 border border-border-default rounded-3xl shadow-md flex flex-col gap-4 relative overflow-visible hover:transform-none"
+            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: showLangDropdown ? 60 : 20 }}
           >
             <div className="flex items-start gap-4">
-              <Languages size={24} className="text-text-primary shrink-0 mt-0.5" />
-              <div className="flex flex-col">
-                <h3 className="text-base font-bold text-text-primary m-0">
+              <Languages className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
+              <div className="flex flex-col flex-1">
+                <h3 className="text-base font-semibold text-[var(--color-text-primary)] m-0">
                   {t('set.lang_title')}
                 </h3>
-                <p className="text-xs text-text-secondary m-0 mt-0.5">
+                <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
                   {t('set.lang_desc')}
                 </p>
+
+                <div className="mt-4 relative dropdown-container w-full sm:w-60">
+                  <button
+                    onClick={() => {
+                      setShowLangDropdown(!showLangDropdown);
+                      setShowThemeDropdown(false);
+                    }}
+                    className="w-full h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center justify-between gap-2 transition-colors cursor-pointer"
+                    aria-haspopup="listbox"
+                    aria-expanded={showLangDropdown}
+                  >
+                    <span>{language === 'id' ? t('set.lang.id') : t('set.lang.en')}</span>
+                    <ChevronDown size={16} className={`text-[var(--color-text-muted)] transition-transform duration-200 ${showLangDropdown ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {showLangDropdown && (
+                    <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
+                      <li
+                        onClick={() => toggleLang('id')}
+                        className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
+                          language === 'id' ? 'bg-brand text-white font-bold' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-neutral-bg3)] hover:text-[var(--color-text-primary)]'
+                        }`}
+                        role="option"
+                        aria-selected={language === 'id'}
+                      >
+                        <span>{t('set.lang.id')}</span>
+                        {language === 'id' && <Check size={14} />}
+                      </li>
+                      <li
+                        onClick={() => toggleLang('en')}
+                        className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
+                          language === 'en' ? 'bg-brand text-white font-bold' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-neutral-bg3)] hover:text-[var(--color-text-primary)]'
+                        }`}
+                        role="option"
+                        aria-selected={language === 'en'}
+                      >
+                        <span>{t('set.lang.en')}</span>
+                        {language === 'en' && <Check size={14} />}
+                      </li>
+                    </ul>
+                  )}
+                </div>
               </div>
-            </div>
-
-            <div className="relative dropdown-container sm:ml-14 w-full sm:w-60">
-              <button
-                onClick={() => {
-                  setShowLangDropdown(!showLangDropdown);
-                  setShowThemeDropdown(false);
-                }}
-                className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-neutral-bg3/80 border border-border-default text-text-primary text-xs sm:text-sm font-semibold hover:border-brand/40 transition-all cursor-pointer"
-                aria-haspopup="listbox"
-                aria-expanded={showLangDropdown}
-              >
-                <span>{language === 'id' ? t('set.lang.id') : t('set.lang.en')}</span>
-                <ChevronDown size={16} className={`text-text-muted transition-transform duration-200 ${showLangDropdown ? 'rotate-180' : ''}`} />
-              </button>
-
-              {showLangDropdown && (
-                <ul className="absolute top-full mt-2 left-0 z-[100] w-full bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-2xl list-none m-0 animate-scale-up" role="listbox">
-                  <li
-                    onClick={() => toggleLang('id')}
-                    className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
-                      language === 'id' ? 'bg-brand text-white font-bold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'
-                    }`}
-                    role="option"
-                    aria-selected={language === 'id'}
-                  >
-                    <span>{t('set.lang.id')}</span>
-                    {language === 'id' && <Check size={14} />}
-                  </li>
-                  <li
-                    onClick={() => toggleLang('en')}
-                    className={`flex items-center justify-between px-3 py-2 text-xs sm:text-sm rounded-lg cursor-pointer transition-all ${
-                      language === 'en' ? 'bg-brand text-white font-bold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'
-                    }`}
-                    role="option"
-                    aria-selected={language === 'en'}
-                  >
-                    <span>{t('set.lang.en')}</span>
-                    {language === 'en' && <Check size={14} />}
-                  </li>
-                </ul>
-              )}
             </div>
           </div>
-        </div>
 
-        {/* Secondary: SSO Session & Campus Helpdesk */}
-        <div className="flex flex-col gap-4 mt-2 relative z-10">
-          {/* SSO Card */}
-          <div className="card p-6 bg-neutral-bg2/70 border border-border-default rounded-3xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-light shrink-0">
-                <ShieldCheck size={20} />
+          {/* Card 3: Integrasi Single Sign-On (SSO) */}
+          <div 
+            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            style={{ zIndex: 10 }}
+          >
+            <div className="flex items-start gap-4">
+              <ShieldCheck className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
+              <div className="flex flex-col flex-1">
+                <h3 className="text-base font-semibold text-[var(--color-text-primary)] m-0">
+                  {t('set.sso_title')}
+                </h3>
+                <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
+                  {t('set.sso_desc')}
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={handleRefreshSession}
+                    disabled={refreshing}
+                    className="h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+                    <span>{refreshing ? t('set.sso_refreshing') : t('set.sso_refresh_btn')}</span>
+                  </button>
+
+                  <a
+                    href="https://sso.s4ras.site/realms/S4RAS/account/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-2 transition-colors no-underline"
+                  >
+                    <span>{t('set.sso_manage_btn')}</span>
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+
+                {refreshMessage && (
+                  <div className="text-xs text-emerald-400 font-medium mt-3">
+                    {refreshMessage}
+                  </div>
+                )}
               </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-text-primary">{t('set.sso_title')}</span>
-                <span className="text-xs text-text-secondary mt-0.5">{t('set.sso_desc')}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2.5 w-full sm:w-auto">
-              <button
-                onClick={handleRefreshSession}
-                disabled={refreshing}
-                className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-text-primary text-xs font-semibold border border-border-default transition-all flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
-              >
-                <RefreshCw size={13} className={refreshing ? 'animate-spin' : ''} />
-                <span>{refreshing ? t('set.sso_refreshing') : t('set.sso_refresh_btn')}</span>
-              </button>
-
-              <a
-                href="https://sso.s4ras.site/realms/S4RAS/account/"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-brand/10 hover:bg-brand/20 text-brand-light text-xs font-semibold border border-brand/20 transition-all flex items-center gap-1.5 no-underline w-full sm:w-auto justify-center"
-              >
-                <span>{t('set.sso_manage_btn')}</span>
-                <ExternalLink size={12} />
-              </a>
             </div>
           </div>
-          {refreshMessage && (
-            <div className="text-xs text-emerald-400 font-semibold px-4">
-              {refreshMessage}
-            </div>
-          )}
 
-          {/* Helpdesk Card */}
-          <div className="card p-6 bg-neutral-bg2/70 border border-border-default rounded-3xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                <Headphones size={20} />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-text-primary">{t('set.support_title')}</span>
-                <span className="text-xs text-text-secondary mt-0.5">{t('set.support_desc')}</span>
+          {/* Card 4: Bantuan & Kontak Administrator */}
+          <div 
+            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            style={{ zIndex: 10 }}
+          >
+            <div className="flex items-start gap-4">
+              <Headphones className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
+              <div className="flex flex-col flex-1">
+                <h3 className="text-base font-semibold text-[var(--color-text-primary)] m-0">
+                  {t('set.support_title')}
+                </h3>
+                <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
+                  {t('set.support_desc')}
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => handleCallOperator('1000')}
+                    className="h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <PhoneCall size={14} className="text-[var(--color-text-primary)]" />
+                    <span>{t('set.support_call_btn')}</span>
+                  </button>
+                </div>
               </div>
             </div>
-
-            <button
-              onClick={() => handleCallOperator('1000')}
-              className="px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-semibold border border-emerald-500/30 transition-all flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
-            >
-              <PhoneCall size={14} />
-              <span>{t('set.support_call_btn')}</span>
-            </button>
           </div>
         </div>
       </div>
@@ -257,4 +267,3 @@ function Pengaturan() {
 }
 
 export default Pengaturan;
-

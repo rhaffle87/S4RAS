@@ -32,8 +32,7 @@ export default function ServiceSparkline({
     const max = Math.max(...raw);
     const avg = Math.round(raw.reduce((a, b) => a + b, 0) / raw.length);
 
-    // Color logic: Strictly adhering to S4RAS brand (Zero Blue)
-    // Emerald green for healthy, Amber for degraded, Crimson/Red for offline/error
+    // Color logic: Calm and subtle telemetry line
     let color = '#10b981'; // Emerald 500
     let stroke = '#059669'; // Emerald 600
     if (online < total && online > 0) {
@@ -119,15 +118,15 @@ export default function ServiceSparkline({
       >
         <defs>
           <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={statusColor} stopOpacity="0.32" />
-            <stop offset="85%" stopColor={statusColor} stopOpacity="0.04" />
+            <stop offset="0%" stopColor={statusColor} stopOpacity="0.18" />
+            <stop offset="85%" stopColor={statusColor} stopOpacity="0.02" />
             <stop offset="100%" stopColor={statusColor} stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
         {/* Faint reference grid lines */}
         {showGuides && (
-          <g className="opacity-30 dark:opacity-20 stroke-current text-border-default">
+          <g className="opacity-20 stroke-current text-[var(--color-border-default)]">
             <line
               x1={padX}
               y1={padTop + usableHeight * 0.25}
@@ -156,19 +155,19 @@ export default function ServiceSparkline({
             d={linePath}
             fill="none"
             stroke={statusColor}
-            strokeWidth="2.25"
+            strokeWidth="1.75"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="transition-all duration-300"
           />
         )}
 
-        {/* Real-time Pulsing Endpoint Dot */}
+        {/* Real-time Subtle Endpoint Dot */}
         {lastCoord && (
           <g transform={`translate(${lastCoord.x.toFixed(1)}, ${lastCoord.y.toFixed(1)})`}>
-            <circle r="4.5" fill={statusColor} className="animate-ping opacity-60" />
-            <circle r="3.5" fill={statusColor} />
-            <circle r="1.5" fill="#ffffff" />
+            <circle r="3.5" fill={statusColor} className="animate-ping opacity-40" />
+            <circle r="2.5" fill={statusColor} />
+            <circle r="1" fill="#ffffff" />
           </g>
         )}
       </svg>

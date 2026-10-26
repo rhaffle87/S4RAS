@@ -42,7 +42,7 @@ const CANONICAL_PERSONAS = {
     department: 'Rektorat & Administrasi Sistem',
     storage_quota: '500GB',
     moodle_cohort: 'ADMIN-CLUSTER',
-    sip_extension: '1074700',
+    sip_extension: '1003',
     roles: ['Super Admin', 'admin']
   },
   testuser: {
@@ -52,7 +52,7 @@ const CANONICAL_PERSONAS = {
     department: 'Research Fellowship / S4RAS',
     storage_quota: '200GB',
     moodle_cohort: 'RESEARCH-FELLOW-2026',
-    sip_extension: '1079348',
+    sip_extension: '1003',
     roles: ['Super Admin', 'admin', 'fellow']
   }
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ExternalLink, CheckCircle2 } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import ServiceSparkline from './ServiceSparkline';
 import services from '../config/services';
 import { checkServiceHealth } from '../services/backend';
@@ -65,24 +65,22 @@ export default function ClusterTelemetryCard({
   ];
 
   return (
-    <div
-      className={`flex flex-col gap-4 text-xs transition-all ${className}`}
-    >
-      {/* Top Header Row */}
+    <div className={`flex flex-col gap-4 text-xs transition-all ${className}`}>
+      {/* Top Header Row: Status and Status Page Button */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <span
-            className={`w-2.5 h-2.5 rounded-full shrink-0 transition-all ${
+            className={`w-2 h-2 rounded-full shrink-0 ${
               isLoading
                 ? 'bg-amber-400 animate-pulse'
                 : allOnline
-                ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)] animate-pulse'
+                ? 'bg-emerald-500'
                 : isDegraded
-                ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]'
-                : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]'
+                ? 'bg-amber-500'
+                : 'bg-rose-500'
             }`}
           />
-          <span className="font-bold text-sm text-text-primary tracking-tight">
+          <span className="font-semibold text-sm text-[var(--color-text-primary)] tracking-tight">
             {isLoading
               ? isEn
                 ? 'Probing Cluster Health...'
@@ -99,25 +97,25 @@ export default function ClusterTelemetryCard({
           href="https://status.s4ras.site"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline transition-colors shrink-0 group"
+          className="h-8 px-3 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-1.5 transition-colors no-underline shrink-0"
         >
           <span>{isEn ? 'Status Page' : 'Halaman Status'}</span>
-          <ExternalLink size={13} className="group-hover:translate-x-0.5 transition-transform" />
+          <ExternalLink size={12} className="text-[var(--color-text-secondary)]" />
         </a>
       </div>
 
       {/* Latency Metric Overview Bar */}
       <div className="flex items-end justify-between gap-4 pt-1">
         <div className="flex flex-col">
-          <span className="text-[11px] text-text-muted font-medium">
+          <span className="text-[11px] text-[var(--color-text-muted)] font-medium">
             {isEn ? 'Average Response Latency' : 'Rata-rata Latensi Respons'}
           </span>
           <div className="flex items-baseline gap-1.5 mt-0.5">
-            <span className="text-2xl font-mono font-bold text-text-primary tracking-tight">
+            <span className="text-2xl font-mono font-bold text-[var(--color-text-primary)] tracking-tight">
               {isLoading ? '...' : avgLatency}
             </span>
-            <span className="text-xs font-mono font-semibold text-text-secondary">ms</span>
-            <span className="text-[11px] text-emerald-500 dark:text-emerald-400 font-medium ml-2">
+            <span className="text-xs font-mono font-semibold text-[var(--color-text-secondary)]">ms</span>
+            <span className="text-[11px] text-[var(--color-text-secondary)] font-normal ml-2">
               • {isEn ? 'Normal Latency' : 'Respons Normal'}
             </span>
           </div>
@@ -135,17 +133,17 @@ export default function ClusterTelemetryCard({
       </div>
 
       {/* Bottom Microservices Quick Health Strip */}
-      <div className="pt-3 border-t border-border-default/60 flex items-center justify-between gap-2 flex-wrap text-[11px]">
-        <span className="text-text-muted font-medium">
+      <div className="pt-3 border-t border-[var(--color-border-default)]/60 flex items-center justify-between gap-2 flex-wrap text-[11px]">
+        <span className="text-[var(--color-text-muted)] font-medium">
           {isEn ? 'Core Services:' : 'Layanan Utama:'}
         </span>
         <div className="flex items-center gap-2 flex-wrap">
           {keyServices.map((svc) => (
             <span
               key={svc.key}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-neutral-bg2 border border-border-default/80 text-text-secondary font-medium"
+              className="rounded-lg px-2.5 py-1 bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] text-xs text-[var(--color-text-primary)] inline-flex items-center gap-1.5 font-medium"
             >
-              <CheckCircle2 size={11} className="text-emerald-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
               <span>{svc.name}</span>
             </span>
           ))}
