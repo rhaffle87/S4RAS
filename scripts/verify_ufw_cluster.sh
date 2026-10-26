@@ -9,15 +9,15 @@
 
 # VM inventory: ID -> SSH target (prefer Tailscale IP for reliability)
 declare -A VMS=(
-  ["VM200-IPTV"]="root@100.64.0.10"
-  ["VM201-VoIP1"]="root@100.64.0.11"
-  ["VM202-VoIP2"]="root@100.64.0.12"
-  ["VM203-LMS"]="root@100.64.0.13"
-  ["VM204-Monitor"]="root@100.64.0.14"
-  ["VM206-SSO"]="root@100.64.0.16"
-  ["VM207-SAN"]="root@100.64.0.17"
-  ["VM208-Portal"]="root@100.64.0.18"
-  ["VM209-Bench"]="root@100.64.0.19"
+  ["VM200-IPTV"]="root@100.86.164.92"
+  ["VM201-VoIP1"]="root@100.125.250.53"
+  ["VM202-VoIP2"]="root@100.83.239.40"
+  ["VM203-LMS"]="root@100.108.104.25"
+  ["VM204-Monitor"]="root@100.102.31.45"
+  ["VM206-SSO"]="root@100.95.158.77"
+  ["VM207-SAN"]="root@100.119.6.12"
+  ["VM208-Portal"]="root@100.123.192.3"
+  ["VM209-Bench"]="root@100.71.250.20"
 )
 
 SSH_OPTS="-o ConnectTimeout=5 -o StrictHostKeyChecking=no -o BatchMode=yes"

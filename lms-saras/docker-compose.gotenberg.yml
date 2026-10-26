@@ -5,5 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    command:
+      - "gotenberg"
+      - "--chromium-deny-list=^https?://(192\\.168\\.|100\\.|127\\.|10\\.).*"
     environment:
       - CHROMIUM_DISABLE_JAVASCRIPT=false
