@@ -55,7 +55,6 @@ const services = [
     description: 'Layanan telepon berbasis IP untuk civitas.',
     iconName: 'Phone',
     url: 'https://voip.s4ras.site',
-    action: 'open-phone',
     internalUrl: 'http://192.168.10.202'
   },
   {

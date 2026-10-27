@@ -275,6 +275,31 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+// ── S4RAS Subdomain CORS & Preflight Middleware ───────────────────────────
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    'https://portal.s4ras.site',
+    'https://voip.s4ras.site',
+    'https://sso.s4ras.site',
+    'https://moodle.s4ras.site',
+    'https://cloud.s4ras.site',
+    'https://iptv.s4ras.site',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ];
+  if (origin && (allowedOrigins.includes(origin) || origin.endsWith('.s4ras.site'))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  }
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  next();
+});
+
 // ── Security Headers Middleware (OWASP & Security Compliance) ─────────────
 app.use((_req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');

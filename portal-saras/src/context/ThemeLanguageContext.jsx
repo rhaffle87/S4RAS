@@ -358,11 +358,36 @@ const translations = {
 };
 
 export const ThemeLanguageProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => localStorage.getItem('saras-theme') || 'dark');
-  const [language, setLanguage] = useState(() => localStorage.getItem('saras-lang') || 'id');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlTheme = params.get('theme');
+      if (urlTheme === 'dark' || urlTheme === 'light') return urlTheme;
+      const match = document.cookie.match(/s4ras_theme=(dark|light)/);
+      if (match) return match[1];
+    }
+    return localStorage.getItem('saras-theme') || 'dark';
+  });
+
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang');
+      if (urlLang === 'id' || urlLang === 'en') return urlLang;
+      const match = document.cookie.match(/s4ras_lang=(id|en)/);
+      if (match) return match[1];
+    }
+    return localStorage.getItem('saras-lang') || 'id';
+  });
 
   useEffect(() => {
     localStorage.setItem('saras-theme', theme);
+    try {
+      const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+      document.cookie = `s4ras_theme=${theme}${domainAttr}; path=/; max-age=31536000; SameSite=Lax`;
+    } catch {
+      // ignore
+    }
     const root = document.documentElement;
     if (theme === 'light') {
       root.classList.add('light');
@@ -375,6 +400,12 @@ export const ThemeLanguageProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('saras-lang', language);
+    try {
+      const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+      document.cookie = `s4ras_lang=${language}${domainAttr}; path=/; max-age=31536000; SameSite=Lax`;
+    } catch {
+      // ignore
+    }
   }, [language]);
 
   const t = (key, params) => {

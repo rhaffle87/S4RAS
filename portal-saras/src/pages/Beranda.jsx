@@ -141,7 +141,6 @@ const APP_CATEGORIES = [
         desc: 'Layanan telepon berbasis IP PJSIP dan in-browser WebPhone civitas',
         icon: 'Phone',
         url: 'https://voip.s4ras.site',
-        action: 'open-phone',
         color: 'from-emerald-500/20 to-teal-600/20',
         iconColor: 'text-emerald-400'
       }
@@ -276,7 +275,6 @@ const ALL_SERVICES_MAP = {
     subtitle_en: 'Campus WebPhone & PJSIP',
     icon: 'Phone',
     url: 'https://voip.s4ras.site',
-    action: 'open-phone',
     gradient: 'from-red-700 to-rose-600',
     color: 'from-rose-500/20 to-red-600/20',
     iconColor: 'text-rose-400'
@@ -346,9 +344,8 @@ const HERO_SLIDES = [
     subtitle: 'Hubungi pengajar dan sivitas melalui layanan WebPhone SIP/WebRTC lokal yang stabil dan hemat bandwidth.',
     subtitle_en: 'Connect directly with teachers and peers through bandwidth-efficient local SIP and WebPhone communications.',
     date: 'PJSIP & WebRTC Lokal',
-    ctaText: 'Buka WebPhone',
-    ctaText_en: 'Open WebPhone',
-    action: 'open-phone',
+    ctaText: 'Buka WebPhone Hub',
+    ctaText_en: 'Open WebPhone Hub',
     url: 'https://voip.s4ras.site',
     accentColor: '#10b981',
     bgImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop'
@@ -400,8 +397,8 @@ function Beranda() {
   const [isEditingFavorites, setIsEditingFavorites] = useState(false);
   const [tempSelectedKeys, setTempSelectedKeys] = useState(DEFAULT_FAVORITE_KEYS);
 
-  const { profile, persona, roleLabel, sipExtension } = useKeycloak();
-  const { t, language } = useThemeLanguage();
+  const { profile, persona, roleLabel, sipExtension, keycloak } = useKeycloak();
+  const { t, language, theme } = useThemeLanguage();
 
   const today = useMemo(() => new Date(), []);
   const academicCalendar = useMemo(() => calculateAcademicWeek(today), [today]);
@@ -534,7 +531,14 @@ function Beranda() {
       return;
     }
     if (item.url) {
-      window.open(item.url, '_blank', 'noopener,noreferrer');
+      let targetUrl = item.url;
+      if (item.key === 'voip' || targetUrl.startsWith('https://voip.s4ras.site')) {
+        const uName = profile?.username || '';
+        const ext = sipExtension || '';
+        const tok = keycloak?.token ? `&token=${encodeURIComponent(keycloak.token)}` : '';
+        targetUrl = `https://voip.s4ras.site/?theme=${theme}&lang=${language}&ext=${ext}&user=${encodeURIComponent(uName)}${tok}`;
+      }
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
     }
   };
 

@@ -84,6 +84,16 @@ export const KeycloakProvider = ({ children }) => {
       setDepartment(dynDept);
       setStorageQuota(dynQuota);
       setMoodleCohort(dynCohort);
+
+      if (typeof window !== 'undefined') {
+        try {
+          const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+          document.cookie = `s4ras_auth_ext=${dynExt}${domainAttr}; path=/; max-age=86400; SameSite=Lax`;
+          document.cookie = `s4ras_user=${encodeURIComponent(username || '')}${domainAttr}; path=/; max-age=86400; SameSite=Lax`;
+        } catch {
+          // ignore
+        }
+      }
     } else {
       setIsAdmin(false);
       setIsTeacher(false);

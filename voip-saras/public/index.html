@@ -3,60 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S4RAS Campus VoIP & WebRTC Telephony</title>
+  <title>S4RAS Telefoni — Communications & PJSIP WebRTC Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='4' y='4' width='92' height='92' rx='22' fill='%23dc2626'/><circle cx='68' cy='34' r='8' fill='%23ffffff'/><rect x='22' y='22' width='24' height='24' rx='7' fill='%23ffffff'/><rect x='22' y='56' width='24' height='24' rx='7' fill='%23ffffff'/><rect x='56' y='56' width='24' height='24' rx='7' fill='%23ffffff'/></svg>">
   <style>
     :root {
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
-      /* S4RAS Academic Dark Palette */
-      --bg-base: #0a0c10;
-      --bg-surface: #12141c;
-      --bg-elevated: #181a24;
-      --bg-hover: #222533;
-      --bg-input: #1a1d29;
+      /* Dark Palette (Default) */
+      --bg-base: #09090b;
+      --bg-card: #121215;
+      --bg-card-subtle: #16161a;
+      --bg-control: #18181b;
+      --bg-control-hover: #27272a;
+      --bg-input: #101014;
 
-      /* Academic Crimson Brand */
-      --brand: #b91c1c;
-      --brand-hover: #dc2626;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --border-default: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+
+      --brand: #dc2626;
+      --brand-hover: #b91c1c;
       --brand-light: #ef4444;
-      --brand-subtle: rgba(185, 28, 28, 0.15);
-      --brand-border: rgba(239, 68, 68, 0.35);
+      --brand-subtle: rgba(220, 38, 38, 0.14);
 
-      /* Typography */
-      --text-primary: #ffffff;
-      --text-secondary: #a3aed0;
-      --text-muted: #707eae;
-
-      /* Borders */
-      --border-subtle: rgba(255, 255, 255, 0.06);
-      --border-default: rgba(255, 255, 255, 0.10);
-      --border-strong: rgba(255, 255, 255, 0.18);
-
-      /* Status Accents */
       --status-success: #10b981;
       --status-success-bg: rgba(16, 185, 129, 0.12);
-      --status-success-border: rgba(16, 185, 129, 0.28);
-
       --status-warning: #f59e0b;
       --status-warning-bg: rgba(245, 158, 11, 0.12);
-      --status-warning-border: rgba(245, 158, 11, 0.28);
-
       --status-info: #0ea5e9;
       --status-info-bg: rgba(14, 165, 233, 0.12);
-      --status-info-border: rgba(14, 165, 233, 0.28);
-
-      --status-purple: #8b5cf6;
-      --status-purple-bg: rgba(139, 92, 246, 0.12);
-      --status-purple-border: rgba(139, 92, 246, 0.28);
 
       --radius-sm: 0.5rem;
       --radius-md: 0.75rem;
       --radius-lg: 1rem;
       --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+      --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    html.light {
+      --bg-base: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-subtle: #f8fafc;
+      --bg-control: #f1f5f9;
+      --bg-control-hover: #e2e8f0;
+      --bg-input: #ffffff;
+
+      --border-subtle: rgba(0, 0, 0, 0.04);
+      --border-default: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.16);
+
+      --text-primary: #09090b;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+
+      --brand: #dc2626;
+      --brand-hover: #b91c1c;
+      --brand-light: #dc2626;
+      --brand-subtle: rgba(220, 38, 38, 0.08);
+
+      --status-success: #059669;
+      --status-success-bg: rgba(5, 150, 105, 0.10);
+      --status-warning: #d97706;
+      --status-warning-bg: rgba(217, 119, 6, 0.10);
+      --status-info: #0284c7;
+      --status-info-bg: rgba(2, 132, 199, 0.10);
+
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-modal: 0 20px 45px rgba(0, 0, 0, 0.15);
     }
 
     * {
@@ -73,1314 +97,1411 @@
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
       overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Ambient Background Glow */
-    .ambient-glow {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(140px);
-      contain: strict;
-      transform: translate3d(0, 0, 0);
-    }
-    .glow-1 {
-      top: -100px;
-      left: -150px;
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(185, 28, 28, 0.12) 0%, transparent 70%);
-    }
-    .glow-2 {
-      bottom: -150px;
-      right: -150px;
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
-    }
-
-    .app-shell {
-      position: relative;
-      z-index: 1;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem 1.25rem;
-    }
-
-    @media (min-width: 768px) {
-      .app-shell {
-        padding: 2rem 2rem 4rem 2rem;
-      }
-    }
-
-    /* Header Bar */
-    header {
-      background: rgba(18, 20, 28, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-xl);
-      padding: 1.25rem 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    @media (min-width: 768px) {
-      header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1.25rem 2rem;
-      }
-    }
-
-    .brand-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .brand-crest {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.4) 100%);
-      border: 1px solid var(--brand-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--brand-light);
-      box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3);
-      flex-shrink: 0;
-    }
-
-    .brand-text h1 {
-      font-size: 1.125rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .brand-text h1 span {
-      color: var(--brand-light);
-    }
-
-    .brand-text p {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      margin-top: 0.15rem;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.85rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: var(--status-success-bg);
-      border: 1px solid var(--status-success-border);
-      color: var(--status-success);
-    }
-
-    .status-pulse {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--status-success);
-      box-shadow: 0 0 8px var(--status-success);
-      animation: pulse-dot 2s infinite ease-in-out;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    .btn-portal {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-default);
-      color: var(--text-secondary);
+    a {
+      color: inherit;
       text-decoration: none;
-      transition: all 0.2s ease;
+    }
+
+    button {
+      font-family: inherit;
       cursor: pointer;
     }
 
-    .btn-portal:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--border-strong);
-      color: var(--text-primary);
-      transform: translateX(-2px);
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
     }
-
-    /* Main Grid Layout */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
     }
-
-    @media (min-width: 1024px) {
-      .main-grid {
-        grid-template-columns: 420px 1fr;
-        align-items: start;
-        gap: 2rem;
-      }
-    }
-
-    /* Cards */
-    .academic-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-xl);
-      padding: 1.5rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-      position: relative;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .card-title-group {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .card-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-md);
-      background: var(--brand-subtle);
-      border: 1px solid var(--brand-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--brand-light);
-      flex-shrink: 0;
-    }
-
-    .card-title-group h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-    }
-
-    .card-title-group p {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-    }
-
-    .card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.25rem 0.65rem;
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg-control-hover);
       border-radius: 9999px;
-      background: var(--brand-subtle);
-      color: var(--brand-light);
-      border: 1px solid var(--brand-border);
-      transition: all 0.3s ease;
     }
 
-    .persona-badge-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .persona-select {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-default);
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.3rem 0.65rem;
-      border-radius: var(--radius-md);
-      outline: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: var(--font-sans);
-    }
-
-    .persona-select:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--border-strong);
-    }
-
-    .persona-select:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 12px rgba(185, 28, 28, 0.35);
-    }
-
-    /* ========================================================
-       SOFTPHONE TERMINAL STYLING
-       ======================================================== */
-    .softphone-terminal {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    /* Digital Screen */
-    .digital-screen {
-      background: linear-gradient(180deg, #0d1017 0%, #080a0e 100%);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.25rem 1rem 1.25rem;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .screen-status-bar {
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 64px;
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-default);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.6875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      padding: 0 1.25rem;
+      gap: 1rem;
     }
 
-    .call-status-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--text-secondary);
-      transition: color 0.3s ease;
-    }
-
-    .call-status-indicator.active {
-      color: var(--status-success);
-    }
-
-    .call-status-indicator.calling {
-      color: var(--status-warning);
-    }
-
-    .call-timer {
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      font-weight: 700;
-      font-size: 0.75rem;
-    }
-
-    .call-timer.active {
-      color: var(--status-success);
-    }
-
-    /* Dial Display Number */
-    .dial-display {
-      font-family: var(--font-mono);
-      font-size: 2.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      text-align: center;
-      letter-spacing: 0.12em;
-      min-height: 3.25rem;
+    .header-left {
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-
-    /* Equalizer Visualizer */
-    .audio-visualizer {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 4px;
-      height: 18px;
-      margin-top: 0.5rem;
-      opacity: 0.2;
-      transition: opacity 0.3s ease;
-    }
-
-    .audio-visualizer.active {
-      opacity: 1;
-    }
-
-    .eq-bar {
-      width: 3px;
-      height: 4px;
-      background: var(--status-success);
-      border-radius: 2px;
-      transition: height 0.15s ease;
-    }
-
-    .audio-visualizer.active .eq-bar:nth-child(1) { animation: eq-anim 0.8s infinite alternate ease-in-out; }
-    .audio-visualizer.active .eq-bar:nth-child(2) { animation: eq-anim 0.5s infinite alternate ease-in-out 0.1s; }
-    .audio-visualizer.active .eq-bar:nth-child(3) { animation: eq-anim 0.7s infinite alternate ease-in-out 0.2s; }
-    .audio-visualizer.active .eq-bar:nth-child(4) { animation: eq-anim 0.9s infinite alternate ease-in-out 0.15s; }
-    .audio-visualizer.active .eq-bar:nth-child(5) { animation: eq-anim 0.6s infinite alternate ease-in-out 0.05s; }
-    .audio-visualizer.active .eq-bar:nth-child(6) { animation: eq-anim 0.8s infinite alternate ease-in-out 0.25s; }
-    .audio-visualizer.active .eq-bar:nth-child(7) { animation: eq-anim 0.4s infinite alternate ease-in-out 0.12s; }
-
-    @keyframes eq-anim {
-      0% { height: 3px; }
-      100% { height: 16px; }
-    }
-
-    /* Keypad Grid */
-    .keypad-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.65rem;
-    }
-
-    .key-btn {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      padding: 0.85rem 0.25rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .key-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--brand-border);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-    }
-
-    .key-btn:active {
-      transform: translateY(1px) scale(0.97);
-      background: rgba(185, 28, 28, 0.2);
-      border-color: var(--brand-light);
-    }
-
-    .key-number {
-      font-size: 1.35rem;
-      font-weight: 700;
-      line-height: 1;
-      font-family: var(--font-sans);
-    }
-
-    .key-letters {
-      font-size: 0.625rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-      height: 0.75rem;
-    }
-
-    /* Call Action Controls */
-    .call-actions {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 0.65rem;
-      margin-top: 0.25rem;
-    }
-
-    .btn-call {
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-      color: white;
-      border: none;
-      border-radius: var(--radius-lg);
-      padding: 0.85rem 1rem;
-      font-size: 0.875rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-    }
-
-    .btn-call:hover:not(:disabled) {
-      background: linear-gradient(135deg, #047857 0%, #059669 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-    }
-
-    .btn-call:active:not(:disabled) {
-      transform: translateY(1px);
-    }
-
-    .btn-call:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      filter: grayscale(0.5);
-    }
-
-    .btn-hangup {
-      background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
-      color: white;
-      border: none;
-      border-radius: var(--radius-lg);
-      padding: 0.85rem 1rem;
-      font-size: 0.875rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
-    }
-
-    .btn-hangup:hover:not(:disabled) {
-      background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-    }
-
-    .btn-hangup:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      filter: grayscale(0.8);
-    }
-
-    .sub-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-tool {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: 0.5rem;
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-tool:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-primary);
-      border-color: var(--border-strong);
-    }
-
-    /* ========================================================
-       DIRECTORY SECTION STYLING
-       ======================================================== */
-    .directory-controls {
-      display: flex;
-      flex-direction: column;
       gap: 0.85rem;
-      margin-bottom: 1.25rem;
+      min-width: 0;
     }
 
-    @media (min-width: 640px) {
-      .directory-controls {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
-
-    /* Search Box */
-    .search-box {
-      position: relative;
-      flex: 1;
-      max-width: 340px;
-    }
-
-    .search-box svg {
-      position: absolute;
-      left: 0.85rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: 0.55rem 0.85rem 0.55rem 2.4rem;
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      font-size: 0.8125rem;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--brand-light);
-      background: var(--bg-elevated);
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-    }
-
-    .search-input::placeholder {
-      color: var(--text-muted);
-    }
-
-    /* Filter Pills */
-    .filter-pills {
-      display: flex;
+    .btn-back-portal {
+      display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      overflow-x: auto;
-      padding-bottom: 0.25rem;
-    }
-
-    .pill-filter {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-default);
+      gap: 0.5rem;
+      height: 36px;
+      padding: 0 0.85rem;
       border-radius: 9999px;
-      padding: 0.35rem 0.75rem;
-      font-size: 0.7rem;
-      font-weight: 600;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
       color: var(--text-secondary);
-      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
       white-space: nowrap;
       transition: all 0.15s ease;
     }
+    .btn-back-portal:hover {
+      background: var(--bg-control-hover);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
 
-    .pill-filter:hover {
-      background: rgba(255, 255, 255, 0.07);
+    .brand-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .brand-logo-icon {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+    .brand-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    .brand-sub {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-left: 0.35rem;
+      padding-left: 0.35rem;
+      border-left: 1px solid var(--border-default);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      height: 34px;
+      padding: 0 0.75rem;
+      border-radius: 9999px;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #71717a;
+    }
+    .status-dot.active {
+      background: var(--status-success);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.15); }
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      height: 36px;
+      padding: 0 0.75rem 0 0.35rem;
+      border-radius: 9999px;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .user-pill:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-control-hover);
+    }
+    .user-avatar-mini {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: white;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .btn-icon:hover {
+      color: var(--text-primary);
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
+    }
+
+    /* Main Cockpit Layout (3 Columns) */
+    .cockpit-container {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr) 370px;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      max-width: 1720px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1200px) {
+      .cockpit-container {
+        grid-template-columns: 320px minmax(0, 1fr);
+      }
+      .col-right {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .cockpit-container {
+        grid-template-columns: 1fr;
+      }
+      .col-right {
+        grid-column: span 1;
+      }
+      .app-header {
+        padding: 0 0.85rem;
+      }
+      .brand-sub, .trunk-pill-hide-mobile {
+        display: none !important;
+      }
+    }
+
+    .cockpit-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-2xl);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .panel-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .panel-badge {
+      font-size: 0.6875rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      background: var(--brand-subtle);
+      color: var(--brand-light);
+      font-weight: 600;
+    }
+
+    /* Column 1: Dialer */
+    .dialer-screen {
+      background: var(--bg-input);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .dialer-meta {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    .dialer-display {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      min-height: 2.2rem;
+      letter-spacing: 0.05em;
+      word-break: break-all;
+    }
+    .smart-detected-badge {
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      max-width: 100%;
+    }
+    .dialer-btn-backspace {
+      position: absolute;
+      top: 0.85rem;
+      right: 0.85rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 0.375rem;
+      transition: color 0.15s ease;
+    }
+    .dialer-btn-backspace:hover {
       color: var(--text-primary);
     }
 
-    .pill-filter.active {
-      background: var(--brand);
-      border-color: var(--brand-light);
-      color: white;
-      box-shadow: 0 2px 8px rgba(185, 28, 28, 0.35);
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1rem;
     }
-
-    /* Academic Directory Table */
-    .table-container {
-      overflow-x: auto;
+    .key-btn {
+      aspect-ratio: 1.35;
+      background: var(--bg-control);
       border: 1px solid var(--border-default);
       border-radius: var(--radius-lg);
-      background: var(--bg-base);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
+      user-select: none;
+    }
+    .key-btn:hover {
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+    .key-btn:active {
+      transform: scale(0.96);
+      background: var(--brand-subtle);
+    }
+    .key-digit {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .key-sub {
+      font-size: 0.5625rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 0.15rem;
+      font-weight: 600;
     }
 
-    .academic-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
+    .dialer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .btn-call-audio {
+      height: 44px;
+      border-radius: var(--radius-xl);
+      background: #16a34a;
+      border: none;
+      color: white;
+      font-weight: 600;
       font-size: 0.8125rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .btn-call-audio:hover {
+      background: #15803d;
+    }
+    .btn-call-video {
+      height: 44px;
+      border-radius: var(--radius-xl);
+      background: #059669;
+      border: none;
+      color: white;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .btn-call-video:hover {
+      background: #047857;
+    }
+    .btn-end-call {
+      height: 44px;
+      border-radius: var(--radius-xl);
+      background: #dc2626;
+      border: none;
+      color: white;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      grid-column: span 2;
+      transition: all 0.15s ease;
+    }
+    .btn-end-call:hover {
+      background: #b91c1c;
     }
 
-    .academic-table th {
-      padding: 0.85rem 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid var(--border-default);
+    /* Quick Shortcuts Grid */
+    .quick-title {
       font-size: 0.6875rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--text-muted);
+      margin-bottom: 0.5rem;
     }
-
-    .academic-table td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid var(--border-subtle);
-      vertical-align: middle;
-      transition: background 0.15s ease;
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
     }
-
-    .academic-table tbody tr:hover td {
-      background: rgba(255, 255, 255, 0.025);
-    }
-
-    .academic-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .ext-tag {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 0.8125rem;
-      color: var(--brand-light);
-      background: var(--brand-subtle);
-      border: 1px solid var(--brand-border);
-      padding: 0.25rem 0.65rem;
-      border-radius: var(--radius-sm);
-      display: inline-block;
-    }
-
-    .contact-cell {
+    .quick-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 0.55rem 0.7rem;
       display: flex;
       flex-direction: column;
+      gap: 0.2rem;
+      text-align: left;
+      transition: all 0.15s ease;
     }
-
-    .contact-name {
-      font-weight: 700;
-      color: var(--text-primary);
-      font-size: 0.85rem;
+    .quick-card:hover {
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
     }
-
-    .contact-dept {
-      font-size: 0.725rem;
-      color: var(--text-secondary);
-      margin-top: 0.1rem;
-    }
-
-    /* Category Role Badges */
-    .role-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 9999px;
-      font-size: 0.6875rem;
-      font-weight: 600;
-      border: 1px solid transparent;
-    }
-
-    .role-badge.faculty {
-      background: var(--status-purple-bg);
-      border-color: var(--status-purple-border);
-      color: var(--status-purple);
-    }
-
-    .role-badge.student {
-      background: var(--status-success-bg);
-      border-color: var(--status-success-border);
-      color: var(--status-success);
-    }
-
-    .role-badge.admin {
-      background: var(--status-warning-bg);
-      border-color: var(--status-warning-border);
-      color: var(--status-warning);
-    }
-
-    .role-badge.service {
-      background: var(--status-info-bg);
-      border-color: var(--status-info-border);
-      color: var(--status-info);
-    }
-
-    .proto-tag {
-      font-size: 0.6875rem;
+    .quick-ext {
       font-family: var(--font-mono);
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.03);
-      padding: 0.15rem 0.45rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-subtle);
-    }
-
-    /* Instant 1-Click Dial Button */
-    .btn-dial-row {
-      background: var(--brand-subtle);
-      border: 1px solid var(--brand-border);
-      color: var(--brand-light);
-      padding: 0.45rem 0.85rem;
-      border-radius: var(--radius-md);
       font-size: 0.75rem;
       font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      color: var(--brand-light);
+    }
+    .quick-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--text-primary);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .btn-dial-row:hover {
-      background: var(--brand);
-      border-color: var(--brand-light);
-      color: white;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.35);
+    /* Column 2: Center Stage */
+    .center-stage-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 460px;
     }
 
-    .btn-dial-row:active {
-      transform: translateY(0);
+    /* Idle Diagnostic Stage */
+    .idle-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      height: 100%;
     }
-
-    /* ========================================================
-       CLUSTER TELEMETRY SPECS FOOTER
-       ======================================================== */
-    .telemetry-grid {
+    .telemetry-row {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
     }
-
-    @media (min-width: 640px) {
-      .telemetry-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .telemetry-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .spec-card {
-      background: var(--bg-surface);
+    .metric-card {
+      background: var(--bg-card-subtle);
       border: 1px solid var(--border-default);
       border-radius: var(--radius-lg);
-      padding: 1rem 1.25rem;
+      padding: 0.85rem 1rem;
       display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      flex-direction: column;
+      gap: 0.35rem;
     }
-
-    .spec-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-default);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-    }
-
-    .spec-content h4 {
+    .metric-title {
       font-size: 0.6875rem;
+      color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+    .metric-value {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .metric-desc {
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    /* Terminal Logging */
+    .terminal-container {
+      flex: 1;
+      background: #000000;
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: 0.85rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 220px;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.6875rem;
+    }
+    .terminal-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .terminal-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .terminal-logs {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      color: #34d399;
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+    .log-line {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .log-time {
+      color: #71717a;
+      flex-shrink: 0;
+    }
+    .log-sip-out {
+      color: #38bdf8;
+    }
+    .log-sip-in {
+      color: #4ade80;
+    }
+    .log-sip-err {
+      color: #f87171;
+    }
+
+    /* Active Video Stage */
+    .active-stage {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+    .active-stage.is-calling {
+      display: flex;
+    }
+    .idle-stage.is-calling {
+      display: none;
+    }
+
+    .video-viewport {
+      position: relative;
+      flex: 1;
+      min-height: 340px;
+      background: #000000;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-default);
+    }
+    .video-remote {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-pip {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 140px;
+      height: 100px;
+      background: #18181b;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    .video-pip video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+    .pip-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      font-size: 0.5625rem;
+      text-align: center;
+      padding: 0.15rem;
+      font-mono: monospace;
+    }
+
+    .audio-stage-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .avatar-pulse-ring {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+      50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(16, 185, 129, 0.45); }
+    }
+
+    .call-controls-bar {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+    .control-pill-btn {
+      height: 42px;
+      padding: 0 1rem;
+      border-radius: 9999px;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .control-pill-btn:hover {
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
+    }
+    .control-pill-btn.active {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    /* Column 3: Directory, WhatsApp Bridges & Logs */
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border-default);
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+    .tab-btn {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+    .tab-btn.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--brand);
+    }
+
+    .dir-search-wrap {
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+    .dir-search-input {
+      width: 100%;
+      height: 38px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 0 0.85rem 0 2.2rem;
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .dir-search-input:focus {
+      border-color: var(--brand-light);
+    }
+    .dir-search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
       color: var(--text-muted);
     }
 
-    .spec-content p {
+    .dir-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow-y: auto;
+      max-height: 520px;
+      padding-right: 0.25rem;
+    }
+    .dir-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      transition: all 0.15s ease;
+    }
+    .dir-card:hover {
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
+    }
+    .dir-info {
+      min-width: 0;
+      flex: 1;
+    }
+    .dir-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .dir-name {
       font-size: 0.8125rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-top: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dir-ext-badge {
       font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.35rem;
+      color: var(--text-secondary);
+    }
+    .dir-dept {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dir-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+    .btn-action-small {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .btn-action-small:hover {
+      background: #16a34a;
+      border-color: #16a34a;
+      color: white;
+    }
+    .btn-action-small.whatsapp:hover {
+      background: #25d366;
+      border-color: #25d366;
+      color: white;
+    }
+
+    /* Modal Switch Extension */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.is-open {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-2xl);
+      max-width: 440px;
+      width: 100%;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-modal);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .ext-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+    .ext-card-btn {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 0.85rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .ext-card-btn:hover {
+      border-color: var(--brand-light);
+      background: var(--bg-control-hover);
+    }
+    .ext-card-btn.active {
+      border-color: var(--brand);
+      background: var(--brand-subtle);
     }
   </style>
 </head>
 <body>
-  <!-- Ambient background glow spheres -->
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
 
-  <div class="app-shell">
-    <!-- Institutional Top Navigation Header -->
-    <header>
-      <div class="brand-section">
-        <div class="brand-crest">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <h1><span>S4RAS</span> Campus VoIP & WebRTC</h1>
-          <p>Layanan Telefoni & Komunikasi Terpadu Sivitas Akademika</p>
-        </div>
-      </div>
+  <!-- Top Integrated S4RAS Navigation Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <!-- Back to Portal Button -->
+      <a href="https://portal.s4ras.site/home" class="btn-back-portal" id="btnBackPortal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span data-i18n="back_portal">Kembali ke Portal</span>
+      </a>
 
-      <div class="header-actions">
-        <div class="status-badge">
-          <span class="status-pulse"></span>
-          <span>PBX Cluster: Online (VM 202 & 201)</span>
-        </div>
-
-        <a href="https://portal.s4ras.site" class="btn-portal" title="Kembali ke Dashboard Portal S4RAS">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          <span>Kembali ke Portal</span>
-        </a>
-      </div>
-    </header>
-
-    <!-- Main Workspace -->
-    <div class="main-grid">
-      <!-- Left Column: Campus Softphone Terminal -->
-      <div class="academic-card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-              </svg>
-            </div>
-            <div>
-              <h2>Campus Softphone</h2>
-              <p>Simulasi Dialer WebRTC PBX</p>
-            </div>
-          </div>
-          <div class="persona-badge-group">
-            <select id="personaSelect" class="persona-select" onchange="switchPersona(this.value)">
-              <option value="1003" selected>Admin (Ext 1003)</option>
-              <option value="1004">Helpdesk (Ext 1004)</option>
-              <option value="1001">Mahasiswa (Ext 1001)</option>
-            </select>
-            <span class="card-badge" id="webrtcStatusBadge">
-              <span class="status-pulse"></span>
-              <span>WebRTC Ready</span>
-            </span>
-          </div>
-        </div>
-
-        <div class="softphone-terminal">
-          <!-- Digital Display -->
-          <div class="digital-screen">
-            <div class="screen-status-bar">
-              <div class="call-status-indicator" id="callStatusIndicator">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-                <span id="callStatusText">IDLE · SIAP MEMANGGIL</span>
-              </div>
-              <div class="call-timer" id="callTimer">00:00</div>
-            </div>
-
-            <div class="dial-display" id="dialDisplay">---</div>
-
-            <div class="audio-visualizer" id="visualizer">
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-              <div class="eq-bar"></div>
-            </div>
-          </div>
-
-          <!-- Keypad Matrix -->
-          <div class="keypad-grid">
-            <button class="key-btn" onclick="pressKey('1')">
-              <span class="key-number">1</span>
-              <span class="key-letters"></span>
-            </button>
-            <button class="key-btn" onclick="pressKey('2')">
-              <span class="key-number">2</span>
-              <span class="key-letters">ABC</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('3')">
-              <span class="key-number">3</span>
-              <span class="key-letters">DEF</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('4')">
-              <span class="key-number">4</span>
-              <span class="key-letters">GHI</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('5')">
-              <span class="key-number">5</span>
-              <span class="key-letters">JKL</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('6')">
-              <span class="key-number">6</span>
-              <span class="key-letters">MNO</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('7')">
-              <span class="key-number">7</span>
-              <span class="key-letters">PQRS</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('8')">
-              <span class="key-number">8</span>
-              <span class="key-letters">TUV</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('9')">
-              <span class="key-number">9</span>
-              <span class="key-letters">WXYZ</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('*')">
-              <span class="key-number">*</span>
-              <span class="key-letters"></span>
-            </button>
-            <button class="key-btn" onclick="pressKey('0')">
-              <span class="key-number">0</span>
-              <span class="key-letters">+</span>
-            </button>
-            <button class="key-btn" onclick="pressKey('#')">
-              <span class="key-number">#</span>
-              <span class="key-letters"></span>
-            </button>
-          </div>
-
-          <!-- Call Action Triggers -->
-          <div class="call-actions">
-            <button class="btn-call" id="callBtn" onclick="startCall()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
-              <span>Panggil</span>
-            </button>
-            <button class="btn-hangup" id="endBtn" onclick="endCall()" disabled>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="1" y1="1" x2="23" y2="23"></line>
-                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
-                <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
-              </svg>
-              <span>Putus</span>
-            </button>
-          </div>
-
-          <!-- Sub Utilities -->
-          <div class="sub-actions">
-            <button class="btn-tool" onclick="backspaceDial()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
-                <line x1="18" y1="9" x2="12" y2="15"></line>
-                <line x1="12" y1="9" x2="18" y2="15"></line>
-              </svg>
-              <span>Hapus Karakter</span>
-            </button>
-            <button class="btn-tool" onclick="clearDial()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-              <span>Kosongkan</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: Campus Extension Directory -->
-      <div class="academic-card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <div class="card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-            </div>
-            <div>
-              <h2>Direktori Ekstensi S4RAS</h2>
-              <p>Buku Kontak Telefoni Sivitas & Layanan PBX</p>
-            </div>
-          </div>
-          <span class="card-badge">1-Click Dial</span>
-        </div>
-
-        <!-- Controls: Search & Filters -->
-        <div class="directory-controls">
-          <div class="search-box">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input 
-              type="text" 
-              id="directorySearch" 
-              class="search-input" 
-              placeholder="Cari nama, ekstensi, atau divisi..." 
-              oninput="filterDirectory()"
-            >
-          </div>
-
-          <div class="filter-pills">
-            <button class="pill-filter active" onclick="setCategory('all', this)">Semua</button>
-            <button class="pill-filter" onclick="setCategory('academic', this)">Akademik & Dosen</button>
-            <button class="pill-filter" onclick="setCategory('student', this)">Mahasiswa</button>
-            <button class="pill-filter" onclick="setCategory('service', this)">Layanan PBX</button>
-            <button class="pill-filter" onclick="setCategory('trunk', this)">Trunk</button>
-          </div>
-        </div>
-
-        <!-- Directory Table -->
-        <div class="table-container">
-          <table class="academic-table" id="directoryTable">
-            <thead>
-              <tr>
-                <th>Ekstensi</th>
-                <th>Tujuan / Kontak</th>
-                <th>Kategori & Peran</th>
-                <th>Protokol</th>
-                <th style="text-align: right;">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="directoryBody">
-              <!-- Dynamically rendered or static fallback -->
-            </tbody>
-          </table>
-        </div>
+      <!-- Brand Logo & Title -->
+      <div class="brand-title-wrap">
+        <svg viewBox="0 0 100 100" class="brand-logo-icon" aria-hidden="true">
+          <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
+          <g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.45">
+            <line x1="46" y1="34" x2="56" y2="34"/>
+            <line x1="34" y1="46" x2="34" y2="56"/>
+            <line x1="56" y1="68" x2="46" y2="68"/>
+            <line x1="68" y1="56" x2="68" y2="46"/>
+          </g>
+          <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
+          <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+          <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+          <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.6"/>
+          <circle cx="68" cy="34" r="8" fill="#ffffff"/>
+          <circle cx="68" cy="34" r="3" fill="#dc2626"/>
+        </svg>
+        <span class="brand-title">S4RAS <span style="color:#ef4444">Telefoni</span></span>
+        <span class="brand-sub">Communications & PJSIP WebRTC Hub</span>
       </div>
     </div>
 
-    <!-- Cluster Telemetry Specifications -->
-    <div class="telemetry-grid">
-      <div class="spec-card">
-        <div class="spec-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-            <line x1="6" y1="6" x2="6.01" y2="6"></line>
-            <line x1="6" y1="18" x2="6.01" y2="18"></line>
-          </svg>
+    <div class="header-right">
+      <!-- PJSIP Registration Status -->
+      <div class="status-pill" id="pjsipStatusPill">
+        <span class="status-dot" id="pjsipDot"></span>
+        <span id="pjsipStatusLabel">PJSIP Inisialisasi...</span>
+      </div>
+
+      <!-- Asterisk Trunk Status -->
+      <div class="status-pill trunk-pill-hide-mobile" title="Trunk Inter-PBX Asterisk">
+        <span class="status-dot active"></span>
+        <span>Asterisk 22 • Trunk 201 Ready</span>
+      </div>
+
+      <!-- Current Identity & Persona Selector -->
+      <button class="user-pill" id="btnSwitchPersona" title="Klik untuk switch extension / persona">
+        <div class="user-avatar-mini" id="userAvatar">R</div>
+        <div style="text-align:left; line-height:1.2;">
+          <div style="font-size:0.75rem; font-weight:700;" id="userNameHeader">Rafli Alif</div>
+          <div style="font-size:0.625rem; color:var(--text-muted); font-family:var(--font-mono);" id="userExtHeader">Ext 1003</div>
         </div>
-        <div class="spec-content">
-          <h4>Asterisk PBX Engine</h4>
-          <p>v22.4.1 (VM 202)</p>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+      <!-- Theme Toggle (Dark/Light) -->
+      <button class="btn-icon" id="btnThemeToggle" title="Toggle Mode Gelap / Terang">
+        <svg id="themeIconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="themeIconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+
+      <!-- Language Toggle (ID/EN) -->
+      <button class="btn-icon" id="btnLangToggle" title="Ganti Bahasa (ID/EN)" style="font-size:0.6875rem; font-weight:800; font-family:var(--font-mono);">
+        ID
+      </button>
+    </div>
+  </header>
+
+  <!-- 3-Column Communications Cockpit Layout -->
+  <main class="cockpit-container">
+
+    <!-- COLUMN 1: Smart Dialer & Quick Services -->
+    <section class="cockpit-panel col-left">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="dialpad_title">Smart Keypad</span>
+        </div>
+        <span class="panel-badge" id="activeCallerBadge">Ext 1003</span>
+      </div>
+
+      <!-- Dial Display Screen -->
+      <div class="dialer-screen">
+        <div class="dialer-meta" data-i18n="target_number">Nomor Tujuan / Ekstensi</div>
+        <div class="dialer-display" id="dialDisplay">---</div>
+        <button class="dialer-btn-backspace" id="btnBackspace" title="Hapus digit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+        </button>
+        <div id="smartDetectionWrap" style="display:none;">
+          <div class="smart-detected-badge" id="smartDetectedText">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            <span id="smartMatchLabel">Rafli Alif (Admin)</span>
+          </div>
         </div>
       </div>
 
-      <div class="spec-card">
-        <div class="spec-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
-          </svg>
+      <!-- Numeric Keypad Grid -->
+      <div class="keypad-grid">
+        <button class="key-btn" onclick="pressKey('1')"><span class="key-digit">1</span><span class="key-sub">&nbsp;</span></button>
+        <button class="key-btn" onclick="pressKey('2')"><span class="key-digit">2</span><span class="key-sub">ABC</span></button>
+        <button class="key-btn" onclick="pressKey('3')"><span class="key-digit">3</span><span class="key-sub">DEF</span></button>
+        <button class="key-btn" onclick="pressKey('4')"><span class="key-digit">4</span><span class="key-sub">GHI</span></button>
+        <button class="key-btn" onclick="pressKey('5')"><span class="key-digit">5</span><span class="key-sub">JKL</span></button>
+        <button class="key-btn" onclick="pressKey('6')"><span class="key-digit">6</span><span class="key-sub">MNO</span></button>
+        <button class="key-btn" onclick="pressKey('7')"><span class="key-digit">7</span><span class="key-sub">PQRS</span></button>
+        <button class="key-btn" onclick="pressKey('8')"><span class="key-digit">8</span><span class="key-sub">TUV</span></button>
+        <button class="key-btn" onclick="pressKey('9')"><span class="key-digit">9</span><span class="key-sub">WXYZ</span></button>
+        <button class="key-btn" onclick="pressKey('*')"><span class="key-digit">*</span><span class="key-sub">&nbsp;</span></button>
+        <button class="key-btn" onclick="pressKey('0')"><span class="key-digit">0</span><span class="key-sub">+</span></button>
+        <button class="key-btn" onclick="pressKey('#')"><span class="key-digit">#</span><span class="key-sub">&nbsp;</span></button>
+      </div>
+
+      <!-- Primary Call Buttons -->
+      <div class="dialer-actions" id="dialerActionsRow">
+        <button class="btn-call-audio" id="btnAudioCall" onclick="startCall('audio')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="call_audio">Panggil Audio</span>
+        </button>
+        <button class="btn-call-video" id="btnVideoCall" onclick="startCall('video')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <span data-i18n="call_video">Video HD (VP8)</span>
+        </button>
+        <button class="btn-end-call" id="btnEndCall" onclick="endCall()" style="display:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-i18n="end_call">Akhiri Panggilan</span>
+        </button>
+      </div>
+
+      <!-- Quick Access Channels -->
+      <div class="quick-title" data-i18n="quick_services">Layanan Cepat PBX</div>
+      <div class="quick-grid">
+        <button class="quick-card" onclick="quickDial('1000')">
+          <span class="quick-ext">1000</span>
+          <span class="quick-label" data-i18n="svc_operator">Operator & Bantuan</span>
+        </button>
+        <button class="quick-card" onclick="quickDial('600')">
+          <span class="quick-ext">600</span>
+          <span class="quick-label" data-i18n="svc_echo">Echo & Video Loop</span>
+        </button>
+        <button class="quick-card" onclick="quickDial('8000')">
+          <span class="quick-ext">8000</span>
+          <span class="quick-label" data-i18n="svc_conf">Konferensi Sivitas</span>
+        </button>
+        <button class="quick-card" onclick="quickDial('*97')">
+          <span class="quick-ext">*97</span>
+          <span class="quick-label" data-i18n="svc_vm">Pusat Kotak Suara</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- COLUMN 2: HD Media Stage & Diagnostic Cockpit -->
+    <section class="cockpit-panel col-center center-stage-container">
+      
+      <!-- STATE A: IDLE DASHBOARD -->
+      <div class="idle-stage" id="idleStage">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <span data-i18n="telemetry_overview">Telemetri Jaringan & Node Telefoni S4RAS</span>
+          </div>
+          <span class="panel-badge" style="background:rgba(16,185,129,0.12); color:#34d399;">Cluster Healthy</span>
         </div>
-        <div class="spec-content">
-          <h4>Inter-PBX SIP Trunk</h4>
-          <p>VM 201 (Asterisk 20)</p>
+
+        <!-- 4 Key Telemetry Cards -->
+        <div class="telemetry-row">
+          <div class="metric-card">
+            <span class="metric-title" data-i18n="metric_transport">Signaling Transport</span>
+            <div class="metric-value">
+              <span class="status-dot active"></span>
+              <span>WSS / PJSIP</span>
+            </div>
+            <span class="metric-desc">wss://voip.s4ras.site/ws</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title" data-i18n="metric_nat">NAT & ICE Relay</span>
+            <div class="metric-value">
+              <span class="status-dot active"></span>
+              <span>CoTURN Active</span>
+            </div>
+            <span class="metric-desc">Port 3478 (STUN / TURN)</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title" data-i18n="metric_codecs">Media Codecs</span>
+            <div class="metric-value">
+              <span>VP8 / Opus HD</span>
+            </div>
+            <span class="metric-desc">Pass-Through 720p 48kHz</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-title" data-i18n="metric_nodes">PBX Engine</span>
+            <div class="metric-value">
+              <span>Asterisk 22.4.1</span>
+            </div>
+            <span class="metric-desc">VM 202 • Trunk VM 201</span>
+          </div>
+        </div>
+
+        <!-- Live SIP Signaling Terminal -->
+        <div class="terminal-container">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="terminal-dot" style="background:#ef4444;"></div>
+              <div class="terminal-dot" style="background:#f59e0b;"></div>
+              <div class="terminal-dot" style="background:#10b981;"></div>
+            </div>
+            <span data-i18n="terminal_title">PJSIP Signaling & WebRTC Log Stream</span>
+            <button onclick="clearTerminalLogs()" style="background:transparent; border:none; color:#71717a; cursor:pointer; font-size:0.625rem;">[Clear]</button>
+          </div>
+          <div class="terminal-logs" id="terminalLogs">
+            <div class="log-line"><span class="log-time">[BOOT]</span><span>S4RAS Telephony Engine initialized. Ready for WebRTC media session.</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="spec-card">
-        <div class="spec-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
-            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
-            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-            <line x1="12" y1="20" x2="12.01" y2="20"></line>
-          </svg>
+      <!-- STATE B: ACTIVE CALL STAGE -->
+      <div class="active-stage" id="activeStage">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="status-dot active"></span>
+            <span id="activeCallTitle">Panggilan Berlangsung...</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span class="panel-badge" id="callDurationBadge">00:00</span>
+            <span class="panel-badge" style="background:rgba(16,185,129,0.12); color:#34d399;" id="callCodecBadge">VP8 HD</span>
+          </div>
         </div>
-        <div class="spec-content">
-          <h4>Transport Sinyal</h4>
-          <p>PJSIP 5060 · WSS 8088</p>
+
+        <!-- Main Video Viewport -->
+        <div class="video-viewport" id="videoViewport">
+          <!-- Remote Video or Loopback -->
+          <video class="video-remote" id="remoteVideo" autoplay playsinline></video>
+
+          <!-- Audio Waveform Placeholder (Shown when no video stream) -->
+          <div class="audio-stage-placeholder" id="audioStagePlaceholder">
+            <div class="avatar-pulse-ring" id="callAvatarLarge">📞</div>
+            <h3 style="font-size:1.15rem; font-weight:700;" id="callTargetName">Ekstensi 1000</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;" id="callTargetDesc">Saluran Komunikasi Suara PJSIP</p>
+          </div>
+
+          <!-- Local PiP Webcam Preview -->
+          <div class="video-pip" id="pipContainer" style="display:none;">
+            <video id="localVideo" autoplay playsinline muted></video>
+            <div class="pip-label" id="pipLabel">Kamera Lokal (Anda)</div>
+          </div>
+        </div>
+
+        <!-- Floating Call Controls Bar -->
+        <div class="call-controls-bar">
+          <button class="control-pill-btn" id="btnToggleMic" onclick="toggleMuteMic()">
+            <svg id="micIconOn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <span id="micBtnText">Mute</span>
+          </button>
+          <button class="control-pill-btn" id="btnToggleCam" onclick="toggleCamera()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            <span id="camBtnText">Kamera</span>
+          </button>
+          <button class="control-pill-btn" id="btnShareScreen" onclick="toggleScreenShare()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span id="shareBtnText">Bagi Layar</span>
+          </button>
+          <button class="control-pill-btn active" onclick="endCall()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>Tutup</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMN 3: Directory, WhatsApp Bridges & Call History -->
+    <section class="cockpit-panel col-right">
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tabBtnDir" onclick="switchRightTab('dir')" data-i18n="tab_directory">Direktori Sivitas</button>
+        <button class="tab-btn" id="tabBtnHistory" onclick="switchRightTab('history')" data-i18n="tab_history">Riwayat Panggilan</button>
+        <button class="tab-btn" id="tabBtnTrunk" onclick="switchRightTab('trunk')" data-i18n="tab_trunk">Trunk PBX</button>
+      </div>
+
+      <!-- VIEW 1: DIRECTORY -->
+      <div id="viewDirectory">
+        <div class="dir-search-wrap">
+          <svg class="dir-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="dir-search-input" id="dirSearchInput" placeholder="Cari kontak, ekstensi, atau divisi..." oninput="filterDirectory()">
+        </div>
+
+        <div class="dir-list" id="directoryListWrap">
+          <!-- Dynamically populated -->
         </div>
       </div>
 
-      <div class="spec-card">
-        <div class="spec-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
+      <!-- VIEW 2: HISTORY -->
+      <div id="viewHistory" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span style="font-size:0.6875rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;" data-i18n="recent_calls">Panggilan Terakhir</span>
+          <button onclick="clearHistory()" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:0.6875rem;" data-i18n="clear_history">Hapus Riwayat</button>
         </div>
-        <div class="spec-content">
-          <h4>Audio / Video Codecs</h4>
-          <p>Opus · G.722 · VP8</p>
+        <div class="dir-list" id="historyListWrap">
+          <!-- Dynamically populated from localStorage -->
         </div>
+      </div>
+
+      <!-- VIEW 3: TRUNK STATUS -->
+      <div id="viewTrunk" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:0.65rem;">
+          <div class="dir-card">
+            <div class="dir-info">
+              <div class="dir-name-row">
+                <span class="status-dot active"></span>
+                <span class="dir-name">Asterisk 22 Core (VM 202)</span>
+              </div>
+              <div class="dir-dept">PJSIP WebRTC • 192.168.10.202:8088 / 5060</div>
+            </div>
+            <span class="panel-badge" style="background:rgba(16,185,129,0.12); color:#34d399;">PRIMARY</span>
+          </div>
+
+          <div class="dir-card">
+            <div class="dir-info">
+              <div class="dir-name-row">
+                <span class="status-dot active"></span>
+                <span class="dir-name">Asterisk 20 Trunk (VM 201)</span>
+              </div>
+              <div class="dir-dept">Inter-PBX SIP Trunk • 192.168.10.201:5060</div>
+            </div>
+            <span class="panel-badge" style="background:rgba(14,165,233,0.12); color:#38bdf8;">FAILOVER</span>
+          </div>
+
+          <div class="dir-card">
+            <div class="dir-info">
+              <div class="dir-name-row">
+                <span class="status-dot active"></span>
+                <span class="dir-name">CoTURN ICE Relay</span>
+              </div>
+              <div class="dir-dept">STUN / TURN • stun.s4ras.site:3478</div>
+            </div>
+            <span class="panel-badge" style="background:rgba(245,158,11,0.12); color:#fbbf24;">RELAY</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Switch Persona / Extension Modal -->
+  <div class="modal-backdrop" id="modalSwitchPersona">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modal_persona_title">Pilih Persona & Ekstensi Aktif</h3>
+        <button onclick="closePersonaModal()" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="modal_persona_desc">
+        Pilih akun pengguna untuk beralih ekstensi SIP dan hak akses PBX:
+      </p>
+
+      <div class="ext-grid">
+        <button class="ext-card-btn active" id="btnPersona1003" onclick="selectPersona('1003', 'Rafli Alif', 'Lead Architect & Admin', 'R')">
+          <div style="font-size:0.875rem; font-weight:700;">Rafli Alif</div>
+          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1003 (Admin)</div>
+          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">+62 838-4612-1134</div>
+        </button>
+
+        <button class="ext-card-btn" id="btnPersona1004" onclick="selectPersona('1004', 'Nathan', 'Co-Developer & Cluster', 'N')">
+          <div style="font-size:0.875rem; font-weight:700;">Nathan</div>
+          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1004 (Co-Dev)</div>
+          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">+62 812-9289-2465</div>
+        </button>
+
+        <button class="ext-card-btn" id="btnPersona1002" onclick="selectPersona('1002', 'Dr. Hendra Wijaya', 'Dosen Komputasi Awan', 'H')">
+          <div style="font-size:0.875rem; font-weight:700;">Dr. Hendra Wijaya</div>
+          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1002 (Dosen)</div>
+          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">Fakultas Teknik</div>
+        </button>
+
+        <button class="ext-card-btn" id="btnPersona1001" onclick="selectPersona('1001', 'Budi Pratama', 'Perwakilan Mahasiswa', 'B')">
+          <div style="font-size:0.875rem; font-weight:700;">Budi Pratama</div>
+          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1001 (Mahasiswa)</div>
+          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">Dewan Sivitas</div>
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- Audio Tone & Media Script -->
   <script>
-    // Directory Data Definition
+    // ==========================================
+    // BILINGUAL DICTIONARY (ID / EN)
+    // ==========================================
+    const I18N = {
+      id: {
+        back_portal: "Kembali ke Portal",
+        dialpad_title: "Smart Keypad",
+        target_number: "Nomor Tujuan / Ekstensi",
+        call_audio: "Panggil Audio",
+        call_video: "Video HD (VP8)",
+        end_call: "Akhiri Panggilan",
+        quick_services: "Layanan Cepat PBX",
+        svc_operator: "Operator & Bantuan",
+        svc_echo: "Echo & Video Loop",
+        svc_conf: "Konferensi Sivitas",
+        svc_vm: "Pusat Kotak Suara",
+        telemetry_overview: "Telemetri Jaringan & Node Telefoni S4RAS",
+        metric_transport: "Signaling Transport",
+        metric_nat: "NAT & ICE Relay",
+        metric_codecs: "Media Codecs",
+        metric_nodes: "PBX Engine",
+        terminal_title: "PJSIP Signaling & WebRTC Log Stream",
+        tab_directory: "Direktori Sivitas",
+        tab_history: "Riwayat Panggilan",
+        tab_trunk: "Trunk PBX",
+        recent_calls: "Panggilan Terakhir",
+        clear_history: "Hapus Riwayat",
+        modal_persona_title: "Pilih Persona & Ekstensi Aktif",
+        modal_persona_desc: "Pilih akun pengguna untuk beralih ekstensi SIP dan hak akses PBX:"
+      },
+      en: {
+        back_portal: "Back to Portal",
+        dialpad_title: "Smart Keypad",
+        target_number: "Destination Number / Ext",
+        call_audio: "Audio Call",
+        call_video: "HD Video (VP8)",
+        end_call: "End Call",
+        quick_services: "Quick PBX Services",
+        svc_operator: "Operator & Helpdesk",
+        svc_echo: "Echo & Video Loop",
+        svc_conf: "Campus Conference",
+        svc_vm: "Central Voicemail",
+        telemetry_overview: "S4RAS Telephony Network & Node Telemetry",
+        metric_transport: "Signaling Transport",
+        metric_nat: "NAT & ICE Relay",
+        metric_codecs: "Media Codecs",
+        metric_nodes: "PBX Engine",
+        terminal_title: "PJSIP Signaling & WebRTC Log Stream",
+        tab_directory: "Campus Directory",
+        tab_history: "Call History",
+        tab_trunk: "PBX Trunks",
+        recent_calls: "Recent Calls",
+        clear_history: "Clear History",
+        modal_persona_title: "Select Active Persona & Extension",
+        modal_persona_desc: "Select a user profile to switch active SIP extension and PBX privileges:"
+      }
+    };
+
+    let currentLang = 'id';
+    let currentTheme = 'dark';
+
+    // DIRECTORY CONTACTS
     const DIRECTORY = [
       {
-        ext: "1000",
-        name: "Automated Campus IVR",
-        dept: "Menu Suara Interaktif Utama Kampus S4RAS",
-        category: "service",
-        categoryLabel: "Layanan PBX",
-        protocol: "Internal",
-        badgeClass: "service"
+        ext: "1003",
+        name: "Rafli Alif",
+        role: "Lead Architect & Admin",
+        phone: "+62 838-4612-1134",
+        wa: "6283846121134",
+        category: "civitas"
       },
       {
-        ext: "600",
-        name: "VoIP Audio Echo Test",
-        dept: "Uji Latensi & Loopback Kualitas Mikrofon",
-        category: "service",
-        categoryLabel: "Layanan PBX",
-        protocol: "WebRTC / SIP",
-        badgeClass: "service"
-      },
-      {
-        ext: "800",
-        name: "Campus Conference Bridge",
-        dept: "Ruang Konferensi Audio Multi-Pihak (ConfBridge)",
-        category: "service",
-        categoryLabel: "Layanan PBX",
-        protocol: "Internal",
-        badgeClass: "service"
-      },
-      {
-        ext: "500",
-        name: "Voicemail Central",
-        dept: "Pusat Kotak Suara & Rekaman Pesan Sivitas",
-        category: "service",
-        categoryLabel: "Layanan PBX",
-        protocol: "Internal",
-        badgeClass: "service"
-      },
-      {
-        ext: "1001",
-        name: "Budi Pratama",
-        dept: "Perwakilan Mahasiswa / Student Council",
-        category: "student",
-        categoryLabel: "Mahasiswa",
-        protocol: "WebRTC / PJSIP",
-        badgeClass: "student"
+        ext: "1004",
+        name: "Nathan",
+        role: "Co-Developer & Cluster Architecture",
+        phone: "+62 812-9289-2465",
+        wa: "6281292892465",
+        category: "civitas"
       },
       {
         ext: "1002",
         name: "Dr. Hendra Wijaya",
-        dept: "Dosen Komputasi Awan / Faculty Desk",
-        category: "academic",
-        categoryLabel: "Dosen",
-        protocol: "WebRTC / PJSIP",
-        badgeClass: "faculty"
+        role: "Dosen Komputasi Awan (Faculty)",
+        phone: null,
+        wa: null,
+        category: "civitas"
       },
       {
-        ext: "1003",
-        name: "IT DevOps Team",
-        dept: "Infrastruktur Cloud & Pemeliharaan Server",
-        category: "academic",
-        categoryLabel: "DevOps",
-        protocol: "WebRTC / PJSIP",
-        badgeClass: "admin"
+        ext: "1001",
+        name: "Budi Pratama",
+        role: "Perwakilan Mahasiswa (Student)",
+        phone: null,
+        wa: null,
+        category: "civitas"
       },
       {
-        ext: "1004",
-        name: "System Administrator",
-        dept: "Pusat Komando & Dukungan Enterprise Kampus",
-        category: "academic",
-        categoryLabel: "Admin",
-        protocol: "WebRTC / PJSIP",
-        badgeClass: "admin"
+        ext: "1000",
+        name: "Operator & Helpdesk Kampus",
+        role: "Layanan Dukungan & Informasi Terpadu",
+        phone: null,
+        wa: null,
+        category: "service"
       },
       {
-        ext: "201",
-        name: "VM 201 PBX Trunk",
-        dept: "Rute Trunk Inter-PBX ke Asterisk 20 Simpul 1",
-        category: "trunk",
-        categoryLabel: "Trunk",
-        protocol: "PJSIP Trunk",
-        badgeClass: "service"
+        ext: "600",
+        name: "Echo & Latency Loopback Test",
+        role: "Uji Kualitas Mikrofon & Video HD",
+        phone: null,
+        wa: null,
+        category: "service"
+      },
+      {
+        ext: "8000",
+        name: "Ruang Konferensi Desa / Sivitas",
+        role: "Pusat Diskusi Terbuka ConfBridge",
+        phone: null,
+        wa: null,
+        category: "service"
+      },
+      {
+        ext: "*97",
+        name: "Pusat Kotak Suara (Voicemail)",
+        role: "Akses Rekaman Pesan Sivitas",
+        phone: null,
+        wa: null,
+        category: "service"
       }
     ];
 
-    let currentCategory = 'all';
-
-    function renderDirectory() {
-      const searchEl = document.getElementById('directorySearch');
-      const query = searchEl ? searchEl.value.trim().toLowerCase() : '';
-      const tbody = document.getElementById('directoryBody');
-      const filtered = DIRECTORY.filter(item => {
-        const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-        const matchesQuery = !query || 
-          item.ext.toLowerCase().includes(query) ||
-          item.name.toLowerCase().includes(query) ||
-          item.dept.toLowerCase().includes(query);
-        return matchesCat && matchesQuery;
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="5" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
-              Tidak ada kontak atau ekstensi yang sesuai dengan pencarian.
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(item => `
-        <tr>
-          <td><span class="ext-tag">${item.ext}</span></td>
-          <td>
-            <div class="contact-cell">
-              <span class="contact-name">${item.name}</span>
-              <span class="contact-dept">${item.dept}</span>
-            </div>
-          </td>
-          <td>
-            <span class="role-badge ${item.badgeClass}">${item.categoryLabel}</span>
-          </td>
-          <td>
-            <span class="proto-tag">${item.protocol}</span>
-          </td>
-          <td style="text-align: right;">
-            <button class="btn-dial-row" onclick="dialNumber('${item.ext}')">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
-              <span>Dial ${item.ext}</span>
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function setCategory(cat, btn) {
-      currentCategory = cat;
-      document.querySelectorAll('.pill-filter').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      renderDirectory();
-    }
-
-    function filterDirectory() {
-      renderDirectory();
-    }
-
-    // ========================================================
-    // SOFTPHONE DTMF, PERSONA & SIP WSS SIGNALING
-    // ========================================================
-    let currentNumber = "";
-    let inCall = false;
-    let timerInterval = null;
-    let seconds = 0;
-    let audioCtx = null;
-    let currentPersona = "1003";
-    let sipWs = null;
-    let wsConnected = false;
-
+    // DTMF Frequencies
     const DTMF_FREQS = {
       '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
       '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
@@ -1388,117 +1509,170 @@
       '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
     };
 
-    function switchPersona(ext) {
-      currentPersona = ext;
-      if (wsConnected && sipWs) {
+    // User State
+    let currentUser = {
+      ext: "1003",
+      name: "Rafli Alif",
+      role: "Lead Architect & Admin",
+      initial: "R",
+      secret: "dev-mock-secret"
+    };
+
+    let dialedNumber = "";
+    let inCall = false;
+    let isVideoCall = false;
+    let isMuted = false;
+    let isCamOff = false;
+    let isScreenSharing = false;
+    let callTimer = null;
+    let callSeconds = 0;
+    let localStream = null;
+    let remoteStream = null;
+    let audioCtx = null;
+    let sipWs = null;
+    let callHistory = JSON.parse(localStorage.getItem('s4ras_voip_history') || '[]');
+
+    // ==========================================
+    // INITIALIZATION & THEME / LANG SYNC
+    // ==========================================
+    function initThemeAndLanguage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Theme resolution: URL > Cookie > localStorage > 'dark'
+      const cookieTheme = (document.cookie.match(/s4ras_theme=(dark|light)/) || [])[1];
+      const paramTheme = urlParams.get('theme');
+      currentTheme = paramTheme || cookieTheme || localStorage.getItem('saras-theme') || 'dark';
+      applyTheme(currentTheme);
+
+      // Language resolution: URL > Cookie > localStorage > 'id'
+      const cookieLang = (document.cookie.match(/s4ras_lang=(id|en)/) || [])[1];
+      const paramLang = urlParams.get('lang');
+      currentLang = paramLang || cookieLang || localStorage.getItem('saras-lang') || 'id';
+      applyLanguage(currentLang);
+
+      // Auto-provisioning User / Ext
+      const paramExt = urlParams.get('ext');
+      const paramUser = urlParams.get('user');
+      const paramToken = urlParams.get('token');
+
+      if (paramExt === '1004' || paramUser === 'nathan1') {
+        selectPersona('1004', 'Nathan', 'Co-Developer & Cluster', 'N', false);
+      } else if (paramExt === '1002' || paramUser === 'teacher1') {
+        selectPersona('1002', 'Dr. Hendra Wijaya', 'Dosen Komputasi Awan', 'H', false);
+      } else if (paramExt === '1001' || paramUser === 'student1') {
+        selectPersona('1001', 'Budi Pratama', 'Perwakilan Mahasiswa', 'B', false);
+      } else if (paramExt) {
+        selectPersona(paramExt, paramUser || `Ekstensi ${paramExt}`, 'Pengguna Portal', paramExt[0], false);
+      }
+
+      // If token provided, query /api/me/context for auto-provisioning credentials
+      if (paramToken) {
+        fetch('https://portal.s4ras.site/api/me/context', {
+          headers: { Authorization: `Bearer ${paramToken}` },
+          credentials: 'include'
+        })
+        .then(res => res.ok ? res.json() : null)
+        .then(ctx => {
+          if (ctx?.telephony) {
+            logTerminal(`[SSO] Context resolved: Ext ${ctx.telephony.extension} (${ctx.username})`, 'in');
+            if (ctx.telephony.secret) currentUser.secret = ctx.telephony.secret;
+            if (ctx.telephony.extension) {
+              currentUser.ext = ctx.telephony.extension;
+              updateHeaderIdentity();
+              sendSIPRegister(currentUser.ext);
+            }
+          }
+        })
+        .catch(() => {});
+      }
+    }
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('saras-theme', theme);
+      try {
+        const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+        document.cookie = `s4ras_theme=${theme}${domainAttr}; path=/; max-age=31536000; SameSite=Lax`;
+      } catch(e){}
+
+      const sun = document.getElementById('themeIconSun');
+      const moon = document.getElementById('themeIconMoon');
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+      } else {
+        document.documentElement.classList.remove('light');
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+      }
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('saras-lang', lang);
+      try {
+        const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+        document.cookie = `s4ras_lang=${lang}${domainAttr}; path=/; max-age=31536000; SameSite=Lax`;
+      } catch(e){}
+
+      document.getElementById('btnLangToggle').innerText = lang.toUpperCase();
+      const dict = I18N[lang] || I18N['id'];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.innerText = dict[key];
+      });
+    }
+
+    // Toggle listeners
+    document.getElementById('btnThemeToggle').addEventListener('click', () => {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    document.getElementById('btnLangToggle').addEventListener('click', () => {
+      applyLanguage(currentLang === 'id' ? 'en' : 'id');
+    });
+
+    // ==========================================
+    // PERSONA & EXTENSION SWITCHING
+    // ==========================================
+    function updateHeaderIdentity() {
+      document.getElementById('userNameHeader').innerText = currentUser.name;
+      document.getElementById('userExtHeader').innerText = `Ext ${currentUser.ext}`;
+      document.getElementById('userAvatar').innerText = currentUser.initial;
+      document.getElementById('activeCallerBadge').innerText = `Ext ${currentUser.ext}`;
+      document.getElementById('pipLabel').innerText = `${currentUser.name} (${currentUser.ext})`;
+    }
+
+    function openPersonaModal() {
+      document.getElementById('modalSwitchPersona').classList.add('is-open');
+    }
+    function closePersonaModal() {
+      document.getElementById('modalSwitchPersona').classList.remove('is-open');
+    }
+    document.getElementById('btnSwitchPersona').addEventListener('click', openPersonaModal);
+
+    function selectPersona(ext, name, role, initial, updateRegister = true) {
+      currentUser = { ext, name, role, initial, secret: 'dev-mock-secret' };
+      updateHeaderIdentity();
+      document.querySelectorAll('.ext-card-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btnPersona${ext}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      closePersonaModal();
+      logTerminal(`[PERSONA] Active profile set to: ${name} (Ext ${ext})`, 'in');
+      if (updateRegister) {
         sendSIPRegister(ext);
       }
     }
 
-    function initSIP() {
-      try {
-        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const url = `${proto}//${window.location.host}/ws`;
-        sipWs = new WebSocket(url, 'sip');
-        sipWs.onopen = () => {
-          wsConnected = true;
-          const b = document.getElementById('webrtcStatusBadge');
-          if (b) {
-            b.innerHTML = '<span class="status-pulse active" style="background:#10b981"></span><span>SIP WSS Active</span>';
-            b.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-            b.style.background = 'rgba(16, 185, 129, 0.12)';
-            b.style.color = '#34d399';
-          }
-          sendSIPRegister(currentPersona);
-        };
-        sipWs.onmessage = (event) => {
-          console.log('[SIP IN]', event.data);
-        };
-        sipWs.onclose = () => {
-          wsConnected = false;
-          setTimeout(initSIP, 10000);
-        };
-        sipWs.onerror = () => {
-          wsConnected = false;
-        };
-      } catch (e) {
-        console.warn('SIP WebSocket init exception:', e);
-      }
-    }
-
-    function sendSIPRegister(ext) {
-      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
-      const callId = 'reg-' + Math.random().toString(36).substring(2) + '@s4ras.site';
-      const cseq = Math.floor(Math.random() * 1000) + 1;
-      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
-      const host = window.location.hostname || 'voip.s4ras.site';
-      const msg = [
-        `REGISTER sip:${host} SIP/2.0`,
-        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
-        `Max-Forwards: 70`,
-        `From: <sip:${ext}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
-        `To: <sip:${ext}@${host}>`,
-        `Call-ID: ${callId}`,
-        `CSeq: ${cseq} REGISTER`,
-        `Contact: <sip:${ext}@${host};transport=ws>`,
-        `Expires: 3600`,
-        `User-Agent: S4RAS-WebRTC-Client/2.0`,
-        `Content-Length: 0`,
-        '',
-        ''
-      ].join('\r\n');
-      sipWs.send(msg);
-    }
-
-    function sendSIPInvite(targetExt) {
-      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
-      const callId = 'inv-' + Math.random().toString(36).substring(2) + '@s4ras.site';
-      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
-      const host = window.location.hostname || 'voip.s4ras.site';
-      const msg = [
-        `INVITE sip:${targetExt}@${host} SIP/2.0`,
-        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
-        `Max-Forwards: 70`,
-        `From: <sip:${currentPersona}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
-        `To: <sip:${targetExt}@${host}>`,
-        `Call-ID: ${callId}`,
-        `CSeq: 1 INVITE`,
-        `Contact: <sip:${currentPersona}@${host};transport=ws>`,
-        `User-Agent: S4RAS-WebRTC-Client/2.0`,
-        `Content-Type: application/sdp`,
-        `Content-Length: 0`,
-        '',
-        ''
-      ].join('\r\n');
-      sipWs.send(msg);
-    }
-
-    function sendSIPBye(targetExt) {
-      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
-      const callId = 'bye-' + Math.random().toString(36).substring(2) + '@s4ras.site';
-      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
-      const host = window.location.hostname || 'voip.s4ras.site';
-      const msg = [
-        `BYE sip:${targetExt}@${host} SIP/2.0`,
-        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
-        `Max-Forwards: 70`,
-        `From: <sip:${currentPersona}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
-        `To: <sip:${targetExt}@${host}>`,
-        `Call-ID: ${callId}`,
-        `CSeq: 2 BYE`,
-        `User-Agent: S4RAS-WebRTC-Client/2.0`,
-        `Content-Length: 0`,
-        '',
-        ''
-      ].join('\r\n');
-      sipWs.send(msg);
-    }
-
-    function playTone(key) {
+    // ==========================================
+    // KEYPAD & SMART NUMBER RESOLUTION
+    // ==========================================
+    function playTone(digit) {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        const freqs = DTMF_FREQS[key];
+        const freqs = DTMF_FREQS[digit];
         if (!freqs) return;
 
         const osc1 = audioCtx.createOscillator();
@@ -1518,102 +1692,457 @@
         setTimeout(() => {
           osc1.stop();
           osc2.stop();
-        }, 140);
-      } catch(e) {}
+        }, 120);
+      } catch (e) {}
     }
 
     function pressKey(key) {
       playTone(key);
-      if (currentNumber === "---") currentNumber = "";
-      if (currentNumber.length < 8) {
-        currentNumber += key;
-        document.getElementById('dialDisplay').innerText = currentNumber;
+      if (dialedNumber.length < 14) {
+        dialedNumber += key;
+        updateDialDisplay();
       }
     }
 
-    function backspaceDial() {
-      if (currentNumber && currentNumber !== "---") {
-        currentNumber = currentNumber.slice(0, -1);
-        document.getElementById('dialDisplay').innerText = currentNumber || "---";
+    document.getElementById('btnBackspace').addEventListener('click', () => {
+      if (dialedNumber.length > 0) {
+        dialedNumber = dialedNumber.slice(0, -1);
+        updateDialDisplay();
+      }
+    });
+
+    function quickDial(ext) {
+      dialedNumber = ext;
+      updateDialDisplay();
+      startCall('audio');
+    }
+
+    function updateDialDisplay() {
+      const display = document.getElementById('dialDisplay');
+      display.innerText = dialedNumber || '---';
+
+      const wrap = document.getElementById('smartDetectionWrap');
+      const label = document.getElementById('smartMatchLabel');
+
+      const raw = dialedNumber.trim();
+      const digits = raw.replace(/\D/g, '');
+
+      if (digits.includes('83846121134') || raw === '1003' || raw === '083846121134') {
+        wrap.style.display = 'block';
+        label.innerText = 'Rafli Alif (Admin) • Ext 1003';
+      } else if (digits.includes('81292892465') || raw === '1004' || raw === '081292892465') {
+        wrap.style.display = 'block';
+        label.innerText = 'Nathan (Co-Dev) • Ext 1004';
+      } else if (raw === '1000') {
+        wrap.style.display = 'block';
+        label.innerText = 'Operator & Bantuan Kampus';
+      } else if (raw === '600') {
+        wrap.style.display = 'block';
+        label.innerText = 'Loopback Audio & Video Echo Test';
+      } else if (raw === '8000') {
+        wrap.style.display = 'block';
+        label.innerText = 'Ruang Konferensi Sivitas';
+      } else {
+        wrap.style.display = 'none';
       }
     }
 
-    function clearDial() {
-      currentNumber = "";
-      document.getElementById('dialDisplay').innerText = "---";
-    }
+    // ==========================================
+    // CALL MANAGEMENT & WEBRTC
+    // ==========================================
+    async function startCall(mode) {
+      let target = dialedNumber.trim();
+      if (!target || target === '---') return;
 
-    function dialNumber(ext) {
-      currentNumber = ext;
-      document.getElementById('dialDisplay').innerText = ext;
-      startCall();
-    }
+      // Smart resolution conversion for phone numbers
+      const digits = target.replace(/\D/g, '');
+      if (digits.includes('83846121134')) target = '1003';
+      if (digits.includes('81292892465')) target = '1004';
 
-    function startCall() {
-      if (!currentNumber || currentNumber === "---") return;
       inCall = true;
-      const statusInd = document.getElementById('callStatusIndicator');
-      const statusText = document.getElementById('callStatusText');
-      const callTimer = document.getElementById('callTimer');
-      const callBtn = document.getElementById('callBtn');
-      const endBtn = document.getElementById('endBtn');
-      const visualizer = document.getElementById('visualizer');
+      isVideoCall = (mode === 'video');
 
-      statusText.innerText = "CALLING...";
-      statusInd.classList.add('active');
-      callTimer.classList.add('active');
-      callBtn.disabled = true;
-      endBtn.disabled = false;
-      visualizer.classList.add('active');
+      document.getElementById('idleStage').classList.add('is-calling');
+      document.getElementById('activeStage').classList.add('is-calling');
 
-      sendSIPInvite(currentNumber);
+      document.getElementById('btnAudioCall').style.display = 'none';
+      document.getElementById('btnVideoCall').style.display = 'none';
+      document.getElementById('btnEndCall').style.display = 'inline-flex';
 
-      setTimeout(() => {
-        if (inCall) {
-          statusText.innerText = "TERHUBUNG · EXT " + currentNumber;
+      document.getElementById('activeCallTitle').innerText = `Terhubung: Ext ${target}`;
+      document.getElementById('callTargetName').innerText = `Ekstensi ${target}`;
+      document.getElementById('callCodecBadge').innerText = isVideoCall ? 'VP8 HD' : 'Opus HD';
+
+      logTerminal(`[INVITE] Calling Ext ${target} (${mode.toUpperCase()})...`, 'out');
+      sendSIPInvite(target, mode);
+
+      // Handle Camera & Audio Media
+      try {
+        if (isVideoCall || target === '600') {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          const localVid = document.getElementById('localVideo');
+          localVid.srcObject = localStream;
+          document.getElementById('pipContainer').style.display = 'block';
+
+          if (target === '600') {
+            // Echo loopback test
+            const remoteVid = document.getElementById('remoteVideo');
+            remoteVid.srcObject = localStream;
+            remoteVid.style.display = 'block';
+            document.getElementById('audioStagePlaceholder').style.display = 'none';
+            logTerminal('[MEDIA] Video Loopback established on Ext 600', 'in');
+          } else {
+            document.getElementById('audioStagePlaceholder').style.display = 'none';
+            document.getElementById('remoteVideo').style.display = 'block';
+          }
+        } else {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
+          document.getElementById('pipContainer').style.display = 'none';
+          document.getElementById('remoteVideo').style.display = 'none';
+          document.getElementById('audioStagePlaceholder').style.display = 'flex';
         }
+      } catch (err) {
+        logTerminal(`[WARN] Media access error: ${err.message}`, 'err');
+      }
+
+      // Start duration counter
+      callSeconds = 0;
+      clearInterval(callTimer);
+      callTimer = setInterval(() => {
+        callSeconds++;
+        const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+        const secs = String(callSeconds % 60).padStart(2, '0');
+        document.getElementById('callDurationBadge').innerText = `${mins}:${secs}`;
       }, 1000);
 
-      seconds = 0;
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        seconds++;
-        const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
-        const secs = String(seconds % 60).padStart(2, '0');
-        callTimer.innerText = `${mins}:${secs}`;
-      }, 1000);
+      // Record to history
+      addCallHistory(target, mode);
     }
 
     function endCall() {
+      if (!inCall) return;
       inCall = false;
-      clearInterval(timerInterval);
-      const statusInd = document.getElementById('callStatusIndicator');
-      const statusText = document.getElementById('callStatusText');
-      const callTimer = document.getElementById('callTimer');
-      const callBtn = document.getElementById('callBtn');
-      const endBtn = document.getElementById('endBtn');
-      const visualizer = document.getElementById('visualizer');
+      clearInterval(callTimer);
 
-      sendSIPBye(currentNumber);
+      logTerminal(`[BYE] Call with ${dialedNumber || 'Peer'} ended.`, 'out');
+      sendSIPBye(dialedNumber);
 
-      statusText.innerText = "PANGGILAN BERAKHIR";
-      statusInd.classList.remove('active');
-      callTimer.classList.remove('active');
-      callBtn.disabled = false;
-      endBtn.disabled = true;
-      visualizer.classList.remove('active');
+      // Stop streams
+      if (localStream) {
+        localStream.getTracks().forEach(t => t.stop());
+        localStream = null;
+      }
+      document.getElementById('localVideo').srcObject = null;
+      document.getElementById('remoteVideo').srcObject = null;
 
-      setTimeout(() => {
-        if (!inCall) {
-          statusText.innerText = "IDLE · SIAP MEMANGGIL";
-          callTimer.innerText = "00:00";
-        }
-      }, 2500);
+      document.getElementById('idleStage').classList.remove('is-calling');
+      document.getElementById('activeStage').classList.remove('is-calling');
+
+      document.getElementById('btnAudioCall').style.display = 'inline-flex';
+      document.getElementById('btnVideoCall').style.display = 'inline-flex';
+      document.getElementById('btnEndCall').style.display = 'none';
+
+      document.getElementById('callDurationBadge').innerText = '00:00';
     }
 
-    // Initialize Directory & SIP WebSocket
-    renderDirectory();
-    initSIP();
+    function toggleMuteMic() {
+      if (!localStream) return;
+      const audioTrack = localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        isMuted = !isMuted;
+        audioTrack.enabled = !isMuted;
+        const btn = document.getElementById('btnToggleMic');
+        document.getElementById('micBtnText').innerText = isMuted ? 'Unmute' : 'Mute';
+        btn.classList.toggle('active', isMuted);
+        logTerminal(`[MEDIA] Microphone ${isMuted ? 'MUTED' : 'UNMUTED'}`, 'in');
+      }
+    }
+
+    function toggleCamera() {
+      if (!localStream) return;
+      const videoTrack = localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        isCamOff = !isCamOff;
+        videoTrack.enabled = !isCamOff;
+        document.getElementById('camBtnText').innerText = isCamOff ? 'Nyalakan Cam' : 'Kamera';
+        document.getElementById('btnToggleCam').classList.toggle('active', isCamOff);
+      }
+    }
+
+    async function toggleScreenShare() {
+      if (!isScreenSharing) {
+        try {
+          const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+          const screenTrack = displayStream.getVideoTracks()[0];
+          document.getElementById('remoteVideo').srcObject = displayStream;
+          document.getElementById('remoteVideo').style.display = 'block';
+          document.getElementById('audioStagePlaceholder').style.display = 'none';
+          isScreenSharing = true;
+          document.getElementById('shareBtnText').innerText = 'Hentikan Berbagi';
+          document.getElementById('btnShareScreen').classList.add('active');
+
+          screenTrack.onended = () => {
+            isScreenSharing = false;
+            document.getElementById('shareBtnText').innerText = 'Bagi Layar';
+            document.getElementById('btnShareScreen').classList.remove('active');
+          };
+        } catch (e) {}
+      } else {
+        isScreenSharing = false;
+        document.getElementById('shareBtnText').innerText = 'Bagi Layar';
+        document.getElementById('btnShareScreen').classList.remove('active');
+      }
+    }
+
+    // ==========================================
+    // SIP WEBSOCKET CLIENT & SIGNALING
+    // ==========================================
+    function initSIPWebSocket() {
+      try {
+        const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const url = `${proto}//${window.location.host}/ws`;
+        sipWs = new WebSocket(url, 'sip');
+
+        sipWs.onopen = () => {
+          document.getElementById('pjsipDot').classList.add('active');
+          document.getElementById('pjsipStatusLabel').innerText = `PJSIP Registered (${currentUser.ext})`;
+          logTerminal(`[WSS] Connected to ${url} (Subprotocol: SIP/2.0)`, 'in');
+          sendSIPRegister(currentUser.ext);
+        };
+
+        sipWs.onmessage = (event) => {
+          const raw = event.data;
+          if (raw.includes('SIP/2.0 200 OK')) {
+            logTerminal(`[SIP IN] 200 OK (Session Confirmed)`, 'in');
+          } else if (raw.includes('SIP/2.0 180 Ringing')) {
+            logTerminal(`[SIP IN] 180 Ringing (Remote ringing)`, 'in');
+          } else {
+            const firstLine = raw.split('\n')[0] || '';
+            logTerminal(`[SIP IN] ${firstLine}`, 'in');
+          }
+        };
+
+        sipWs.onclose = () => {
+          document.getElementById('pjsipDot').classList.remove('active');
+          document.getElementById('pjsipStatusLabel').innerText = 'PJSIP Reconnecting...';
+          logTerminal('[WSS] Connection lost. Retrying in 8s...', 'err');
+          setTimeout(initSIPWebSocket, 8000);
+        };
+
+        sipWs.onerror = () => {
+          document.getElementById('pjsipDot').classList.remove('active');
+        };
+      } catch (err) {
+        logTerminal(`[WSS ERROR] ${err.message}`, 'err');
+      }
+    }
+
+    function sendSIPRegister(ext) {
+      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
+      const host = window.location.hostname || 'voip.s4ras.site';
+      const callId = 'reg-' + Math.random().toString(36).substring(2) + '@s4ras.site';
+      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
+      const msg = [
+        `REGISTER sip:${host} SIP/2.0`,
+        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
+        `Max-Forwards: 70`,
+        `From: <sip:${ext}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
+        `To: <sip:${ext}@${host}>`,
+        `Call-ID: ${callId}`,
+        `CSeq: 1 REGISTER`,
+        `Contact: <sip:${ext}@${host};transport=ws>`,
+        `Expires: 3600`,
+        `User-Agent: S4RAS-Cockpit/2.5`,
+        `Content-Length: 0`,
+        '',
+        ''
+      ].join('\r\n');
+      sipWs.send(msg);
+      logTerminal(`[SIP OUT] REGISTER sip:${ext}@${host}`, 'out');
+    }
+
+    function sendSIPInvite(target, mode) {
+      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
+      const host = window.location.hostname || 'voip.s4ras.site';
+      const callId = 'inv-' + Math.random().toString(36).substring(2) + '@s4ras.site';
+      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
+      const msg = [
+        `INVITE sip:${target}@${host} SIP/2.0`,
+        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
+        `Max-Forwards: 70`,
+        `From: <sip:${currentUser.ext}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
+        `To: <sip:${target}@${host}>`,
+        `Call-ID: ${callId}`,
+        `CSeq: 10 INVITE`,
+        `Contact: <sip:${currentUser.ext}@${host};transport=ws>`,
+        `User-Agent: S4RAS-Cockpit/2.5`,
+        `Content-Type: application/sdp`,
+        `Content-Length: 0`,
+        '',
+        ''
+      ].join('\r\n');
+      sipWs.send(msg);
+    }
+
+    function sendSIPBye(target) {
+      if (!sipWs || sipWs.readyState !== WebSocket.OPEN) return;
+      const host = window.location.hostname || 'voip.s4ras.site';
+      const callId = 'bye-' + Math.random().toString(36).substring(2) + '@s4ras.site';
+      const branch = 'z9hG4bK' + Math.random().toString(36).substring(2);
+      const msg = [
+        `BYE sip:${target}@${host} SIP/2.0`,
+        `Via: SIP/2.0/WSS ${host};branch=${branch}`,
+        `Max-Forwards: 70`,
+        `From: <sip:${currentUser.ext}@${host}>;tag=tag${Math.random().toString(36).substring(2)}`,
+        `To: <sip:${target}@${host}>`,
+        `Call-ID: ${callId}`,
+        `CSeq: 20 BYE`,
+        `Content-Length: 0`,
+        '',
+        ''
+      ].join('\r\n');
+      sipWs.send(msg);
+    }
+
+    // ==========================================
+    // LOGGING & TERMINAL OUTPUT
+    // ==========================================
+    function logTerminal(text, type = 'in') {
+      const logs = document.getElementById('terminalLogs');
+      if (!logs) return;
+      const line = document.createElement('div');
+      line.className = 'log-line';
+
+      const d = new Date();
+      const timeStr = `[${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}]`;
+
+      const spanTime = document.createElement('span');
+      spanTime.className = 'log-time';
+      spanTime.innerText = timeStr;
+
+      const spanText = document.createElement('span');
+      if (type === 'out') spanText.className = 'log-sip-out';
+      else if (type === 'err') spanText.className = 'log-sip-err';
+      else spanText.className = 'log-sip-in';
+      spanText.innerText = text;
+
+      line.appendChild(spanTime);
+      line.appendChild(spanText);
+      logs.appendChild(line);
+
+      logs.scrollTop = logs.scrollHeight;
+    }
+
+    function clearTerminalLogs() {
+      const logs = document.getElementById('terminalLogs');
+      if (logs) logs.innerHTML = '';
+    }
+
+    // ==========================================
+    // DIRECTORY & CALL HISTORY
+    // ==========================================
+    function renderDirectory() {
+      const wrap = document.getElementById('directoryListWrap');
+      const q = (document.getElementById('dirSearchInput').value || '').trim().toLowerCase();
+
+      const filtered = DIRECTORY.filter(item => {
+        return !q || item.name.toLowerCase().includes(q) || item.ext.includes(q) || item.role.toLowerCase().includes(q);
+      });
+
+      wrap.innerHTML = filtered.map(item => `
+        <div class="dir-card">
+          <div class="dir-info">
+            <div class="dir-name-row">
+              <span class="dir-name">${item.name}</span>
+              <span class="dir-ext-badge">${item.ext}</span>
+            </div>
+            <div class="dir-dept">${item.role}</div>
+          </div>
+          <div class="dir-actions">
+            <button class="btn-action-small" onclick="quickDial('${item.ext}')" title="Panggil SIP">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+            ${item.wa ? `
+              <a href="https://wa.me/${item.wa}" target="_blank" rel="noreferrer" class="btn-action-small whatsapp" title="Chat WhatsApp (${item.phone})">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterDirectory() {
+      renderDirectory();
+    }
+
+    function switchRightTab(tab) {
+      document.getElementById('tabBtnDir').classList.toggle('active', tab === 'dir');
+      document.getElementById('tabBtnHistory').classList.toggle('active', tab === 'history');
+      document.getElementById('tabBtnTrunk').classList.toggle('active', tab === 'trunk');
+
+      document.getElementById('viewDirectory').style.display = tab === 'dir' ? 'block' : 'none';
+      document.getElementById('viewHistory').style.display = tab === 'history' ? 'block' : 'none';
+      document.getElementById('viewTrunk').style.display = tab === 'trunk' ? 'block' : 'none';
+
+      if (tab === 'history') renderHistory();
+    }
+
+    function addCallHistory(ext, mode) {
+      const match = DIRECTORY.find(d => d.ext === ext);
+      const name = match ? match.name : `Ekstensi ${ext}`;
+      const d = new Date();
+      const timeStr = `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
+
+      callHistory.unshift({
+        ext,
+        name,
+        mode,
+        time: timeStr,
+        timestamp: Date.now()
+      });
+      if (callHistory.length > 20) callHistory.pop();
+      localStorage.setItem('s4ras_voip_history', JSON.stringify(callHistory));
+    }
+
+    function renderHistory() {
+      const wrap = document.getElementById('historyListWrap');
+      if (!callHistory.length) {
+        wrap.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--text-muted); font-size:0.75rem;">Belum ada riwayat panggilan.</div>`;
+        return;
+      }
+      wrap.innerHTML = callHistory.map(item => `
+        <div class="dir-card">
+          <div class="dir-info">
+            <div class="dir-name-row">
+              <span class="dir-name">${item.name}</span>
+              <span class="dir-ext-badge">${item.ext}</span>
+            </div>
+            <div class="dir-dept">${item.mode.toUpperCase()} • ${item.time}</div>
+          </div>
+          <div class="dir-actions">
+            <button class="btn-action-small" onclick="quickDial('${item.ext}')" title="Panggil Ulang">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function clearHistory() {
+      callHistory = [];
+      localStorage.removeItem('s4ras_voip_history');
+      renderHistory();
+    }
+
+    // ==========================================
+    // BOOT
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      initThemeAndLanguage();
+      renderDirectory();
+      initSIPWebSocket();
+    });
   </script>
 </body>
 </html>

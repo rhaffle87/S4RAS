@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useKeycloak } from '../context/KeycloakContext';
 import { 
-  Home, User, Megaphone, Shield, LogOut, Menu, X, Settings, ChevronDown, Phone, Search,
+  Home, User, Megaphone, Shield, LogOut, Menu, X, Settings, Phone, Search,
   Terminal, BookOpen, GraduationCap 
 } from 'lucide-react';
 import CommandPalette from './CommandPalette';
@@ -21,10 +21,9 @@ const NAV_ITEMS = [
 
 function Layout({ children }) {
   const { logout, persona, roleLabel, profile, isAdmin, sipExtension } = useKeycloak();
-  const { language, setLanguage, t } = useThemeLanguage();
+  const { language, t } = useThemeLanguage();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const [phoneOpen, setPhoneOpen] = useState(false);
   const [customAvatar, setCustomAvatar] = useState(() => {
     return typeof window !== 'undefined' ? localStorage.getItem('s4ras_user_avatar') : null;
@@ -48,12 +47,11 @@ function Layout({ children }) {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
         if (mobileOpen) setMobileOpen(false);
-        if (langOpen) setLangOpen(false);
       }
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [mobileOpen, langOpen]);
+  }, [mobileOpen]);
 
   // Listen for global campus phone open and storage events
   useEffect(() => {
@@ -224,28 +222,8 @@ function Layout({ children }) {
             </nav>
           </div>
 
-          {/* Bottom Sidebar Block: Language switcher (mobile) & Logout */}
-          <div className="pt-4 mt-auto border-t border-border-default/60 flex flex-col gap-3">
-            <div className="lg:hidden flex items-center justify-between px-2 py-1 text-xs">
-              <span className="text-text-secondary font-medium">Bahasa / Language</span>
-              <div className="inline-flex rounded-lg border border-border-default p-0.5 bg-neutral-bg3">
-                <button
-                  type="button"
-                  onClick={() => setLanguage('id')}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${language === 'id' ? 'bg-brand text-white' : 'text-text-secondary hover:text-text-primary'}`}
-                >
-                  ID
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLanguage('en')}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${language === 'en' ? 'bg-brand text-white' : 'text-text-secondary hover:text-text-primary'}`}
-                >
-                  EN
-                </button>
-              </div>
-            </div>
-
+          {/* Bottom Sidebar Block: Logout */}
+          <div className="pt-4 mt-auto border-t border-border-default/60">
             <button
               className="flex items-center gap-3.5 px-4 py-2.5 text-status-error hover:bg-red-500/10 text-sm font-medium rounded-xl bg-transparent border-none w-full text-left cursor-pointer transition-all duration-200"
               onClick={logout}
@@ -309,43 +287,7 @@ function Layout({ children }) {
                 </kbd>
               </button>
 
-              {/* Language Dropdown (Hidden on mobile, available in drawer) */}
-              <div className="relative shrink-0 hidden sm:flex">
-                <button
-                  type="button"
-                  className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1 sm:gap-1.5 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
-                  onClick={() => setLangOpen(!langOpen)}
-                  aria-expanded={langOpen}
-                  aria-haspopup="listbox"
-                  aria-label="Pilih Bahasa"
-                >
-                  <span>{language.toUpperCase()}</span>
-                  <ChevronDown size={13} />
-                </button>
-
-                {langOpen && (
-                  <ul className="absolute top-[120%] right-0 z-50 bg-neutral-bg2 border border-border-default rounded-xl p-1 shadow-[0_10px_25px_rgba(0,0,0,0.5)] list-none m-0 min-w-[130px]" role="listbox">
-                    <li
-                      className={`px-3 py-2 text-[0.8125rem] cursor-pointer rounded-lg transition-all ${language === 'id' ? 'text-brand-light bg-brand-subtle font-semibold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'}`}
-                      onClick={() => { setLanguage('id'); setLangOpen(false); }}
-                      role="option"
-                      aria-selected={language === 'id'}
-                    >
-                      ID (Bahasa)
-                    </li>
-                    <li
-                      className={`px-3 py-2 text-[0.8125rem] cursor-pointer rounded-lg transition-all ${language === 'en' ? 'text-brand-light bg-brand-subtle font-semibold' : 'text-text-secondary hover:bg-neutral-bg3 hover:text-text-primary'}`}
-                      onClick={() => { setLanguage('en'); setLangOpen(false); }}
-                      role="option"
-                      aria-selected={language === 'en'}
-                    >
-                      EN (English)
-                    </li>
-                  </ul>
-                )}
-              </div>
-
-              {/* In-Browser WebRTC Softphone Button */}
+              {/* In-Browser WebRTC Softphone Button (Quick Call Pop-up Widget) */}
               <button
                 type="button"
                 onClick={() => setPhoneOpen(true)}

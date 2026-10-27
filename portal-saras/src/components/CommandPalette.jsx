@@ -114,7 +114,12 @@ function CommandPalette({ navItems = [], language = 'id', isAdmin = false }) {
         } else if (isInternal(s.url)) {
           window.location.assign(s.url);
         } else {
-          window.open(s.url, '_blank', 'noopener,noreferrer');
+          let targetUrl = s.url;
+          if (s.key === 'voip' || targetUrl.startsWith('https://voip.s4ras.site')) {
+            const currentTheme = localStorage.getItem('saras-theme') || 'dark';
+            targetUrl = `https://voip.s4ras.site/?theme=${currentTheme}&lang=${language}`;
+          }
+          window.open(targetUrl, '_blank', 'noopener,noreferrer');
         }
       },
       keywords: s.key,
