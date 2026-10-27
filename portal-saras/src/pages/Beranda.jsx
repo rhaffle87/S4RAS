@@ -464,12 +464,12 @@ function Beranda() {
     });
   }, [modalSearch, language]);
 
-  // Carousel auto-advance (5s) with pause-on-hover and instant reset on slide change
+  // Carousel auto-advance (2.5s) with pause-on-hover and instant reset on slide change
   useEffect(() => {
     if (isHeroHovered || !HERO_SLIDES?.length) return undefined;
     const timer = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000);
+    }, 2500);
     return () => clearInterval(timer);
   }, [isHeroHovered, carouselIndex]);
 
