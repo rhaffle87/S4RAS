@@ -560,13 +560,13 @@ function Beranda() {
       <div className="flex flex-col gap-6 lg:gap-7">
         {/* Top Hero Banner Carousel */}
         <div 
-          className="relative w-full rounded-2xl overflow-hidden border border-border-default shadow-xl min-h-[290px] sm:min-h-[320px] md:min-h-[350px] bg-[#0c0e14] text-white flex flex-col justify-between group select-none"
+          className="relative w-full rounded-2xl overflow-hidden border border-[var(--color-border-default)] shadow-xl min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] bg-[#0c0e14] text-white flex flex-col justify-between group select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
           {/* Sliding Track for Cool Smooth Transitions */}
           <div 
-            className="flex w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+            className="flex w-full h-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
             style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
           >
             {HERO_SLIDES.map((slide, idx) => {
@@ -577,7 +577,7 @@ function Beranda() {
                   <div
                     key={slide.id}
                     style={{ background: slide.bgStyle }}
-                    className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end p-5 sm:p-8 lg:p-10 overflow-hidden text-white"
+                    className="w-full min-w-full h-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] shrink-0 relative flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden text-white"
                   >
                     {/* Full Fading Photographic Background Layer */}
                     {slide.bgImage && (
@@ -592,13 +592,14 @@ function Beranda() {
                       />
                     )}
 
-                    {/* Directional Softening Gradient Overlays - Matching Other Slides */}
+                    {/* Directional Softening Multi-layer Gradient Overlays */}
                     <div
                       aria-hidden="true"
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(to top, rgba(10, 12, 16, 0.95) 0%, rgba(10, 12, 16, 0.65) 45%, rgba(10, 12, 16, 0.15) 75%, transparent 100%), linear-gradient(to right, rgba(10, 12, 16, 0.85) 0%, rgba(10, 12, 16, 0.45) 55%, transparent 85%)'
-                      }}
+                      className="absolute inset-0 pointer-events-none bg-gradient-to-r from-zinc-950/95 via-zinc-950/80 to-zinc-950/35"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-950/90 via-transparent to-zinc-950/30"
                     />
 
                     {/* Subtle Decorative Ambient Glow */}
@@ -607,52 +608,48 @@ function Beranda() {
                       style={{ backgroundColor: slide.accentColor }}
                     />
 
-                    {/* Top Right Date Pill */}
-                    <div className="absolute top-5 sm:top-6 right-12 sm:right-16 md:right-20 z-10 hidden sm:block">
-                      <span className="text-xs font-medium text-white/70 tracking-wide">
-                        {dayName}, {formattedDate}
-                      </span>
-                    </div>
-
-                    {/* Content Fully Tucked in the Bottom-Left Corner — Aligned with Other Slides */}
-                    <div className={`relative z-10 max-w-xl flex flex-col items-start gap-2 transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
-                      {/* Minimal Badge + Mobile Date */}
-                      <div className="flex items-center gap-2.5">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 text-white/90 border border-white/20">
-                          <PersonaIcon size={12} className="shrink-0" />
-                          <span>{roleLabel || 'Civitas'} • {language === 'en' ? 'SSO ACTIVE' : 'SSO AKTIF'}</span>
-                        </span>
-                        <span className="text-xs text-white/70 font-medium sm:hidden">
-                          {formattedDate}
-                        </span>
+                    {/* Top Metadata Row */}
+                    <div className="flex items-center justify-between gap-3 w-full relative z-10">
+                      {/* Kiri Atas (Category Pill) */}
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold uppercase tracking-wider text-white/90">
+                        <PersonaIcon size={12} className="shrink-0 text-white" />
+                        <span>{roleLabel || 'Civitas'} • {language === 'en' ? 'SSO ACTIVE' : 'SSO AKTIF'}</span>
                       </div>
 
-                      {/* Modern Minimalist Bold Title */}
-                      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight m-0">
+                      {/* Kanan Atas (Context/Date Pill) */}
+                      <div className="px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/10 text-xs font-medium text-zinc-300">
+                        <span>{dayName}, {formattedDate}</span>
+                      </div>
+                    </div>
+
+                    {/* Tipografi Judul & Deskripsi (Tengah) */}
+                    <div className={`max-w-2xl my-auto py-3 relative z-10 flex flex-col items-start transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
+                      <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0">
                         {getGreeting()}, {fullName}!
                       </h2>
-
-                      {/* Simple, Straightforward Subtitle */}
-                      <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-lg m-0 mb-1">
+                      <p className="mt-2.5 text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-xl font-normal m-0">
                         {language === 'en'
                           ? 'Single-door access to digital learning, VoIP telephony, educational IPTV broadcasting, and independent cloud storage.'
                           : 'Akses satu pintu layanan pembelajaran digital, komunikasi VoIP, siaran edukasi IPTV, dan penyimpanan mandiri S4RAS.'}
                       </p>
+                    </div>
 
-                      {/* Minimalist Glass Action Buttons */}
-                      <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                    {/* Bottom Action Bar (Kiri Bawah) */}
+                    <div className="mt-6 pt-2 flex flex-wrap items-center justify-between gap-4 w-full relative z-10 pr-0 sm:pr-48">
+                      <div className="flex flex-wrap items-center gap-3">
                         <a
                           href="https://moodle.s4ras.site/auth/oidc/"
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <span>{language === 'en' ? 'Open Moodle' : 'Buka Moodle'}</span>
                           <ExternalLink size={13} />
                         </a>
                         <button
+                          type="button"
                           onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/15 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-medium text-xs inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <Phone size={13} />
                           <span>Campus WebPhone ({sipExtension || '1001'})</span>
@@ -667,7 +664,7 @@ function Beranda() {
                 <div
                   key={slide.id}
                   style={{ background: slide.bgStyle }}
-                  className="w-full min-w-full h-full min-h-[290px] sm:min-h-[320px] md:min-h-[350px] shrink-0 relative flex flex-col justify-end p-5 sm:p-8 lg:p-10 overflow-hidden text-white"
+                  className="w-full min-w-full h-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] shrink-0 relative flex flex-col justify-between p-6 sm:p-8 lg:p-10 overflow-hidden text-white"
                 >
                   {/* Full Fading Photographic Background Layer */}
                   {slide.bgImage && (
@@ -682,13 +679,14 @@ function Beranda() {
                     />
                   )}
 
-                  {/* Directional Softening Gradient Overlays - Subtle & Focused on the Bottom-Left Text Area */}
+                  {/* Directional Softening Multi-layer Gradient Overlays */}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background: 'linear-gradient(to top, rgba(10, 12, 16, 0.95) 0%, rgba(10, 12, 16, 0.65) 45%, rgba(10, 12, 16, 0.15) 75%, transparent 100%), linear-gradient(to right, rgba(10, 12, 16, 0.85) 0%, rgba(10, 12, 16, 0.45) 55%, transparent 85%)'
-                    }}
+                    className="absolute inset-0 pointer-events-none bg-gradient-to-r from-zinc-950/95 via-zinc-950/80 to-zinc-950/35"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-950/90 via-transparent to-zinc-950/30"
                   />
 
                   {/* Subtle Decorative Ambient Glow */}
@@ -697,42 +695,38 @@ function Beranda() {
                     style={{ backgroundColor: slide.accentColor }}
                   />
 
-                  {/* Top Right Date Pill */}
-                  <div className="absolute top-5 sm:top-6 right-12 sm:right-16 md:right-20 z-10 hidden sm:block">
-                    <span className="text-xs font-medium text-white/70 tracking-wide">
-                      {slide.date}
-                    </span>
-                  </div>
-
-                  {/* Content Fully Tucked in the Bottom-Left Corner */}
-                  <div className={`relative z-10 max-w-xl flex flex-col items-start gap-2 transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
-                    {/* Minimal Badge + Mobile Date */}
-                    <div className="flex items-center gap-2.5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/60 text-white/90 border border-white/20">
-                        {language === 'en' && slide.badge_en ? slide.badge_en : slide.badge}
-                      </span>
-                      <span className="text-xs text-white/70 font-medium sm:hidden">
-                        {slide.date}
-                      </span>
+                  {/* Top Metadata Row */}
+                  <div className="flex items-center justify-between gap-3 w-full relative z-10">
+                    {/* Kiri Atas (Category Pill) */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold uppercase tracking-wider text-white/90">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>{language === 'en' && slide.badge_en ? slide.badge_en : slide.badge}</span>
                     </div>
 
-                    {/* Modern Minimalist Bold Title */}
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight m-0">
+                    {/* Kanan Atas (Context/Date Pill) */}
+                    <div className="px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/10 text-xs font-medium text-zinc-300">
+                      <span>{slide.date}</span>
+                    </div>
+                  </div>
+
+                  {/* Tipografi Judul & Deskripsi (Tengah) */}
+                  <div className={`max-w-2xl my-auto py-3 relative z-10 flex flex-col items-start transition-all duration-500 ease-out ${isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-2'}`}>
+                    <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0">
                       {slide.title}
                     </h2>
-
-                    {/* Simple, Straightforward Subtitle */}
-                    <p className="text-xs sm:text-sm text-white/80 leading-relaxed max-w-lg m-0 mb-1">
+                    <p className="mt-2.5 text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-xl font-normal m-0">
                       {language === 'en' && slide.subtitle_en ? slide.subtitle_en : slide.subtitle}
                     </p>
+                  </div>
 
-                    {/* Minimalist Glass Action Button */}
-                    <div className="pt-1">
+                  {/* Bottom Action Bar (Kiri Bawah) */}
+                  <div className="mt-6 pt-2 flex flex-wrap items-center justify-between gap-4 w-full relative z-10 pr-0 sm:pr-48">
+                    <div className="flex flex-wrap items-center gap-3">
                       {slide.action === 'open-phone' ? (
                         <button
                           type="button"
                           onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
-                          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <Phone size={13} />
                           <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Buka Campus WebPhone')}</span>
@@ -742,7 +736,7 @@ function Beranda() {
                           href={slide.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white text-xs font-semibold border border-white/20 active:scale-95 transition-all no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                          className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                         >
                           <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Informasi Lengkap')}</span>
                           <ExternalLink size={13} />
@@ -755,36 +749,44 @@ function Beranda() {
             })}
           </div>
 
-          {/* Carousel Controls: Left & Right Arrows with Tactile Feedback (hidden on small mobile) */}
-          <button
-            onClick={handlePrevSlide}
-            aria-label="Slide sebelumnya"
-            className="hidden sm:flex absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={handleNextSlide}
-            aria-label="Slide berikutnya"
-            className="hidden sm:flex absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/75 hover:bg-black/90 border border-white/20 text-white items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-lg"
-          >
-            <ChevronRight size={20} />
-          </button>
+          {/* Unified Carousel Control Dock: Bottom Right Corner */}
+          <div className="absolute bottom-6 sm:bottom-8 lg:bottom-10 right-6 sm:right-8 lg:right-10 z-20 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-black/45 backdrop-blur-md border border-white/15 p-1.5 shadow-lg select-none">
+            {/* Tombol Previous < */}
+            <button
+              type="button"
+              onClick={handlePrevSlide}
+              aria-label="Slide sebelumnya"
+              className="w-7 h-7 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 active:scale-90 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <ChevronLeft size={16} />
+            </button>
 
-          {/* Pagination Indicator Dots - Expanding Smooth Pills */}
-          <div className="absolute bottom-3 right-4 sm:right-8 md:right-12 z-20 flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-black/75 border border-white/10 shadow-lg">
-            {HERO_SLIDES.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSelectSlide(idx)}
-                aria-label={`Pindah ke slide ${idx + 1}`}
-                className={`transition-all duration-300 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-                  carouselIndex === idx
-                    ? 'w-6 sm:w-7 h-1.5 bg-white shadow-sm shadow-white/50'
-                    : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70 hover:scale-125'
-                }`}
-              />
-            ))}
+            {/* Indikator Dots */}
+            <div className="flex items-center gap-1.5 px-2">
+              {HERO_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleSelectSlide(idx)}
+                  aria-label={`Pindah ke slide ${idx + 1}`}
+                  className={`transition-all duration-300 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                    carouselIndex === idx
+                      ? 'w-5 h-1.5 rounded-full bg-white shadow-sm shadow-white/50'
+                      : 'w-1.5 h-1.5 rounded-full bg-white/35 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Tombol Next > */}
+            <button
+              type="button"
+              onClick={handleNextSlide}
+              aria-label="Slide berikutnya"
+              className="w-7 h-7 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 active:scale-90 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <ChevronRight size={16} />
+            </button>
           </div>
         </div>
 
