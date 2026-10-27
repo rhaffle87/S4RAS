@@ -1,5 +1,5 @@
 // Beranda — Home Dashboard (Aligned with myITS Layout & S4RAS Aesthetic)
-import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ExternalLink,
@@ -382,7 +382,7 @@ function Beranda() {
   const [showAllApps, setShowAllApps] = useState(false);
   const [appSearch, setAppSearch] = useState('');
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
 
   // User-customized favorite services
   const [favoriteKeys, setFavoriteKeys] = useState(() => {
@@ -464,38 +464,25 @@ function Beranda() {
     });
   }, [modalSearch, language]);
 
-  // Carousel auto-advance with pause on hover and reset on user interaction
-  const timerRef = useRef(null);
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (!isHovered) {
-      timerRef.current = setInterval(() => {
-        setCarouselIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-      }, 7000);
-    }
-  }, [isHovered]);
-
+  // Carousel auto-advance (5s) with pause-on-hover and instant reset on slide change
   useEffect(() => {
-    resetTimer();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [resetTimer]);
+    if (isHeroHovered || !HERO_SLIDES?.length) return undefined;
+    const timer = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isHeroHovered, carouselIndex]);
 
   const handlePrevSlide = () => {
     setCarouselIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
-    resetTimer();
   };
 
   const handleNextSlide = () => {
     setCarouselIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    resetTimer();
   };
 
   const handleSelectSlide = (idx) => {
     setCarouselIndex(idx);
-    resetTimer();
   };
 
   // Filter categorized apps based on search
@@ -561,8 +548,8 @@ function Beranda() {
         {/* Top Hero Banner Carousel (3-Layer Stacked Crossfade & Scale-Pop Architecture) */}
         <div 
           className="relative w-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] rounded-2xl overflow-hidden border border-[var(--color-border-default)] shadow-xl bg-zinc-950 text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between group select-none"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={() => setIsHeroHovered(true)}
+          onMouseLeave={() => setIsHeroHovered(false)}
         >
           {/* LAPISAN 1: Stacked Background Images with Fade + Scale-Pop */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
