@@ -99,7 +99,7 @@ function getSipSecret(extension, username) {
       console.warn('[SIP Secrets] Failed to parse SIP_SECRETS_JSON');
     }
   }
-  const secret = secretsMap[extension] || (username && secretsMap[username.toLowerCase()]) || process.env[`SIP_SECRET_${extension}`] || null;
+  const secret = secretsMap[extension] || (username && secretsMap[username.toLowerCase()]) || process.env[`SIP_SECRET_${extension}`] || (username && process.env[`SIP_SECRET_${username.toUpperCase()}`]) || null;
   return secret || null;
 }
 

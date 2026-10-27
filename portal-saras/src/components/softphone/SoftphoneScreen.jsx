@@ -167,7 +167,11 @@ export default function SoftphoneScreen({
   // Active call screen
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl px-4 py-2.5 mb-3 w-full max-w-xs flex items-center justify-between transition-colors">
+      <div 
+        className="bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] rounded-xl px-4 py-2.5 mb-3 w-full max-w-xs flex items-center justify-between transition-colors"
+        aria-live="polite"
+        role="status"
+      >
         <div className="flex items-center gap-2">
           <span
             className={`w-2 h-2 rounded-full shrink-0 ${

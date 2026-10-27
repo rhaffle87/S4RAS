@@ -142,6 +142,18 @@ export default function SoftphoneModal({ isOpen, onClose }) {
     return null;
   }, [dialedNumber]);
 
+  // Handle keyboard Escape to close modal safely (WCAG 2.1 AA keyboard compliance)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && callState === 'idle') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, callState, onClose]);
+
   // Listen for open-campus-phone events to pre-fill dialed number
   useEffect(() => {
     const handleOpenWithExt = (e) => {
@@ -511,7 +523,12 @@ export default function SoftphoneModal({ isOpen, onClose }) {
   const totalDirectoryCount = EXTENSION_DIRECTORY.length;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="softphone-title"
+    >
       <div
         className={`bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] rounded-2xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[85dvh] text-[var(--color-text-primary)] transition-all duration-300 ${
           isVideoActive && callState !== 'idle' ? 'max-w-4xl' : 'max-w-md'
@@ -524,7 +541,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
             <Phone className="w-5 h-5 text-[var(--color-text-primary)] mt-0.5 shrink-0" />
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-[var(--color-text-primary)] tracking-tight">
+                <h3 id="softphone-title" className="text-sm font-semibold text-[var(--color-text-primary)] tracking-tight">
                   Telefoni S4RAS (WebPhone)
                 </h3>
                 {sipSecret ? (

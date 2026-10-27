@@ -16,6 +16,7 @@ const https = require('https');
 const fs = require('fs');
 const net = require('net');
 const crypto = require('crypto');
+const zlib = require('zlib');
 
 // Load local .env without external dependencies
 const envPath = path.resolve(__dirname, '..', '.env');
@@ -219,6 +220,60 @@ app.disable('x-powered-by');
 const PORT = process.env.PORT || 3000;
 const BUILD_DIR = path.resolve(__dirname, '..', 'build');
 
+// ── Native GZIP Streaming Compression (Performance & Rural Bandwidth) ──────
+app.use((req, res, next) => {
+  const acceptEncoding = req.headers['accept-encoding'] || '';
+  if (!acceptEncoding.includes('gzip')) {
+    return next();
+  }
+
+  const originalSend = res.send;
+  res.send = function (body) {
+    if (res.headersSent) {
+      return originalSend.call(this, body);
+    }
+
+    const contentType = res.getHeader('Content-Type') || '';
+    const isCompressible = typeof body === 'string' || Buffer.isBuffer(body);
+    const matchesType = /json|text|javascript|css|html|xml/i.test(String(contentType));
+
+    if (isCompressible && matchesType && body.length > 1024) {
+      zlib.gzip(body, (err, compressed) => {
+        if (!err && compressed) {
+          res.setHeader('Content-Encoding', 'gzip');
+          res.setHeader('Vary', 'Accept-Encoding');
+          res.removeHeader('Content-Length');
+          return originalSend.call(this, compressed);
+        }
+        return originalSend.call(this, body);
+      });
+    } else {
+      return originalSend.call(this, body);
+    }
+  };
+  next();
+});
+
+// ── ETag & 304 Not Modified Cache Revalidation Middleware ──────────────────
+app.use('/api', (req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const originalJson = res.json;
+  res.json = function (obj) {
+    if (res.headersSent) {
+      return originalJson.call(this, obj);
+    }
+    const jsonStr = JSON.stringify(obj);
+    const etag = `"${crypto.createHash('sha1').update(jsonStr).digest('base64url')}"`;
+    res.setHeader('ETag', etag);
+    res.setHeader('Cache-Control', 'public, max-age=5, stale-while-revalidate=15');
+    if (req.headers['if-none-match'] === etag) {
+      return res.status(304).end();
+    }
+    return originalJson.call(this, obj);
+  };
+  next();
+});
+
 // ── Security Headers Middleware (OWASP & Security Compliance) ─────────────
 app.use((_req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -229,7 +284,7 @@ app.use((_req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
   res.setHeader('X-DNS-Prefetch-Control', 'off');
   res.setHeader('X-Download-Options', 'noopen');
-  res.setHeader('Permissions-Policy', 'camera=(self), microphone=(self), geolocation=(), payment=()');
+  res.setHeader('Permissions-Policy', 'camera=(self), microphone=(self), geolocation=(), payment=(), usb=(), display-capture=(self)');
   res.setHeader(
     'Content-Security-Policy',
     "default-src 'self' https://*.s4ras.site; " +
@@ -239,6 +294,10 @@ app.use((_req, res, next) => {
     "img-src 'self' data: https: blob: https://images.pexels.com https://images.unsplash.com; " +
     "connect-src 'self' https://*.s4ras.site wss://*.s4ras.site https://api.pexels.com https://cloudflareinsights.com https://static.cloudflareinsights.com; " +
     "frame-src 'self' https://*.s4ras.site https://www.youtube.com https://www.youtube-nocookie.com; " +
+    "frame-ancestors 'self'; " +
+    "base-uri 'self'; " +
+    "form-action 'self' https://sso.s4ras.site; " +
+    "upgrade-insecure-requests; " +
     "object-src 'none';"
   );
   next();
@@ -1544,6 +1603,17 @@ app.get('/{*splat}', (_req, res) => {
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
   res.sendFile(path.join(BUILD_DIR, 'index.html'));
+});
+
+// ── Hardened Central Error Handler (Zero Information Leak) ──────────────────
+app.use((err, _req, res, _next) => {
+  console.error('[Internal Server Error]', err.message);
+  const status = typeof err.status === 'number' && err.status >= 400 && err.status < 600 ? err.status : 500;
+  res.status(status).json({
+    status: 'error',
+    code: status === 500 ? 'INTERNAL_SERVER_ERROR' : 'REQUEST_ERROR',
+    message: status === 500 ? 'Terjadi kesalahan internal server yang aman.' : err.message
+  });
 });
 
 // ── Start ──────────────────────────────────────────────────────────────────
