@@ -310,7 +310,7 @@ const ALL_SERVICES_MAP = {
 const DEFAULT_FAVORITE_KEYS = ['status', 'moodle', 'sso', 'cloud', 'voip'];
 const FAVORITES_STORAGE_KEY = 's4ras_favorite_apps_v2';
 
-// Carousel Hero Slides with Subtle Modern Gradient Backgrounds & Fading Themed Imagery (6 Slides)
+// Carousel Hero Slides with Clean High-Contrast Imagery (4 Slides)
 const HERO_SLIDES = [
   {
     id: 'welcome',
@@ -318,8 +318,7 @@ const HERO_SLIDES = [
     badge: 'Portal Sivitas',
     badge_en: 'Campus Portal',
     accentColor: '#ef4444',
-    bgImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #180a0e 0%, #0f1117 50%, #0a0c10 100%)'
+    bgImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop'
   },
   {
     id: 'learning',
@@ -335,8 +334,7 @@ const HERO_SLIDES = [
     ctaText_en: 'Open Learning Class',
     url: 'https://moodle.s4ras.site/auth/oidc/',
     accentColor: '#ef4444',
-    bgImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #180a0e 0%, #0f1117 50%, #0a0c10 100%)'
+    bgImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop'
   },
   {
     id: 'telephony',
@@ -353,8 +351,7 @@ const HERO_SLIDES = [
     action: 'open-phone',
     url: 'https://voip.s4ras.site',
     accentColor: '#10b981',
-    bgImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #091612 0%, #0f1117 50%, #0a0c10 100%)'
+    bgImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop'
   },
   {
     id: 'multimedia_storage',
@@ -370,8 +367,7 @@ const HERO_SLIDES = [
     ctaText_en: 'Explore Media & Drive',
     url: 'https://iptv.s4ras.site',
     accentColor: '#a855f7',
-    bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop',
-    bgStyle: 'linear-gradient(135deg, #130a1c 0%, #0f1117 50%, #0a0c10 100%)'
+    bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop'
   }
 ];
 
@@ -547,18 +543,17 @@ function Beranda() {
       <div className="w-full space-y-6">
         {/* Top Hero Banner Carousel (3-Layer Stacked Crossfade & Scale-Pop Architecture) */}
         <div 
-          className="relative w-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] rounded-2xl overflow-hidden border border-[var(--color-border-default)] shadow-xl bg-zinc-950 text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between group select-none"
+          className="relative w-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] rounded-2xl overflow-hidden border border-[var(--color-border-default)] shadow-sm bg-zinc-950 text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between group select-none"
           onMouseEnter={() => setIsHeroHovered(true)}
           onMouseLeave={() => setIsHeroHovered(false)}
         >
           {/* LAPISAN 1: Stacked Background Images with Fade + Scale-Pop */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-zinc-950">
             {HERO_SLIDES.map((slide, idx) => {
               const isActive = idx === carouselIndex;
               return (
                 <div
                   key={slide.id || idx}
-                  style={{ background: slide.bgStyle }}
                   className={`absolute inset-0 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
                   }`}
@@ -568,29 +563,23 @@ function Beranda() {
                       src={slide.bgImage}
                       alt=""
                       aria-hidden="true"
-                      className={`absolute inset-0 w-full h-full object-cover block ${
-                        slide.type === 'welcome' ? 'object-right sm:object-center opacity-60' : 'object-center opacity-55'
+                      className={`absolute inset-0 w-full h-full object-cover block brightness-100 contrast-[1.03] ${
+                        slide.type === 'welcome' ? 'object-right sm:object-center' : 'object-center'
                       }`}
                       loading={idx === 0 ? 'eager' : 'lazy'}
                     />
                   )}
-                  {/* Subtle Decorative Ambient Glow */}
-                  <div 
-                    className="absolute -right-16 -top-16 w-80 h-80 rounded-full blur-3xl opacity-15 pointer-events-none"
-                    style={{ backgroundColor: slide.accentColor }}
-                  />
                 </div>
               );
             })}
 
-            {/* Static Gradient Overlays (1 layer statis, stabil tanpa flicker) */}
+            {/* Static Single-Layer Gradient Overlay in sRGB (jernih, tajam, bebas kabut abu-abu) */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-zinc-950/85 via-zinc-950/40 to-zinc-950/10"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-zinc-950/60 via-zinc-950/25 to-transparent"
+              className="absolute inset-0 z-[1] pointer-events-none"
+              style={{
+                background: 'linear-gradient(to top, rgba(9,9,11,0.86) 0%, rgba(9,9,11,0.42) 48%, rgba(9,9,11,0.12) 100%)'
+              }}
             />
           </div>
 
@@ -611,15 +600,15 @@ function Beranda() {
                     }`}
                   >
                     {/* Top Metadata Row */}
-                    <div className="flex items-center justify-between gap-3 w-full">
+                    <div className="flex items-center justify-between gap-2.5 sm:gap-3 w-full">
                       {/* Kiri Atas (Category Pill) */}
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold uppercase tracking-wider text-white/90">
+                      <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white whitespace-nowrap shrink-0">
                         <PersonaIcon size={12} className="shrink-0 text-white" />
                         <span>{roleLabel || 'Civitas'} • {language === 'en' ? 'SSO ACTIVE' : 'SSO AKTIF'}</span>
                       </div>
 
                       {/* Kanan Atas (Context/Date Pill) */}
-                      <div className="px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/10 text-xs font-medium text-zinc-300">
+                      <div className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-medium text-zinc-300 whitespace-nowrap shrink-0">
                         <span>{dayName}, {formattedDate}</span>
                       </div>
                     </div>
@@ -637,12 +626,12 @@ function Beranda() {
                     </div>
 
                     {/* Bottom CTA Row (Kiri Bawah dengan pr-0 sm:pr-48 agar tidak menabrak Control Dock) */}
-                    <div className="mt-auto pt-6 flex flex-wrap items-center gap-3 w-full pr-0 sm:pr-48">
+                    <div className="mt-auto pt-4 sm:pt-6 flex flex-wrap items-center gap-2.5 sm:gap-3 w-full pr-0 sm:pr-48">
                       <a
                         href="https://moodle.s4ras.site/auth/oidc/"
                         target="_blank"
                         rel="noreferrer"
-                        className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                       >
                         <span>{language === 'en' ? 'Open Moodle' : 'Buka Moodle'}</span>
                         <ExternalLink size={13} />
@@ -650,7 +639,7 @@ function Beranda() {
                       <button
                         type="button"
                         onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
-                        className="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-medium text-xs inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-medium text-xs inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                       >
                         <Phone size={13} />
                         <span>WebPhone ({sipExtension || '1001'})</span>
@@ -671,15 +660,15 @@ function Beranda() {
                   }`}
                 >
                   {/* Top Metadata Row */}
-                  <div className="flex items-center justify-between gap-3 w-full">
+                  <div className="flex items-center justify-between gap-2.5 sm:gap-3 w-full">
                     {/* Kiri Atas (Category Pill) */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold uppercase tracking-wider text-white/90">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white whitespace-nowrap shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
                       <span>{language === 'en' && slide.badge_en ? slide.badge_en : slide.badge}</span>
                     </div>
 
                     {/* Kanan Atas (Context/Date Pill) */}
-                    <div className="px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/10 text-xs font-medium text-zinc-300">
+                    <div className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] sm:text-xs font-medium text-zinc-300 whitespace-nowrap shrink-0">
                       <span>{slide.date}</span>
                     </div>
                   </div>
@@ -695,12 +684,12 @@ function Beranda() {
                   </div>
 
                   {/* Bottom CTA Row (Kiri Bawah dengan pr-0 sm:pr-48 agar tidak menabrak Control Dock) */}
-                  <div className="mt-auto pt-6 flex flex-wrap items-center gap-3 w-full pr-0 sm:pr-48">
+                  <div className="mt-auto pt-4 sm:pt-6 flex flex-wrap items-center gap-2.5 sm:gap-3 w-full pr-0 sm:pr-48">
                     {slide.action === 'open-phone' ? (
                       <button
                         type="button"
                         onClick={() => window.dispatchEvent(new CustomEvent('open-campus-phone'))}
-                        className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                       >
                         <Phone size={13} />
                         <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Buka WebPhone')}</span>
@@ -710,7 +699,7 @@ function Beranda() {
                         href={slide.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="h-10 px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                        className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 font-semibold text-xs inline-flex items-center gap-2 shadow-sm transition-all active:scale-95 no-underline whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                       >
                         <span>{language === 'en' && slide.ctaText_en ? slide.ctaText_en : (slide.ctaText || 'Informasi Lengkap')}</span>
                         <ExternalLink size={13} />

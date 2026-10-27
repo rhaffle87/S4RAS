@@ -98,22 +98,22 @@
     --color-brand-subtle: rgba(220, 38, 38, 0.08);
 
     /* Light theme background tones */
-    --color-neutral-bg1: #f4f4f5;
+    --color-neutral-bg1: #f8fafc;
     --color-neutral-bg2: #ffffff;
-    --color-neutral-bg3: #e4e4e7;
-    --color-neutral-bg4: #d4d4d8;
-    --color-neutral-bg5: #a1a1aa;
-    --color-neutral-bg6: #71717a;
+    --color-neutral-bg3: #f1f5f9;
+    --color-neutral-bg4: #e2e8f0;
+    --color-neutral-bg5: #94a3b8;
+    --color-neutral-bg6: #64748b;
 
     /* Text colors */
     --color-text-primary: #09090b;
-    --color-text-secondary: #27272a;
-    --color-text-muted: #52525b;
+    --color-text-secondary: #334155;
+    --color-text-muted: #64748b;
 
     /* Borders */
-    --color-border-subtle: rgba(0, 0, 0, 0.06);
-    --color-border-default: rgba(0, 0, 0, 0.12);
-    --color-border-strong: rgba(0, 0, 0, 0.22);
+    --color-border-subtle: rgba(0, 0, 0, 0.04);
+    --color-border-default: rgba(0, 0, 0, 0.08);
+    --color-border-strong: rgba(0, 0, 0, 0.16);
   }
 
   body {
@@ -200,7 +200,7 @@ html.light .glass {
 html.light .glass-card {
   background: #ffffff;
   border: 1px solid var(--color-border-default);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 html.light .glass-panel {
@@ -248,8 +248,12 @@ html.light .glass-input:focus {
 
 @media (max-width: 1023px), (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) {
   .ambient-glow {
-    display: none;
+    display: none !important;
   }
+}
+
+html.light .ambient-glow {
+  display: none !important;
 }
 
 /* Hardware-isolated SVG container */
