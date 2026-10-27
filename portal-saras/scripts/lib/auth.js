@@ -77,12 +77,14 @@ async function getJwksKeys(jwksUrl = process.env.KEYCLOAK_JWKS_URL || 'https://s
   return jwksCache.keys;
 }
 
-function normalizeSipExtension(rawExt, isAdmin, isTeacher) {
+function normalizeSipExtension(rawExt, isAdmin, isTeacher, username) {
   const extStr = String(rawExt || '').trim();
   const num = parseInt(extStr, 10);
   if (!isNaN(num) && num >= 1000 && num <= 1099) {
     return extStr;
   }
+  const u = String(username || '').toLowerCase();
+  if (u === 'nathan1') return '1004';
   if (isAdmin) return '1003';
   if (isTeacher) return '1002';
   return '1001';
@@ -233,8 +235,8 @@ function parseTokenContext(req, options = {}) {
 
       const isAdmin = username === 'admin' || username === 'dev1' || username === 'nathan1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'admin' || r.toLowerCase() === 'super admin' || r.toLowerCase() === 'administrator');
       const isTeacher = username === 'teacher1' || (payload.realm_access?.roles || []).some(r => r.toLowerCase() === 'dosen' || r.toLowerCase() === 'teacher');
-      const rawExt = payload.sip_extension || (isAdmin ? '1003' : isTeacher ? '1002' : '1001');
-      const dynExt = normalizeSipExtension(rawExt, isAdmin, isTeacher);
+      const rawExt = payload.sip_extension || (username === 'nathan1' ? '1004' : isAdmin ? '1003' : isTeacher ? '1002' : '1001');
+      const dynExt = normalizeSipExtension(rawExt, isAdmin, isTeacher, username);
       const sipSecret = getSipSecret(dynExt, username);
 
       return {

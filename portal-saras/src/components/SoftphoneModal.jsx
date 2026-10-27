@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Phone, PhoneCall, PhoneOff, Mic, MicOff, Volume2, VolumeX, ShieldCheck, X,
-  Clock, RotateCcw, Trash2, Video, VideoOff, BookOpen, Search, Server
+  Clock, RotateCcw, Trash2, Video, VideoOff, BookOpen, Search, Server, MessageCircle
 } from 'lucide-react';
 import { useKeycloak } from '../context/KeycloakContext';
 import SoftphoneVideoCanvas from './softphone/SoftphoneVideoCanvas';
@@ -37,7 +37,8 @@ export const DIRECTORY_CATEGORIES = [
     title: 'Pusat Bantuan & Koordinasi 3T',
     items: [
       { ext: '1000', label: 'Operator Bantuan S4RAS', desc: 'Pusat Bantuan & Layanan Komunikasi 3T', badge: 'Operator' },
-      { ext: '1003', label: 'Administrator Sistem', desc: 'Keamanan Klaster & Administrasi Server', badge: 'Admin' },
+      { ext: '1003', label: 'Rafli Alif (Admin)', desc: 'Lead Architect & Administrasi Sistem', badge: 'Lead Dev', phone: '+62 838-4612-1134', wa: '6283846121134' },
+      { ext: '1004', label: 'Nathan (Co-Dev)', desc: 'Co-Developer & Infrastruktur Klaster', badge: 'Co-Dev', phone: '+62 812-9289-2465', wa: '6281292892465' },
       { ext: '8000', label: 'Konferensi Suara Desa/Kelas', desc: 'Ruang Konferensi Audio Multi-Pihak', badge: 'Konferensi' },
       { ext: '800', label: 'Campus Conference Bridge', desc: 'Bridge Konferensi Suara Alternatif', badge: 'Bridge' },
     ]
@@ -48,7 +49,6 @@ export const DIRECTORY_CATEGORIES = [
     items: [
       { ext: '1002', label: 'Dr. Hendra Wijaya', desc: 'Dosen Komputasi Awan / Faculty Desk', badge: 'Dosen' },
       { ext: '1001', label: 'Budi Pratama', desc: 'Perwakilan Siswa / Student Council', badge: 'Mahasiswa' },
-      { ext: '1004', label: 'Konsultasi Video Akademik', desc: 'Konsultasi Tatap Muka (VP8 HD)', badge: 'Video HD' },
       { ext: '1079348', label: 'Sivitas Peneliti', desc: 'Research Fellow & Cluster Architect', badge: 'Peneliti' },
     ]
   },
@@ -56,11 +56,11 @@ export const DIRECTORY_CATEGORIES = [
     id: 'utilities',
     title: 'Utilitas & Diagnostik Jaringan (PBX)',
     items: [
+      { ext: '600', label: 'Uji Gema Audio & Video (Echo Test)', desc: 'Uji Latensi, Audio & Video Loopback', badge: 'Echo Test' },
+      { ext: '700', label: 'Simulasi Antrean Layanan', desc: 'Uji Distribusi Panggilan Otomatis PBX', badge: 'Antrean IVR' },
       { ext: '*97', label: 'Kotak Suara (Voicemail)', desc: 'Pusat Pesan Suara & Rekaman Sivitas', badge: 'Voicemail' },
       { ext: '500', label: 'Voicemail Central PBX', desc: 'Akses Saluran Pesan Suara Alternatif', badge: 'Voicemail' },
-      { ext: '600', label: 'Uji Gema Audio (Echo Test)', desc: 'Uji Latensi & Loopback Kualitas Mikrofon', badge: 'Echo Test' },
       { ext: '*60', label: 'Informasi Waktu Server', desc: 'Voice Clock Waktu Nyata Server Asterisk', badge: 'Waktu' },
-      { ext: '700', label: 'Simulasi Antrean Layanan', desc: 'Uji Distribusi Panggilan Otomatis PBX', badge: 'Antrean' },
       { ext: '201', label: 'VM 201 PBX Trunk', desc: 'Rute Trunk Inter-PBX Asterisk 20 Simpul 1', badge: 'Trunk' },
     ]
   }
@@ -83,6 +83,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
   const [isMuted, setIsMuted] = useState(false);
   const [isSpeakerOn, setIsSpeakerOn] = useState(true);
   const [isVideoActive, setIsVideoActive] = useState(false);
+  const [localStream, setLocalStream] = useState(null);
+  const [remoteStream, setRemoteStream] = useState(null);
   const [cameraError, setCameraError] = useState('');
   const [activeCallTarget, setActiveCallTarget] = useState(null);
   const [ivrMessage, setIvrMessage] = useState('');
@@ -111,6 +113,34 @@ export default function SoftphoneModal({ isOpen, onClose }) {
 
   // Determine current user extension dynamically from Keycloak claims
   const myExtension = sipExtension || (persona === 'teacher' ? '1002' : persona === 'dev' ? '1003' : '1001');
+
+  // Smart Number Resolution: Automatically detect Rafli (1003) or Nathan (1004) when typing phone numbers
+  const detectedContact = React.useMemo(() => {
+    const raw = dialedNumber.trim();
+    if (!raw) return null;
+    const digits = raw.replace(/\D/g, '');
+    if (digits.includes('83846121134') || raw === '083846121134' || raw === '1003') {
+      return {
+        ext: '1003',
+        label: 'Rafli Alif (Admin)',
+        desc: 'Lead Architect & Administrasi Sistem',
+        phone: '+62 838-4612-1134',
+        wa: '6283846121134',
+        badge: 'Lead Dev'
+      };
+    }
+    if (digits.includes('81292892465') || raw === '081292892465' || raw === '1004') {
+      return {
+        ext: '1004',
+        label: 'Nathan (Co-Dev)',
+        desc: 'Co-Developer & Infrastruktur Klaster',
+        phone: '+62 812-9289-2465',
+        wa: '6281292892465',
+        badge: 'Co-Dev'
+      };
+    }
+    return null;
+  }, [dialedNumber]);
 
   // Listen for open-campus-phone events to pre-fill dialed number
   useEffect(() => {
@@ -282,6 +312,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
         localMediaStreamRef.current.getTracks().forEach((t) => t.stop());
         localMediaStreamRef.current = null;
       }
+      setLocalStream(null);
       setIsVideoActive(false);
       setCameraError('');
     } else {
@@ -292,12 +323,15 @@ export default function SoftphoneModal({ isOpen, onClose }) {
           audio: false,
         });
         localMediaStreamRef.current = stream;
+        setLocalStream(stream);
         setIsVideoActive(true);
         if (localVideoRef.current) {
           localVideoRef.current.srcObject = stream;
+          localVideoRef.current.play().catch(() => {});
         }
       } catch (err) {
         setCameraError('Gagal mengakses kamera: ' + (err.message || 'Izin ditolak'));
+        setLocalStream(null);
         setIsVideoActive(false);
       }
     }
@@ -331,8 +365,16 @@ export default function SoftphoneModal({ isOpen, onClose }) {
 
   // Handle call initiation
   const handleCall = (targetExt = null) => {
-    const ext = targetExt || dialedNumber;
+    let ext = targetExt || dialedNumber;
     if (!ext) return;
+
+    // Smart phone number resolution to SIP extension
+    const digits = ext.replace(/\D/g, '');
+    if (digits.includes('83846121134')) {
+      ext = '1003';
+    } else if (digits.includes('81292892465')) {
+      ext = '1004';
+    }
 
     const matched = EXTENSION_DIRECTORY.find((item) => item.ext === ext);
     const target = matched || {
@@ -350,7 +392,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
     playRingback();
 
     // If calling video endpoint, auto-start camera
-    if (ext === '1004') {
+    if (ext === '1004' && !isVideoActive) {
       toggleVideo();
     }
 
@@ -397,6 +439,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
       localMediaStreamRef.current.getTracks().forEach((t) => t.stop());
       localMediaStreamRef.current = null;
     }
+    setLocalStream(null);
+    setRemoteStream(null);
     setIsVideoActive(false);
 
     // Save call to local history
@@ -563,6 +607,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 <SoftphoneVideoCanvas
                   activeCallTarget={activeCallTarget}
                   localVideoRef={localVideoRef}
+                  localStream={localStream}
+                  remoteStream={remoteStream}
                   myExtension={myExtension}
                 />
               )}
@@ -714,25 +760,44 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                               {item.ext}
                             </span>
                             <div className="min-w-0">
-                              <p className="text-xs font-semibold text-[var(--color-text-primary)] truncate m-0">
-                                {item.label}
-                              </p>
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-xs font-semibold text-[var(--color-text-primary)] truncate m-0">
+                                  {item.label}
+                                </p>
+                                <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] shrink-0">
+                                  {item.badge}
+                                </span>
+                              </div>
                               <p className="text-[10px] text-[var(--color-text-secondary)] truncate m-0 font-sans mt-0.5">
                                 {item.desc}
                               </p>
+                              {item.phone && (
+                                <p className="text-[10px] text-emerald-400 font-mono truncate m-0 mt-0.5">
+                                  WA: {item.phone}
+                                </p>
+                              )}
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)]">
-                              {item.badge}
-                            </span>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {item.wa && (
+                              <a
+                                href={`https://wa.me/${item.wa}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="h-8 px-2.5 rounded-xl bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-emerald-400 inline-flex items-center gap-1.5 transition-colors no-underline active:scale-95"
+                                title="Buka Chat WhatsApp"
+                              >
+                                <MessageCircle size={13} />
+                                <span>WhatsApp</span>
+                              </a>
+                            )}
                             <button
                               onClick={() => handleCall(item.ext)}
                               className="h-8 px-3 rounded-xl bg-[var(--color-neutral-bg1)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95"
                             >
                               <PhoneCall size={12} className="text-[var(--color-text-primary)]" />
-                              <span>Panggil</span>
+                              <span>Panggil SIP</span>
                             </button>
                           </div>
                         </div>
@@ -844,6 +909,8 @@ export default function SoftphoneModal({ isOpen, onClose }) {
                 ivrMessage={ivrMessage}
                 onCallVoicemail={() => handleCall('*97')}
                 onSelectQuickDial={(ext) => setDialedNumber(ext)}
+                detectedContact={detectedContact}
+                onCallDetectedContact={(ext) => handleCall(ext)}
               />
               <SoftphoneKeypad
                 keys={DIALPAD_KEYS}

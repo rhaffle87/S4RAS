@@ -45,6 +45,16 @@ const CANONICAL_PERSONAS = {
     sip_extension: '1003',
     roles: ['Super Admin', 'admin']
   },
+  nathan1: {
+    username: 'nathan1',
+    name: 'Nathan Co-Dev',
+    email: 'natumpal2004@gmail.com',
+    department: 'Co-Developer & Cluster Architecture',
+    storage_quota: '500GB',
+    moodle_cohort: 'ADMIN-CLUSTER',
+    sip_extension: '1004',
+    roles: ['Super Admin', 'admin']
+  },
   testuser: {
     username: 'testuser',
     name: 'Sivitas Peneliti',

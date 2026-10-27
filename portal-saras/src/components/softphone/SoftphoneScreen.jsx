@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Delete, Radio, Voicemail } from 'lucide-react';
+import { Delete, Radio, Voicemail, PhoneCall, MessageCircle } from 'lucide-react';
 
 export default function SoftphoneScreen({
   callState,
@@ -12,7 +12,9 @@ export default function SoftphoneScreen({
   cameraError,
   ivrMessage,
   onCallVoicemail,
-  onSelectQuickDial
+  onSelectQuickDial,
+  detectedContact,
+  onCallDetectedContact
 }) {
   const [voicemailCount, setVoicemailCount] = useState(0);
 
@@ -57,7 +59,7 @@ export default function SoftphoneScreen({
           <span className="text-2xl font-mono font-bold text-[var(--color-text-primary)] tracking-widest pl-0.5">
             {dialedNumber || (
               <span className="text-[var(--color-text-muted)] tracking-normal font-sans text-xs sm:text-sm">
-                Tekan nomor ekstensi...
+                Tekan nomor ekstensi / HP...
               </span>
             )}
           </span>
@@ -79,6 +81,55 @@ export default function SoftphoneScreen({
             </div>
           )}
         </div>
+
+        {/* Smart Number Resolution Contact Card */}
+        {detectedContact && (
+          <div className="mt-3 pt-3 border-t border-[var(--color-border-default)]">
+            <div className="p-2.5 rounded-xl bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] flex items-center justify-between gap-2 shadow-xs">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] text-[var(--color-text-primary)] font-bold text-xs flex items-center justify-center shrink-0">
+                  {detectedContact.label.charAt(0)}
+                </div>
+                <div className="min-w-0 text-left">
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-xs font-semibold text-[var(--color-text-primary)] truncate m-0">
+                      {detectedContact.label}
+                    </p>
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+                      Ext {detectedContact.ext}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[var(--color-text-secondary)] truncate m-0 font-sans mt-0.5">
+                    {detectedContact.phone || detectedContact.desc}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                {detectedContact.wa && (
+                  <a
+                    href={`https://wa.me/${detectedContact.wa}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="h-7 px-2 rounded-lg bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-[11px] font-medium text-emerald-400 inline-flex items-center gap-1 transition-colors no-underline"
+                    title="Buka WhatsApp"
+                  >
+                    <MessageCircle size={12} />
+                    <span>WA</span>
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onCallDetectedContact ? onCallDetectedContact(detectedContact.ext) : onSelectQuickDial(detectedContact.ext)}
+                  className="h-7 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-medium inline-flex items-center gap-1 transition-colors cursor-pointer shadow-xs active:scale-95"
+                >
+                  <PhoneCall size={11} />
+                  <span>Panggil</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Quick Dial Chips (when idle & empty) */}
         {!dialedNumber && (

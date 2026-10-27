@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   Moon, Languages, Check, ChevronDown, 
   ShieldCheck, RefreshCw, ExternalLink, 
-  Headphones, PhoneCall 
+  Headphones, PhoneCall, MessageCircle 
 } from 'lucide-react';
 import Layout from '../components/Layout';
 import { useThemeLanguage } from '../context/ThemeLanguageContext';
@@ -261,6 +261,26 @@ function Pengaturan() {
                     <PhoneCall size={14} className="text-[var(--color-text-primary)]" />
                     <span>{t('set.support_call_btn')}</span>
                   </button>
+
+                  <a
+                    href="https://wa.me/6283846121134"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-2 transition-colors no-underline"
+                  >
+                    <MessageCircle size={14} className="text-emerald-500" />
+                    <span>Hubungi Rafli (WA: 0838-4612-1134)</span>
+                  </a>
+
+                  <a
+                    href="https://wa.me/6281292892465"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="h-10 px-4 rounded-xl bg-[var(--color-neutral-bg2)] hover:bg-[var(--color-neutral-bg3)] border border-[var(--color-border-default)] text-xs font-medium text-[var(--color-text-primary)] inline-flex items-center gap-2 transition-colors no-underline"
+                  >
+                    <MessageCircle size={14} className="text-emerald-500" />
+                    <span>Hubungi Nathan Co-Dev (WA: 0812-9289-2465)</span>
+                  </a>
                 </div>
               </div>
             </div>
