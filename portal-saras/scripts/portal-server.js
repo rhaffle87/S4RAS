@@ -266,7 +266,8 @@ app.use('/api', (req, res, next) => {
     const etag = `"${crypto.createHash('sha1').update(jsonStr).digest('base64url')}"`;
     res.setHeader('ETag', etag);
     res.setHeader('Cache-Control', 'public, max-age=5, stale-while-revalidate=15');
-    if (req.headers['if-none-match'] === etag) {
+    const ifNoneMatch = req.headers['if-none-match'];
+    if (ifNoneMatch && (ifNoneMatch === etag || ifNoneMatch.replace(/^W\//, '').replace(/"/g, '') === etag.replace(/"/g, ''))) {
       return res.status(304).end();
     }
     return originalJson.call(this, obj);
