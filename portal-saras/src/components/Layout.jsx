@@ -373,7 +373,7 @@ function Layout({ children }) {
 
           {/* Main Scrollable View Area */}
           <main id="main-content" className="flex-1 overflow-y-auto box-border flex flex-col justify-between" tabIndex={-1}>
-            <div className="max-w-[1400px] mx-auto w-full px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 pb-24 lg:pb-8 flex-1">
+            <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 sm:pb-8 flex-1">
               {children}
             </div>
 

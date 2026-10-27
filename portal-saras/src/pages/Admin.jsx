@@ -102,13 +102,13 @@ function Admin() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-6 max-w-4xl">
-        {/* Page Title Header */}
-        <div className="flex flex-col gap-1">
-          <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-text-primary)] m-0">
+      <div className="w-full space-y-6">
+        {/* Page Header */}
+        <div className="flex flex-col">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text-primary)] m-0">
             {t('admin.title')}
-          </h2>
-          <p className="text-xs sm:text-sm text-[var(--color-text-secondary)] m-0">
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)] m-0">
             {t('admin.subtitle')}
           </p>
         </div>
@@ -116,7 +116,7 @@ function Admin() {
         {/* Primary Admin Cards (Matching Mode Tampilan & Bahasa Pattern) */}
         <div className="flex flex-col gap-4">
           {/* Card 1: Status Layanan & Telemetri Klaster */}
-          <div className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
+          <div className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
             <div className="flex items-start gap-4">
               <Activity className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
               <div className="flex flex-col flex-1">
@@ -137,7 +137,7 @@ function Admin() {
           </div>
 
           {/* Card 2: Deployment Server Produksi (Zero-Downtime PM2) */}
-          <div className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
+          <div className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
             <div className="flex items-start gap-4">
               <Rocket className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
               <div className="flex flex-col flex-1">
@@ -220,7 +220,7 @@ function Admin() {
           </div>
 
           {/* Card 3: Konfigurasi API Gateway & Endpoint */}
-          <div className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
+          <div className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
             <div className="flex items-start gap-4">
               <Server className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
               <div className="flex flex-col flex-1">
@@ -295,7 +295,7 @@ function Admin() {
           </div>
 
           {/* Card 4: Konsol Manajemen Infrastruktur */}
-          <div className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
+          <div className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none">
             <div className="flex items-start gap-4">
               <ExternalLink className="w-5 h-5 text-[var(--color-text-primary)] shrink-0 mt-0.5" />
               <div className="flex flex-col flex-1">

@@ -544,7 +544,7 @@ function Beranda() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-6 lg:gap-7">
+      <div className="w-full space-y-6">
         {/* Top Hero Banner Carousel (3-Layer Stacked Crossfade & Scale-Pop Architecture) */}
         <div 
           className="relative w-full min-h-[260px] sm:min-h-[290px] lg:min-h-[310px] rounded-2xl overflow-hidden border border-[var(--color-border-default)] shadow-xl bg-zinc-950 text-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between group select-none"

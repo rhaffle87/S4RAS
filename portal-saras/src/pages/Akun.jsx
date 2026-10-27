@@ -70,11 +70,16 @@ function Akun() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full pb-12">
-        {/* Page Title */}
-        <h2 className="text-xl sm:text-2xl font-bold text-text-primary m-0 tracking-tight">
-          {isEn ? 'Account' : 'Akun'}
-        </h2>
+      <div className="w-full space-y-6">
+        {/* Page Header */}
+        <div className="flex flex-col">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text-primary)] m-0">
+            {isEn ? 'Account' : 'Akun'}
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)] m-0">
+            {isEn ? 'Manage user profile, credentials, and SSO session' : 'Kelola profil pengguna, kredensial, dan sesi SSO'}
+          </p>
+        </div>
 
         {/* Profile Hero Section (Exact myITS Layout: Borderless with 2x2 Metadata Badges) */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 py-2">

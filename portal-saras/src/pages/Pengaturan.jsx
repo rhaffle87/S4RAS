@@ -60,17 +60,22 @@ function Pengaturan() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-6 max-w-4xl">
-        {/* Page Title Header */}
-        <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-text-primary)] m-0">
-          {t('set.title')}
-        </h2>
+      <div className="w-full space-y-6">
+        {/* Page Header */}
+        <div className="flex flex-col">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text-primary)] m-0">
+            {t('set.title')}
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)] m-0">
+            {language === 'en' ? 'Portal preferences, theme appearance, and language options' : 'Preferensi portal, tampilan antarmuka, dan bahasa'}
+          </p>
+        </div>
 
         {/* Primary Settings Cards (Clean Monochrome Vertical Flow) */}
         <div className="flex flex-col gap-4 relative z-20">
           {/* Card 1: Mode Tampilan */}
           <div 
-            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: showThemeDropdown ? 60 : 30 }}
           >
             <div className="flex items-start gap-4">
@@ -130,7 +135,7 @@ function Pengaturan() {
 
           {/* Card 2: Bahasa */}
           <div 
-            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: showLangDropdown ? 60 : 20 }}
           >
             <div className="flex items-start gap-4">
@@ -190,7 +195,7 @@ function Pengaturan() {
 
           {/* Card 3: Integrasi Single Sign-On (SSO) */}
           <div 
-            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: 10 }}
           >
             <div className="flex items-start gap-4">
@@ -235,7 +240,7 @@ function Pengaturan() {
 
           {/* Card 4: Bantuan & Kontak Administrator */}
           <div 
-            className="card p-6 sm:p-7 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-3xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
+            className="card p-5 sm:p-6 bg-[var(--color-neutral-bg2)]/90 border border-[var(--color-border-default)] rounded-2xl shadow-md flex flex-col relative overflow-visible hover:transform-none"
             style={{ zIndex: 10 }}
           >
             <div className="flex items-start gap-4">

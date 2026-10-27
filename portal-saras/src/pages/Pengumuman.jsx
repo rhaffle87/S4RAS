@@ -74,12 +74,17 @@ function Pengumuman() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-6">
-        {/* Header with Search (Matching Screenshot 4) */}
+      <div className="w-full space-y-6">
+        {/* Page Header with Search */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 flex-wrap">
-          <h2 className="text-xl sm:text-2xl font-bold text-text-primary m-0">
-            {t('ann.title')}
-          </h2>
+          <div className="flex flex-col">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--color-text-primary)] m-0">
+              {t('ann.title')}
+            </h1>
+            <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-secondary)] m-0">
+              {language === 'en' ? 'Official campus announcements and broadcasts' : 'Pemberitahuan resmi dan siaran sivitas kampus'}
+            </p>
+          </div>
 
           {/* Search Input */}
           <div className="relative w-full sm:w-80 flex items-center">
