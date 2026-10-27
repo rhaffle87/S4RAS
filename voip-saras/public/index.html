@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S4RAS Telefoni — Communications & PJSIP WebRTC Hub</title>
+  <title>S4RAS Telefoni — WebRTC PBX Hub</title>
+  <meta name="description" content="S4RAS Telefoni — Layanan WebRTC PBX & Komunikasi Digital Sivitas S4RAS">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -184,13 +185,6 @@
       letter-spacing: -0.02em;
       white-space: nowrap;
     }
-    .brand-sub {
-      font-size: 0.6875rem;
-      color: var(--text-muted);
-      margin-left: 0.35rem;
-      padding-left: 0.35rem;
-      border-left: 1px solid var(--border-default);
-    }
 
     .header-right {
       display: flex;
@@ -229,7 +223,7 @@
       50% { opacity: 0.5; transform: scale(1.15); }
     }
 
-    .user-pill {
+    .user-pill-static {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -241,12 +235,7 @@
       color: var(--text-primary);
       font-size: 0.75rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .user-pill:hover {
-      border-color: var(--border-strong);
-      background: var(--bg-control-hover);
+      user-select: none;
     }
     .user-avatar-mini {
       width: 28px;
@@ -312,7 +301,7 @@
       .app-header {
         padding: 0 0.85rem;
       }
-      .brand-sub, .trunk-pill-hide-mobile {
+      .trunk-pill-hide-mobile {
         display: none !important;
       }
     }
@@ -562,7 +551,7 @@
       min-height: 460px;
     }
 
-    /* Idle Diagnostic Stage */
+    /* STATE A-1: ADMIN IDLE DIAGNOSTIC STAGE */
     .idle-stage {
       display: flex;
       flex-direction: column;
@@ -604,7 +593,7 @@
       font-family: var(--font-mono);
     }
 
-    /* Terminal Logging */
+    /* Terminal Logging (Admin Only) */
     .terminal-container {
       flex: 1;
       background: #000000;
@@ -665,7 +654,124 @@
       color: #f87171;
     }
 
-    /* Active Video Stage */
+    /* STATE A-2: CIVITAS (STUDENT / TEACHER) IDLE STAGE */
+    .civitas-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      height: 100%;
+    }
+    .civitas-welcome-card {
+      flex: 1;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: 2.25rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+    .civitas-welcome-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--brand-subtle);
+      color: var(--brand-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .civitas-welcome-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .civitas-welcome-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .civitas-features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    @media (max-width: 640px) {
+      .civitas-features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .civitas-feat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 0.85rem 1rem;
+    }
+    .civitas-feat-badge {
+      font-size: 0.5625rem;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--brand-light);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .civitas-feat-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .civitas-feat-desc {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .civitas-cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-civitas-cta {
+      height: 42px;
+      padding: 0 1.25rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-control);
+      border: 1px solid var(--border-default);
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+    .btn-civitas-cta:hover {
+      background: var(--bg-control-hover);
+      border-color: var(--border-strong);
+    }
+    .btn-civitas-cta.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: white;
+    }
+    .btn-civitas-cta.primary:hover {
+      background: var(--brand-hover);
+      border-color: var(--brand-hover);
+    }
+
+    /* STATE B: ACTIVE CALL STAGE */
     .active-stage {
       display: none;
       flex-direction: column;
@@ -675,8 +781,8 @@
     .active-stage.is-calling {
       display: flex;
     }
-    .idle-stage.is-calling {
-      display: none;
+    .idle-stage.is-calling, .civitas-stage.is-calling {
+      display: none !important;
     }
 
     .video-viewport {
@@ -725,7 +831,7 @@
       font-size: 0.5625rem;
       text-align: center;
       padding: 0.15rem;
-      font-mono: monospace;
+      font-family: var(--font-mono);
     }
 
     .audio-stage-placeholder {
@@ -748,12 +854,6 @@
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
-      animation: pulse-ring 2s infinite ease-in-out;
-    }
-    @keyframes pulse-ring {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-      50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(16, 185, 129, 0.45); }
     }
 
     .call-controls-bar {
@@ -761,12 +861,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.65rem;
-      flex-wrap: wrap;
+      gap: 0.75rem;
     }
     .control-pill-btn {
       height: 42px;
-      padding: 0 1rem;
+      padding: 0 1.15rem;
       border-radius: 9999px;
       background: var(--bg-control);
       border: 1px solid var(--border-default);
@@ -783,35 +882,35 @@
       border-color: var(--border-strong);
     }
     .control-pill-btn.active {
-      background: rgba(220, 38, 38, 0.15);
-      border-color: #ef4444;
-      color: #ef4444;
+      background: #dc2626;
+      border-color: #dc2626;
+      color: white;
     }
 
-    /* Column 3: Directory, WhatsApp Bridges & Logs */
+    /* Column 3: Directory & History */
     .tab-bar {
       display: flex;
-      border-bottom: 1px solid var(--border-default);
-      gap: 0.35rem;
+      background: var(--bg-control);
+      border-radius: var(--radius-lg);
+      padding: 0.25rem;
+      gap: 0.25rem;
       margin-bottom: 1rem;
     }
     .tab-btn {
-      padding: 0.5rem 0.85rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      flex: 1;
+      height: 32px;
+      border-radius: var(--radius-md);
       background: transparent;
       border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.6875rem;
+      font-weight: 600;
       transition: all 0.15s ease;
     }
-    .tab-btn:hover {
-      color: var(--text-primary);
-    }
     .tab-btn.active {
+      background: var(--bg-card);
       color: var(--text-primary);
-      border-bottom-color: var(--brand);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
     }
 
     .dir-search-wrap {
@@ -839,6 +938,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
+      pointer-events: none;
     }
 
     .dir-list {
@@ -847,17 +947,16 @@
       gap: 0.5rem;
       overflow-y: auto;
       max-height: 520px;
-      padding-right: 0.25rem;
     }
     .dir-card {
       background: var(--bg-card-subtle);
       border: 1px solid var(--border-default);
       border-radius: var(--radius-lg);
-      padding: 0.75rem 0.85rem;
+      padding: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.65rem;
+      gap: 0.75rem;
       transition: all 0.15s ease;
     }
     .dir-card:hover {
@@ -872,6 +971,7 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
+      margin-bottom: 0.15rem;
     }
     .dir-name {
       font-size: 0.8125rem;
@@ -882,19 +982,18 @@
       text-overflow: ellipsis;
     }
     .dir-ext-badge {
+      font-size: 0.625rem;
       font-family: var(--font-mono);
-      font-size: 0.6875rem;
       font-weight: 700;
-      background: var(--bg-control);
-      border: 1px solid var(--border-default);
+      background: var(--brand-subtle);
+      color: var(--brand-light);
       padding: 0.1rem 0.4rem;
-      border-radius: 0.35rem;
-      color: var(--text-secondary);
+      border-radius: 9999px;
+      flex-shrink: 0;
     }
     .dir-dept {
       font-size: 0.6875rem;
       color: var(--text-muted);
-      margin-top: 0.15rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -927,64 +1026,6 @@
       border-color: #25d366;
       color: white;
     }
-
-    /* Modal Switch Extension */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      z-index: 50;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    .modal-backdrop.is-open {
-      display: flex;
-    }
-    .modal-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-2xl);
-      max-width: 440px;
-      width: 100%;
-      padding: 1.5rem;
-      box-shadow: var(--shadow-modal);
-    }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .ext-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.65rem;
-      margin-top: 1rem;
-    }
-    .ext-card-btn {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      padding: 0.85rem;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .ext-card-btn:hover {
-      border-color: var(--brand-light);
-      background: var(--bg-control-hover);
-    }
-    .ext-card-btn.active {
-      border-color: var(--brand);
-      background: var(--brand-subtle);
-    }
   </style>
 </head>
 <body>
@@ -1016,7 +1057,6 @@
           <circle cx="68" cy="34" r="3" fill="#dc2626"/>
         </svg>
         <span class="brand-title">S4RAS <span style="color:#ef4444">Telefoni</span></span>
-        <span class="brand-sub">Communications & PJSIP WebRTC Hub</span>
       </div>
     </div>
 
@@ -1033,25 +1073,19 @@
         <span>Asterisk 22 • Trunk 201 Ready</span>
       </div>
 
-      <!-- Current Identity & Persona Selector -->
-      <button class="user-pill" id="btnSwitchPersona" title="Klik untuk switch extension / persona">
+      <!-- Current Identity (Auto-Bound from SSO Session - Static) -->
+      <div class="user-pill-static" id="userPill">
         <div class="user-avatar-mini" id="userAvatar">R</div>
         <div style="text-align:left; line-height:1.2;">
           <div style="font-size:0.75rem; font-weight:700;" id="userNameHeader">Rafli Alif</div>
           <div style="font-size:0.625rem; color:var(--text-muted); font-family:var(--font-mono);" id="userExtHeader">Ext 1003</div>
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
+      </div>
 
       <!-- Theme Toggle (Dark/Light) -->
       <button class="btn-icon" id="btnThemeToggle" title="Toggle Mode Gelap / Terang">
         <svg id="themeIconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg id="themeIconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-
-      <!-- Language Toggle (ID/EN) -->
-      <button class="btn-icon" id="btnLangToggle" title="Ganti Bahasa (ID/EN)" style="font-size:0.6875rem; font-weight:800; font-family:var(--font-mono);">
-        ID
       </button>
     </div>
   </header>
@@ -1141,8 +1175,8 @@
     <!-- COLUMN 2: HD Media Stage & Diagnostic Cockpit -->
     <section class="cockpit-panel col-center center-stage-container">
       
-      <!-- STATE A: IDLE DASHBOARD -->
-      <div class="idle-stage" id="idleStage">
+      <!-- STATE A-1: ADMIN IDLE TELEMETRY (Rendered ONLY if isAdmin === true) -->
+      <div class="idle-stage" id="idleStageAdmin" style="display:none;">
         <div class="panel-header">
           <div class="panel-title">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
@@ -1202,7 +1236,57 @@
         </div>
       </div>
 
-      <!-- STATE B: ACTIVE CALL STAGE -->
+      <!-- STATE A-2: CIVITAS / STUDENT IDLE STAGE (Clean, Spacious, Friendly) -->
+      <div class="civitas-stage" id="civitasStage" style="display:none;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-i18n="civitas_studio_title">S4RAS Studio Komunikasi Sivitas</span>
+          </div>
+          <span class="panel-badge" style="background:rgba(16,185,129,0.12); color:#34d399;" data-i18n="civitas_channel_ready">Saluran Aman Aktif</span>
+        </div>
+
+        <div class="civitas-welcome-card">
+          <div class="civitas-welcome-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <h2 class="civitas-welcome-title" id="civitasGreeting">Selamat Datang di S4RAS Telefoni</h2>
+          <p class="civitas-welcome-desc" data-i18n="civitas_desc">
+            Layanan komunikasi suara dan video WebRTC definisi tinggi (HD) berkecepatan tinggi yang terintegrasi langsung dengan ekosistem kampus digital S4RAS.
+          </p>
+
+          <div class="civitas-features-grid">
+            <div class="civitas-feat-card">
+              <div class="civitas-feat-badge">HD AUDIO</div>
+              <div class="civitas-feat-title" data-i18n="feat_audio_title">Opus 48kHz Codec</div>
+              <div class="civitas-feat-desc" data-i18n="feat_audio_desc">Suara jernih minim latensi antar sivitas akademika.</div>
+            </div>
+            <div class="civitas-feat-card">
+              <div class="civitas-feat-badge">HD VIDEO</div>
+              <div class="civitas-feat-title" data-i18n="feat_video_title">VP8 Video Real-Time</div>
+              <div class="civitas-feat-desc" data-i18n="feat_video_desc">Panggilan video 2 arah dan pengujian visual instan tanpa plugin.</div>
+            </div>
+            <div class="civitas-feat-card">
+              <div class="civitas-feat-badge">SECURE</div>
+              <div class="civitas-feat-title" data-i18n="feat_sec_title">SRTP & DTLS Terenkripsi</div>
+              <div class="civitas-feat-desc" data-i18n="feat_sec_desc">Koneksi signaling WSS dan media terlindungi di jaringan kampus.</div>
+            </div>
+          </div>
+
+          <div class="civitas-cta-row">
+            <button class="btn-civitas-cta primary" onclick="quickDial('600')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <span data-i18n="cta_test_echo">Uji Kamera & Mikrofon (600)</span>
+            </button>
+            <button class="btn-civitas-cta" onclick="quickDial('1000')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-i18n="cta_helpdesk">Hubungi Helpdesk (1000)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE B: ACTIVE CALL STAGE (Shared Fullstage) -->
       <div class="active-stage" id="activeStage">
         <div class="panel-header">
           <div class="panel-title">
@@ -1329,47 +1413,6 @@
 
   </main>
 
-  <!-- Switch Persona / Extension Modal -->
-  <div class="modal-backdrop" id="modalSwitchPersona">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 class="modal-title" data-i18n="modal_persona_title">Pilih Persona & Ekstensi Aktif</h3>
-        <button onclick="closePersonaModal()" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <p style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="modal_persona_desc">
-        Pilih akun pengguna untuk beralih ekstensi SIP dan hak akses PBX:
-      </p>
-
-      <div class="ext-grid">
-        <button class="ext-card-btn active" id="btnPersona1003" onclick="selectPersona('1003', 'Rafli Alif', 'Lead Architect & Admin', 'R')">
-          <div style="font-size:0.875rem; font-weight:700;">Rafli Alif</div>
-          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1003 (Admin)</div>
-          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">+62 838-4612-1134</div>
-        </button>
-
-        <button class="ext-card-btn" id="btnPersona1004" onclick="selectPersona('1004', 'Nathan', 'Co-Developer & Cluster', 'N')">
-          <div style="font-size:0.875rem; font-weight:700;">Nathan</div>
-          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1004 (Co-Dev)</div>
-          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">+62 812-9289-2465</div>
-        </button>
-
-        <button class="ext-card-btn" id="btnPersona1002" onclick="selectPersona('1002', 'Dr. Hendra Wijaya', 'Dosen Komputasi Awan', 'H')">
-          <div style="font-size:0.875rem; font-weight:700;">Dr. Hendra Wijaya</div>
-          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1002 (Dosen)</div>
-          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">Fakultas Teknik</div>
-        </button>
-
-        <button class="ext-card-btn" id="btnPersona1001" onclick="selectPersona('1001', 'Budi Pratama', 'Perwakilan Mahasiswa', 'B')">
-          <div style="font-size:0.875rem; font-weight:700;">Budi Pratama</div>
-          <div style="font-size:0.6875rem; color:var(--brand-light); font-family:var(--font-mono); font-weight:700;">Ext 1001 (Mahasiswa)</div>
-          <div style="font-size:0.6875rem; color:var(--text-muted); margin-top:0.25rem;">Dewan Sivitas</div>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Audio Tone & Media Script -->
   <script>
     // ==========================================
@@ -1399,8 +1442,17 @@
         tab_trunk: "Trunk PBX",
         recent_calls: "Panggilan Terakhir",
         clear_history: "Hapus Riwayat",
-        modal_persona_title: "Pilih Persona & Ekstensi Aktif",
-        modal_persona_desc: "Pilih akun pengguna untuk beralih ekstensi SIP dan hak akses PBX:"
+        civitas_studio_title: "S4RAS Studio Komunikasi Sivitas",
+        civitas_channel_ready: "Saluran Aman Aktif",
+        civitas_desc: "Layanan komunikasi suara dan video WebRTC definisi tinggi (HD) berkecepatan tinggi yang terintegrasi langsung dengan ekosistem kampus digital S4RAS.",
+        feat_audio_title: "Opus 48kHz Codec",
+        feat_audio_desc: "Suara jernih minim latensi antar sivitas akademika.",
+        feat_video_title: "VP8 Video Real-Time",
+        feat_video_desc: "Panggilan video 2 arah dan pengujian visual instan tanpa plugin.",
+        feat_sec_title: "SRTP & DTLS Terenkripsi",
+        feat_sec_desc: "Koneksi signaling WSS dan media terlindungi di jaringan kampus.",
+        cta_test_echo: "Uji Kamera & Mikrofon (600)",
+        cta_helpdesk: "Hubungi Helpdesk (1000)"
       },
       en: {
         back_portal: "Back to Portal",
@@ -1425,8 +1477,17 @@
         tab_trunk: "PBX Trunks",
         recent_calls: "Recent Calls",
         clear_history: "Clear History",
-        modal_persona_title: "Select Active Persona & Extension",
-        modal_persona_desc: "Select a user profile to switch active SIP extension and PBX privileges:"
+        civitas_studio_title: "S4RAS Campus Communication Studio",
+        civitas_channel_ready: "Secure Channel Active",
+        civitas_desc: "High-definition WebRTC voice and video communications integrated directly with the S4RAS digital campus ecosystem.",
+        feat_audio_title: "Opus 48kHz Codec",
+        feat_audio_desc: "Crystal-clear ultra-low latency voice for campus members.",
+        feat_video_title: "Real-Time VP8 Video",
+        feat_video_desc: "Two-way video calls and instant visual test without plugins.",
+        feat_sec_title: "Encrypted SRTP & DTLS",
+        feat_sec_desc: "WSS signaling and media stream fully protected on campus network.",
+        cta_test_echo: "Test Camera & Mic (600)",
+        cta_helpdesk: "Call Helpdesk (1000)"
       }
     };
 
@@ -1509,12 +1570,13 @@
       '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
     };
 
-    // User State
+    // Current User Profile (Auto-mapped)
     let currentUser = {
-      ext: "1003",
-      name: "Rafli Alif",
-      role: "Lead Architect & Admin",
-      initial: "R",
+      ext: "1001",
+      name: "Budi Pratama",
+      role: "Perwakilan Mahasiswa",
+      initial: "B",
+      isAdmin: false,
       secret: "dev-mock-secret"
     };
 
@@ -1531,6 +1593,76 @@
     let audioCtx = null;
     let sipWs = null;
     let callHistory = JSON.parse(localStorage.getItem('s4ras_voip_history') || '[]');
+
+    // ==========================================
+    // USER IDENTITY & ROLE RESOLUTION (SSO AUTO-MAPPING)
+    // ==========================================
+    function resolveUserIdentity() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const cookieUser = (document.cookie.match(/s4ras_user=([^;]+)/) || [])[1];
+      const cookieExt = (document.cookie.match(/s4ras_auth_ext=([^;]+)/) || [])[1];
+
+      const rawUser = (urlParams.get('user') || cookieUser || '').trim();
+      const rawExt = (urlParams.get('ext') || cookieExt || '').trim();
+
+      // Mapping Logic
+      if (rawUser === 'admin' || rawExt === '1003' || rawUser.toLowerCase().includes('rafli')) {
+        return {
+          ext: "1003",
+          name: "Rafli Alif",
+          role: "Lead Architect & Admin",
+          initial: "R",
+          isAdmin: true,
+          secret: "dev-mock-secret"
+        };
+      } else if (rawUser === 'nathan1' || rawExt === '1004' || rawUser.toLowerCase().includes('nathan')) {
+        return {
+          ext: "1004",
+          name: "Nathan",
+          role: "Co-Developer & Cluster Architecture",
+          initial: "N",
+          isAdmin: true,
+          secret: "dev-mock-secret"
+        };
+      } else if (rawUser === 'teacher1' || rawExt === '1002') {
+        return {
+          ext: "1002",
+          name: "Dr. Hendra Wijaya",
+          role: "Dosen Komputasi Awan (Faculty)",
+          initial: "H",
+          isAdmin: false,
+          secret: "dev-mock-secret"
+        };
+      } else if (rawUser === 'student1' || rawExt === '1001') {
+        return {
+          ext: "1001",
+          name: "Budi Pratama",
+          role: "Perwakilan Mahasiswa (Student)",
+          initial: "B",
+          isAdmin: false,
+          secret: "dev-mock-secret"
+        };
+      } else if (rawExt) {
+        return {
+          ext: rawExt,
+          name: rawUser || `Sivitas ${rawExt}`,
+          role: "Civitas Member",
+          initial: (rawUser ? rawUser[0] : 'S').toUpperCase(),
+          isAdmin: (rawUser === 'admin'),
+          secret: "dev-mock-secret"
+        };
+      }
+
+      // Default fallback: Student persona
+      return {
+        ext: "1001",
+        name: "Budi Pratama",
+        role: "Perwakilan Mahasiswa (Student)",
+        initial: "B",
+        isAdmin: false,
+        secret: "dev-mock-secret"
+      };
+    }
 
     // ==========================================
     // INITIALIZATION & THEME / LANG SYNC
@@ -1551,21 +1683,12 @@
       applyLanguage(currentLang);
 
       // Auto-provisioning User / Ext
-      const paramExt = urlParams.get('ext');
-      const paramUser = urlParams.get('user');
-      const paramToken = urlParams.get('token');
-
-      if (paramExt === '1004' || paramUser === 'nathan1') {
-        selectPersona('1004', 'Nathan', 'Co-Developer & Cluster', 'N', false);
-      } else if (paramExt === '1002' || paramUser === 'teacher1') {
-        selectPersona('1002', 'Dr. Hendra Wijaya', 'Dosen Komputasi Awan', 'H', false);
-      } else if (paramExt === '1001' || paramUser === 'student1') {
-        selectPersona('1001', 'Budi Pratama', 'Perwakilan Mahasiswa', 'B', false);
-      } else if (paramExt) {
-        selectPersona(paramExt, paramUser || `Ekstensi ${paramExt}`, 'Pengguna Portal', paramExt[0], false);
-      }
+      currentUser = resolveUserIdentity();
+      updateHeaderIdentity();
+      updateCenterStageView();
 
       // If token provided, query /api/me/context for auto-provisioning credentials
+      const paramToken = urlParams.get('token');
       if (paramToken) {
         fetch('https://portal.s4ras.site/api/me/context', {
           headers: { Authorization: `Bearer ${paramToken}` },
@@ -1573,14 +1696,17 @@
         })
         .then(res => res.ok ? res.json() : null)
         .then(ctx => {
-          if (ctx?.telephony) {
-            logTerminal(`[SSO] Context resolved: Ext ${ctx.telephony.extension} (${ctx.username})`, 'in');
-            if (ctx.telephony.secret) currentUser.secret = ctx.telephony.secret;
-            if (ctx.telephony.extension) {
-              currentUser.ext = ctx.telephony.extension;
-              updateHeaderIdentity();
-              sendSIPRegister(currentUser.ext);
+          if (ctx) {
+            if (ctx.telephony?.extension) currentUser.ext = ctx.telephony.extension;
+            if (ctx.telephony?.secret) currentUser.secret = ctx.telephony.secret;
+            if (ctx.name) currentUser.name = ctx.name;
+            if (ctx.username) {
+              currentUser.isAdmin = (ctx.username === 'admin' || ctx.username === 'nathan1' || (Array.isArray(ctx.roles) && ctx.roles.includes('admin')));
             }
+            currentUser.initial = (currentUser.name[0] || 'U').toUpperCase();
+            updateHeaderIdentity();
+            updateCenterStageView();
+            sendSIPRegister(currentUser.ext);
           }
         })
         .catch(() => {});
@@ -1616,7 +1742,6 @@
         document.cookie = `s4ras_lang=${lang}${domainAttr}; path=/; max-age=31536000; SameSite=Lax`;
       } catch(e){}
 
-      document.getElementById('btnLangToggle').innerText = lang.toUpperCase();
       const dict = I18N[lang] || I18N['id'];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -1624,44 +1749,42 @@
       });
     }
 
-    // Toggle listeners
     document.getElementById('btnThemeToggle').addEventListener('click', () => {
       applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
-    document.getElementById('btnLangToggle').addEventListener('click', () => {
-      applyLanguage(currentLang === 'id' ? 'en' : 'id');
-    });
-
     // ==========================================
-    // PERSONA & EXTENSION SWITCHING
+    // UI VISIBILITY & CENTER STAGE
     // ==========================================
     function updateHeaderIdentity() {
       document.getElementById('userNameHeader').innerText = currentUser.name;
-      document.getElementById('userExtHeader').innerText = `Ext ${currentUser.ext}`;
+      document.getElementById('userExtHeader').innerText = `Ext ${currentUser.ext} • ${currentUser.isAdmin ? 'Admin' : 'Sivitas'}`;
       document.getElementById('userAvatar').innerText = currentUser.initial;
       document.getElementById('activeCallerBadge').innerText = `Ext ${currentUser.ext}`;
       document.getElementById('pipLabel').innerText = `${currentUser.name} (${currentUser.ext})`;
+      
+      const greeting = document.getElementById('civitasGreeting');
+      if (greeting) {
+        greeting.innerText = `Halo, ${currentUser.name}`;
+      }
     }
 
-    function openPersonaModal() {
-      document.getElementById('modalSwitchPersona').classList.add('is-open');
-    }
-    function closePersonaModal() {
-      document.getElementById('modalSwitchPersona').classList.remove('is-open');
-    }
-    document.getElementById('btnSwitchPersona').addEventListener('click', openPersonaModal);
+    function updateCenterStageView() {
+      const adminSec = document.getElementById('idleStageAdmin');
+      const civitasSec = document.getElementById('civitasStage');
 
-    function selectPersona(ext, name, role, initial, updateRegister = true) {
-      currentUser = { ext, name, role, initial, secret: 'dev-mock-secret' };
-      updateHeaderIdentity();
-      document.querySelectorAll('.ext-card-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btnPersona${ext}`);
-      if (activeBtn) activeBtn.classList.add('active');
-      closePersonaModal();
-      logTerminal(`[PERSONA] Active profile set to: ${name} (Ext ${ext})`, 'in');
-      if (updateRegister) {
-        sendSIPRegister(ext);
+      if (inCall) {
+        if (adminSec) adminSec.style.display = 'none';
+        if (civitasSec) civitasSec.style.display = 'none';
+        return;
+      }
+
+      if (currentUser.isAdmin) {
+        if (adminSec) adminSec.style.display = 'flex';
+        if (civitasSec) civitasSec.style.display = 'none';
+      } else {
+        if (adminSec) adminSec.style.display = 'none';
+        if (civitasSec) civitasSec.style.display = 'flex';
       }
     }
 
@@ -1762,7 +1885,8 @@
       inCall = true;
       isVideoCall = (mode === 'video');
 
-      document.getElementById('idleStage').classList.add('is-calling');
+      document.getElementById('idleStageAdmin').classList.add('is-calling');
+      document.getElementById('civitasStage').classList.add('is-calling');
       document.getElementById('activeStage').classList.add('is-calling');
 
       document.getElementById('btnAudioCall').style.display = 'none';
@@ -1835,7 +1959,8 @@
       document.getElementById('localVideo').srcObject = null;
       document.getElementById('remoteVideo').srcObject = null;
 
-      document.getElementById('idleStage').classList.remove('is-calling');
+      document.getElementById('idleStageAdmin').classList.remove('is-calling');
+      document.getElementById('civitasStage').classList.remove('is-calling');
       document.getElementById('activeStage').classList.remove('is-calling');
 
       document.getElementById('btnAudioCall').style.display = 'inline-flex';
@@ -1843,6 +1968,7 @@
       document.getElementById('btnEndCall').style.display = 'none';
 
       document.getElementById('callDurationBadge').innerText = '00:00';
+      updateCenterStageView();
     }
 
     function toggleMuteMic() {
