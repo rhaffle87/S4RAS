@@ -586,11 +586,11 @@ function Beranda() {
             {/* Static Gradient Overlays (1 layer statis, stabil tanpa flicker) */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-zinc-950/95 via-zinc-950/80 to-zinc-950/35"
+              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-zinc-950/85 via-zinc-950/40 to-zinc-950/10"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-zinc-950/90 via-transparent to-zinc-950/30"
+              className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-zinc-950/60 via-zinc-950/25 to-transparent"
             />
           </div>
 
@@ -626,10 +626,10 @@ function Beranda() {
 
                     {/* Tipografi Judul & Deskripsi (Tengah) */}
                     <div className="max-w-2xl my-auto py-3 flex flex-col items-start">
-                      <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0">
+                      <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0 drop-shadow-sm">
                         {getGreeting()}, {fullName}!
                       </h2>
-                      <p className="mt-2.5 text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-xl font-normal m-0">
+                      <p className="mt-2.5 text-xs sm:text-sm text-zinc-200 leading-relaxed max-w-xl font-normal m-0 drop-shadow-sm">
                         {language === 'en'
                           ? 'Single-door access to digital learning, VoIP telephony, educational IPTV broadcasting, and independent cloud storage.'
                           : 'Akses satu pintu layanan pembelajaran digital, komunikasi VoIP, siaran edukasi IPTV, dan penyimpanan mandiri S4RAS.'}
@@ -686,10 +686,10 @@ function Beranda() {
 
                   {/* Tipografi Judul & Deskripsi (Tengah) */}
                   <div className="max-w-2xl my-auto py-3 flex flex-col items-start">
-                    <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0">
+                    <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.2] m-0 drop-shadow-sm">
                       {slide.title}
                     </h2>
-                    <p className="mt-2.5 text-xs sm:text-sm text-zinc-300/90 leading-relaxed max-w-xl font-normal m-0">
+                    <p className="mt-2.5 text-xs sm:text-sm text-zinc-200 leading-relaxed max-w-xl font-normal m-0 drop-shadow-sm">
                       {language === 'en' && slide.subtitle_en ? slide.subtitle_en : slide.subtitle}
                     </p>
                   </div>

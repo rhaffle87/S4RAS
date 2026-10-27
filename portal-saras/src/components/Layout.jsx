@@ -220,8 +220,28 @@ function Layout({ children }) {
             </nav>
           </div>
 
-          {/* Bottom Sidebar Block: Logout */}
-          <div className="pt-4 mt-auto border-t border-border-default/60">
+          {/* Bottom Sidebar Block: Language switcher (mobile) & Logout */}
+          <div className="pt-4 mt-auto border-t border-border-default/60 flex flex-col gap-3">
+            <div className="lg:hidden flex items-center justify-between px-2 py-1 text-xs">
+              <span className="text-text-secondary font-medium">Bahasa / Language</span>
+              <div className="inline-flex rounded-lg border border-border-default p-0.5 bg-neutral-bg3">
+                <button
+                  type="button"
+                  onClick={() => setLanguage('id')}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${language === 'id' ? 'bg-brand text-white' : 'text-text-secondary hover:text-text-primary'}`}
+                >
+                  ID
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${language === 'en' ? 'bg-brand text-white' : 'text-text-secondary hover:text-text-primary'}`}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
+
             <button
               className="flex items-center gap-3.5 px-4 py-2.5 text-status-error hover:bg-red-500/10 text-sm font-medium rounded-xl bg-transparent border-none w-full text-left cursor-pointer transition-all duration-200"
               onClick={logout}
@@ -236,17 +256,17 @@ function Layout({ children }) {
         {/* Content View Container (TopBar + Page View + Campus Footer) */}
         <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden relative">
           {/* Confined Top Bar (Spans right content area only) */}
-          <header className="sticky top-0 h-16 bg-neutral-bg1 light:bg-white border-b border-border-default flex items-center justify-between px-4 sm:px-6 lg:px-8 z-30 shrink-0">
+          <header className="sticky top-0 h-16 bg-neutral-bg1 light:bg-white border-b border-border-default flex items-center justify-between px-3 sm:px-6 lg:px-8 z-30 shrink-0 overflow-x-clip">
             {/* Mobile Hamburger & Title */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
               <button
-                className="lg:hidden bg-transparent border-none text-text-primary cursor-pointer p-2 rounded-lg transition-colors hover:bg-white/5 active:scale-95"
+                className="lg:hidden w-9 h-9 flex items-center justify-center bg-transparent border-none text-text-primary cursor-pointer p-0 rounded-lg transition-colors hover:bg-white/5 active:scale-95 shrink-0"
                 onClick={toggleMobile}
                 aria-label={mobileOpen ? 'Tutup menu' : 'Buka menu'}
                 aria-expanded={mobileOpen}
                 aria-controls="sidebar-nav"
               >
-                <Menu size={22} />
+                <Menu size={20} />
               </button>
               <svg viewBox="0 0 100 100" className="lg:hidden w-6 h-6 shrink-0" aria-hidden="true">
                 <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
@@ -263,13 +283,13 @@ function Layout({ children }) {
                 <circle cx="68" cy="34" r="8" fill="#ffffff"/>
                 <circle cx="68" cy="34" r="3" fill="#dc2626"/>
               </svg>
-              <span className="lg:hidden text-base font-bold text-text-primary">
-                my<span className="text-brand-light">S4RAS</span> Portal
+              <span className="lg:hidden text-sm sm:text-base font-bold text-text-primary whitespace-nowrap">
+                my<span className="text-brand-light">S4RAS</span><span className="hidden sm:inline"> Portal</span>
               </span>
             </div>
 
             {/* Right TopBar Actions: Harmonious h-9 rounded-full pills */}
-            <div className="flex items-center gap-2.5 sm:gap-3 ml-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 sm:gap-3 ml-auto shrink-0">
               {/* Command palette trigger (Ctrl/Cmd+K) */}
               <button
                 type="button"
@@ -285,8 +305,8 @@ function Layout({ children }) {
                 </kbd>
               </button>
 
-              {/* Language Dropdown */}
-              <div className="relative shrink-0">
+              {/* Language Dropdown (Hidden on mobile, available in drawer) */}
+              <div className="relative shrink-0 hidden sm:flex">
                 <button
                   type="button"
                   className="h-9 px-2.5 sm:px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1 sm:gap-1.5 border transition-all bg-[var(--color-neutral-bg2)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-neutral-bg3)] cursor-pointer"
@@ -331,9 +351,9 @@ function Layout({ children }) {
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                 <Phone size={13} className="text-[var(--color-text-secondary)] shrink-0" />
-                <span className="hidden sm:inline">WebPhone</span>
+                <span className="hidden md:inline">WebPhone</span>
                 <span className="font-mono text-[11px] text-[var(--color-text-secondary)]">
-                  ({sipExtension || '1001'})
+                  {sipExtension || '1001'}
                 </span>
               </button>
 
@@ -357,11 +377,11 @@ function Layout({ children }) {
                   <img
                     src={customAvatar}
                     alt={username}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover shadow-[0_2px_10px_rgba(185,28,28,0.25)] border border-white/20 hover:scale-105 transition-transform"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover shadow-[0_2px_10px_rgba(185,28,28,0.25)] border border-white/20 hover:scale-105 transition-transform shrink-0"
                   />
                 ) : (
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-brand-light to-brand text-white flex items-center justify-center shadow-[0_2px_10px_rgba(185,28,28,0.3)] border border-white/20 hover:scale-105 transition-transform">
-                    <User size={18} className="text-white" />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-brand-light to-brand text-white flex items-center justify-center shadow-[0_2px_10px_rgba(185,28,28,0.3)] border border-white/20 hover:scale-105 transition-transform shrink-0">
+                    <User size={16} className="text-white" />
                   </div>
                 )}
               </NavLink>
@@ -373,7 +393,7 @@ function Layout({ children }) {
 
           {/* Main Scrollable View Area */}
           <main id="main-content" className="flex-1 overflow-y-auto box-border flex flex-col justify-between" tabIndex={-1}>
-            <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 sm:pb-8 flex-1">
+            <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
               {children}
             </div>
 
@@ -404,44 +424,6 @@ function Layout({ children }) {
             </footer>
           </main>
         </div>
-
-        {/* Mobile Tab Bar (Bottom Thumb Zone < lg) */}
-        <nav 
-          className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-neutral-bg1 light:bg-white border-t border-border-default flex items-center justify-around py-1.5 px-2 shadow-[0_-4px_25px_rgba(0,0,0,0.4)]"
-          role="navigation"
-          aria-label="Navigasi bawah seluler"
-        >
-          {visibleNavItems.map(({ to, icon: Icon }) => (
-            <NavLink
-              key={`mobile-tab-${to}`}
-              to={to}
-              className={({ isActive }) =>
-                `flex flex-col items-center justify-center min-w-[56px] min-h-[46px] px-2 py-1 rounded-xl transition-all duration-200 cursor-pointer ${
-                  isActive 
-                    ? 'text-brand-light font-bold' 
-                    : 'text-text-secondary hover:text-text-primary'
-                }`
-              }
-              aria-current={location.pathname === to ? 'page' : undefined}
-            >
-              {({ isActive }) => (
-                <>
-                  <div className={`relative flex items-center justify-center w-8 h-7 rounded-lg transition-all ${
-                    isActive ? 'bg-brand/15 text-brand-light' : 'text-text-secondary'
-                  }`}>
-                    <Icon size={19} aria-hidden="true" />
-                    {isActive && (
-                      <span className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-brand-light shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
-                    )}
-                  </div>
-                  <span className="text-[10px] tracking-tight mt-0.5 whitespace-nowrap">
-                    {getNavLabel(to)}
-                  </span>
-                </>
-              )}
-            </NavLink>
-          ))}
-        </nav>
 
         {/* WebRTC Softphone Modal — lazy loaded on demand */}
         {phoneOpen && (

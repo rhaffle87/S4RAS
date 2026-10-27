@@ -52,30 +52,21 @@ export default function SoftphoneVideoCanvas({
         />
       ) : (
         /* Audio-Only / IVR Service / Waiting Stage */
-        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center select-none bg-[radial-gradient(ellipse_at_center,_var(--color-neutral-bg2)_0%,_var(--color-neutral-bg1)_80%)]">
-          <div className="relative mb-3">
-            <div className="w-20 h-20 rounded-full bg-[var(--color-neutral-bg2)] border-2 border-emerald-500/40 flex items-center justify-center text-[var(--color-text-primary)] font-bold text-2xl shadow-lg ring-8 ring-emerald-500/10 animate-pulse">
+        <div className="w-full h-full flex flex-col items-center justify-center p-4 sm:p-6 text-center select-none bg-[radial-gradient(ellipse_at_center,_var(--color-neutral-bg2)_0%,_var(--color-neutral-bg1)_80%)]">
+          <div className="relative mb-2 sm:mb-3">
+            <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full bg-[var(--color-neutral-bg2)] border-2 border-emerald-500/40 flex items-center justify-center text-[var(--color-text-primary)] font-bold text-xl sm:text-2xl shadow-lg ring-6 sm:ring-8 ring-emerald-500/10 animate-pulse">
               {activeCallTarget?.label?.charAt(0) || 'V'}
             </div>
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[var(--color-neutral-bg1)] flex items-center justify-center text-white">
-              <Mic size={12} />
+            <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 border-2 border-[var(--color-neutral-bg1)] flex items-center justify-center text-white">
+              <Mic size={11} />
             </div>
           </div>
 
-          <h3 className="text-base font-semibold text-[var(--color-text-primary)] m-0">
-            {activeCallTarget?.label}
-          </h3>
-          <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-1 max-w-sm font-sans">
-            {isAudioOnlyQueue
-              ? 'Layanan PBX ini mentransmisikan audio. Kamera Anda tetap aktif di layar kecil (PiP) kanan bawah.'
-              : 'Menghubungkan saluran video HD... Kamera lokal Anda aktif di pratinjau PiP.'}
-          </p>
-
-          <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] text-[11px] font-mono text-[var(--color-text-secondary)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-ping" />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[var(--color-neutral-bg2)] border border-[var(--color-border-default)] text-[10px] sm:text-[11px] font-mono text-[var(--color-text-secondary)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 animate-ping" />
             <span>
               {isAudioOnlyQueue
-                ? 'Saluran Suara IVR / PBX • PiP Video Siap'
+                ? 'Saluran Suara PBX • PiP Aktif'
                 : 'PJSIP WebRTC • VP8 HD Pass-Through'}
             </span>
           </div>
@@ -83,27 +74,27 @@ export default function SoftphoneVideoCanvas({
       )}
 
       {/* Top Left Header Badge */}
-      <div className="absolute top-3 left-3 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-[11px] text-white shadow-lg">
+      <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 flex items-center gap-1.5 sm:gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-white/10 text-[10px] sm:text-[11px] text-white shadow-lg pointer-events-none">
         {isEchoTest ? (
           <>
-            <Sparkles size={13} className="text-amber-400" />
+            <Sparkles size={12} className="text-amber-400 shrink-0" />
             <span className="font-medium">Uji Gema Video (Echo Loopback)</span>
           </>
         ) : isAudioOnlyQueue ? (
           <>
-            <ShieldAlert size={13} className="text-emerald-400" />
-            <span className="font-medium">Saluran Suara IVR • Kamera di PiP</span>
+            <ShieldAlert size={12} className="text-emerald-400 shrink-0" />
+            <span className="font-medium">Saluran Suara IVR • PiP Kamera</span>
           </>
         ) : (
           <>
-            <Video size={13} className="text-emerald-400" />
+            <Video size={12} className="text-emerald-400 shrink-0" />
             <span className="font-medium">S4RAS HD Video Consultation</span>
           </>
         )}
       </div>
 
       {/* Local PiP Webcam Preview (Bottom Right) */}
-      <div className="absolute bottom-3 right-3 w-32 h-24 sm:w-36 sm:h-28 bg-zinc-950 rounded-xl border border-white/20 overflow-hidden shadow-2xl transition-all duration-300 ring-2 ring-black/40">
+      <div className="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 w-24 h-20 sm:w-32 sm:h-24 bg-zinc-950 rounded-lg sm:rounded-xl border border-white/20 overflow-hidden shadow-2xl transition-all duration-300 ring-2 ring-black/40">
         <video
           ref={localVideoRef}
           autoPlay
@@ -111,7 +102,7 @@ export default function SoftphoneVideoCanvas({
           muted
           className="w-full h-full object-cover scale-x-[-1]"
         />
-        <div className="absolute bottom-0 inset-x-0 bg-black/80 backdrop-blur-xs text-[10px] text-white px-2 py-0.5 text-center font-mono truncate flex items-center justify-center gap-1.5">
+        <div className="absolute bottom-0 inset-x-0 bg-black/80 backdrop-blur-xs text-[9px] sm:text-[10px] text-white px-1.5 py-0.5 text-center font-mono truncate flex items-center justify-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
           <span>Anda ({myExtension})</span>
         </div>

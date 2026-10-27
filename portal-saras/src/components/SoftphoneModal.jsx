@@ -530,46 +530,46 @@ export default function SoftphoneModal({ isOpen, onClose }) {
       aria-labelledby="softphone-title"
     >
       <div
-        className={`bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] rounded-2xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[85dvh] text-[var(--color-text-primary)] transition-all duration-300 ${
+        className={`bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] rounded-2xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[90dvh] text-[var(--color-text-primary)] transition-all duration-300 ${
           isVideoActive && callState !== 'idle' ? 'max-w-4xl' : 'max-w-md'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[var(--color-neutral-bg2)] border-b border-[var(--color-border-default)] p-3.5 sm:p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Phone className="w-5 h-5 text-[var(--color-text-primary)] mt-0.5 shrink-0" />
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 id="softphone-title" className="text-sm font-semibold text-[var(--color-text-primary)] tracking-tight">
-                  Telefoni S4RAS (WebPhone)
+        <div className="bg-[var(--color-neutral-bg2)] border-b border-[var(--color-border-default)] p-3 sm:p-4 flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <Phone className="w-5 h-5 text-[var(--color-text-primary)] shrink-0" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <h3 id="softphone-title" className="text-sm sm:text-base font-bold text-[var(--color-text-primary)] tracking-tight whitespace-nowrap">
+                  Telefoni S4RAS<span className="hidden xs:inline"> (WebPhone)</span>
                 </h3>
                 {sipSecret ? (
-                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2 py-0.5 rounded-full inline-flex items-center gap-1.5 shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                     <span>Terhubung</span>
                   </span>
                 ) : (
-                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2 py-0.5 rounded-full inline-flex items-center gap-1.5 shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                     <span>Perlu Login</span>
                   </span>
                 )}
                 {isVideoActive && (
-                  <span className="bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                  <span className="hidden sm:inline-flex bg-[var(--color-neutral-bg1)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] text-[11px] px-2 py-0.5 rounded-full items-center gap-1.5 shrink-0">
                     <Video size={11} className="text-emerald-500" />
                     <span>VP8 HD</span>
                   </span>
                 )}
               </div>
-              <p className="text-xs text-[var(--color-text-secondary)] m-0 mt-0.5">
+              <p className="text-[11px] sm:text-xs text-[var(--color-text-secondary)] m-0 mt-0.5 truncate">
                 PJSIP WebRTC • Ekstensi {myExtension} ({roleLabel})
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] p-1.5 rounded-lg hover:bg-[var(--color-neutral-bg3)] transition-colors cursor-pointer"
+            className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] p-1.5 rounded-lg hover:bg-[var(--color-neutral-bg3)] transition-colors cursor-pointer shrink-0 ml-2"
             aria-label="Tutup Softphone"
           >
             <X size={18} />
@@ -616,7 +616,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
         )}
 
         {/* Modal Main Body */}
-        <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between overflow-y-auto">
+        <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between overflow-y-auto max-h-[calc(90dvh-65px)]">
           {callState !== 'idle' ? (
             /* Active Call Screen (Dual-Mode when Video Active) */
             <div className={`flex-1 flex flex-col ${isVideoActive ? 'lg:flex-row gap-4' : 'items-center justify-center py-2 sm:py-4'} text-center`}>
