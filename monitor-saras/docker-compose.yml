@@ -93,6 +93,14 @@ services:
       - "3001:3001"
     volumes:
       - uptime_kuma_data:/app/data
+      - ./public/icon.svg:/app/dist/icon.svg:ro
+      - ./public/favicon.ico:/app/dist/favicon.ico:ro
+      - ./public/apple-touch-icon.png:/app/dist/apple-touch-icon.png:ro
+      - ./public/apple-touch-icon-precomposed.png:/app/dist/apple-touch-icon-precomposed.png:ro
+      - ./public/icon.png:/app/dist/icon.png:ro
+      - ./public/icon-192x192.png:/app/dist/icon-192x192.png:ro
+      - ./public/icon-512x512.png:/app/dist/icon-512x512.png:ro
+      - ./public/manifest.json:/app/dist/manifest.json:ro
 
   loki:
     image: grafana/loki:3.4.2
