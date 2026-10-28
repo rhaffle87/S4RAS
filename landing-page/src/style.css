@@ -147,8 +147,8 @@ h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.1; letter-spacing: 
 .ftr-grid { display: grid; border-top: 1px solid var(--line); }
 @media (min-width: 860px) { .ftr-grid { grid-template-columns: repeat(3, 1fr); } .ftr-grid > div + div { border-left: 1px solid var(--line); padding-left: 1.5rem; } }
 .ftr-grid > div { padding: 1.5rem 0; }
-.ftr a { display: inline-flex; align-items: center; min-height: 40px; padding: 0.15rem 0; transition: color .2s; }
-.ftr a:hover { color: var(--red); }
+.ftr a:not(.btn) { display: inline-flex; align-items: center; min-height: 40px; padding: 0.15rem 0; transition: color .2s; }
+.ftr a:not(.btn):hover { color: var(--red); }
 .ftr h5 { color: var(--ink); font-weight: 500; margin-bottom: .75rem; font-size: .85rem; }
 .ftr ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .25rem; }
 .ftr p { max-width: 38ch; word-break: break-word; }
@@ -158,6 +158,9 @@ h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.1; letter-spacing: 
   background: linear-gradient(to bottom, var(--red) 0%, transparent 92%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .ftr-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 1.5rem; padding: 1.25rem 0 1.75rem; border-top: 1px solid var(--line); background: var(--bg); position: relative; }
 .ftr-bar a { display: inline-flex; align-items: center; min-height: 40px; }
+
+.ftr-cta .btn { display: inline-flex; align-items: center; justify-content: center; height: 44px; min-height: 44px; padding: 0 1.25rem; border-radius: 9px; font-size: .9rem; font-weight: 500; background: #dc2626; color: #fff !important; transition: background .2s, transform .2s; }
+.ftr-cta .btn:hover { background: #b91c1c; color: #fff !important; }
 
 /* Mobile Footer: stack cleanly on <640px */
 @media (max-width: 640px) {
