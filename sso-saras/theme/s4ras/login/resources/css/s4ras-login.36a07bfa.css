@@ -1,0 +1,636 @@
+/* ==============================================================================
+   S4RAS Modern SSO Theme — Monokrom & Landing Token Alignment
+   Zero External Requests • Dark/Light Mode • PatternFly Fallbacks
+   ============================================================================== */
+
+/* 1. Global Box Sizing & Font Stack */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --s4ras-bg: #09090b;
+  --s4ras-card-bg: #0f0f12;
+  --s4ras-card-border: rgba(255, 255, 255, 0.09);
+  --s4ras-card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  --s4ras-text: #fafafa;
+  --s4ras-text-muted: #a1a1aa;
+  --s4ras-input-bg: #18181b;
+  --s4ras-input-border: rgba(255, 255, 255, 0.12);
+  --s4ras-input-focus-border: transparent;
+  --s4ras-primary: #dc2626;
+  --s4ras-primary-hover: #b91c1c;
+  --s4ras-primary-active: #991b1b;
+  --s4ras-focus-ring: #ef4444;
+  --s4ras-alert-bg: rgba(220, 38, 38, 0.12);
+  --s4ras-alert-border: rgba(220, 38, 38, 0.35);
+  --s4ras-alert-text: #fca5a5;
+  --s4ras-btn-secondary-bg: rgba(255, 255, 255, 0.06);
+  --s4ras-btn-secondary-border: rgba(255, 255, 255, 0.12);
+  --s4ras-btn-secondary-text: #fafafa;
+  --s4ras-btn-secondary-hover: rgba(255, 255, 255, 0.1);
+  --s4ras-subtle-bg: rgba(255, 255, 255, 0.03);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --s4ras-bg: #fafafa;
+    --s4ras-card-bg: #ffffff;
+    --s4ras-card-border: #e4e4e7;
+    --s4ras-card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    --s4ras-text: #09090b;
+    --s4ras-text-muted: #71717a;
+    --s4ras-input-bg: #ffffff;
+    --s4ras-input-border: #d4d4d8;
+    --s4ras-input-focus-border: transparent;
+    --s4ras-primary: #dc2626;
+    --s4ras-primary-hover: #b91c1c;
+    --s4ras-primary-active: #991b1b;
+    --s4ras-focus-ring: #ef4444;
+    --s4ras-alert-bg: #fef2f2;
+    --s4ras-alert-border: #fecaca;
+    --s4ras-alert-text: #b91c1c;
+    --s4ras-btn-secondary-bg: #f4f4f5;
+    --s4ras-btn-secondary-border: #e4e4e7;
+    --s4ras-btn-secondary-text: #18181b;
+    --s4ras-btn-secondary-hover: #e4e4e7;
+    --s4ras-subtle-bg: #f4f4f5;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  background-color: var(--s4ras-bg);
+  background-image:
+    radial-gradient(ellipse 70% 35% at 50% -5%, rgba(220, 38, 38, 0.1), transparent 70%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--s4ras-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Main Login Shell (Centered Compact Flow) */
+.s4ras-shell {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* 3. Header Branding */
+.s4ras-brand-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  gap: 6px;
+}
+
+.s4ras-brand-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.s4ras-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.s4ras-brand-link:hover .s4ras-brand-logo {
+  transform: scale(1.04);
+}
+
+.s4ras-brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--s4ras-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.s4ras-brand-portal {
+  color: var(--s4ras-text);
+  font-weight: 700;
+}
+
+.s4ras-brand-service {
+  color: var(--s4ras-primary);
+  font-weight: 700;
+}
+
+.s4ras-brand-subtitle {
+  font-size: 0.8125rem;
+  color: var(--s4ras-text-muted);
+  margin: 2px 0 0 0;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+/* 4. Login Card */
+.s4ras-card {
+  background: var(--s4ras-card-bg);
+  border: 1px solid var(--s4ras-card-border);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: var(--s4ras-card-shadow);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.s4ras-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--s4ras-text);
+  letter-spacing: -0.015em;
+  margin: 0 0 18px 0;
+  text-align: left;
+}
+
+/* 5. Alerts & Notifications */
+.s4ras-alert,
+.pf-v5-c-alert {
+  background: var(--s4ras-alert-bg) !important;
+  border: 1px solid var(--s4ras-alert-border) !important;
+  color: var(--s4ras-alert-text) !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.s4ras-alert-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* 6. Form Fields & Inputs */
+.s4ras-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.s4ras-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.s4ras-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--s4ras-text);
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-align: left;
+}
+
+.s4ras-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  background: var(--s4ras-input-bg);
+  border: 1px solid var(--s4ras-input-border);
+  border-radius: 10px;
+  color: var(--s4ras-text);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.s4ras-input::placeholder {
+  color: var(--s4ras-text-muted);
+}
+
+.s4ras-input:focus,
+.s4ras-input:focus-visible {
+  border-color: var(--s4ras-input-focus-border);
+  outline: 2px solid var(--s4ras-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Chrome / Safari Autofill Override */
+.s4ras-input:-webkit-autofill,
+.s4ras-input:-webkit-autofill:hover,
+.s4ras-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px var(--s4ras-input-bg) inset !important;
+  -webkit-text-fill-color: var(--s4ras-text) !important;
+  caret-color: var(--s4ras-text) !important;
+}
+
+/* Password Toggle Eyeball Wrap */
+.s4ras-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.s4ras-input-pw {
+  padding-right: 42px !important;
+}
+
+.s4ras-pw-toggle {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 32px;
+  width: 32px;
+  background: transparent;
+  border: none;
+  color: var(--s4ras-text-muted);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.s4ras-pw-toggle:hover {
+  color: var(--s4ras-text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.s4ras-pw-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Eye / Eye-Off Switching */
+.s4ras-pw-toggle .s4ras-icon-eye {
+  display: block;
+}
+
+.s4ras-pw-toggle .s4ras-icon-eye-off {
+  display: none;
+}
+
+.s4ras-password-wrap input[type="text"] ~ .s4ras-pw-toggle .s4ras-icon-eye {
+  display: none !important;
+}
+
+.s4ras-password-wrap input[type="text"] ~ .s4ras-pw-toggle .s4ras-icon-eye-off {
+  display: block !important;
+}
+
+/* 7. Primary Submit Button */
+.s4ras-btn-submit {
+  width: 100%;
+  height: 42px;
+  margin-top: 4px;
+  background: var(--s4ras-primary);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.s4ras-btn-submit:hover {
+  background: var(--s4ras-primary-hover);
+  transform: translateY(-1px);
+}
+
+.s4ras-btn-submit:active {
+  background: var(--s4ras-primary-active);
+  transform: translateY(1px);
+}
+
+.s4ras-btn-submit:focus-visible {
+  outline: 2px solid var(--s4ras-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
+.s4ras-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 8. Password Recovery & Help Text */
+.s4ras-help-text {
+  font-size: 0.8125rem;
+  color: var(--s4ras-text-muted);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
+.s4ras-btn-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.s4ras-btn-secondary {
+  width: 100%;
+  height: 42px;
+  background: var(--s4ras-btn-secondary-bg);
+  border: 1px solid var(--s4ras-btn-secondary-border);
+  border-radius: 10px;
+  color: var(--s4ras-btn-secondary-text);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease;
+}
+
+.s4ras-btn-secondary:hover {
+  background: var(--s4ras-btn-secondary-hover);
+}
+
+.s4ras-error-text {
+  font-size: 0.75rem;
+  color: #f87171;
+  margin-top: 4px;
+  display: block;
+  text-align: left;
+}
+
+.s4ras-error-desc {
+  font-size: 0.875rem;
+  color: var(--s4ras-text);
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  text-align: left;
+}
+
+.s4ras-action-link {
+  margin-top: 14px;
+  display: flex;
+  width: 100%;
+}
+
+/* 9. Return to Home link */
+.s4ras-return-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.s4ras-return-home a {
+  color: var(--s4ras-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.s4ras-return-home a:hover {
+  color: var(--s4ras-text);
+}
+
+/* 10. Robust Fallback Styles for PatternFly v5 Components */
+.pf-v5-c-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.pf-v5-c-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.pf-v5-c-form__label,
+.pf-v5-c-form__label-text {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--s4ras-text);
+  letter-spacing: -0.01em;
+  text-align: left;
+  display: block;
+}
+
+.pf-v5-c-form-control {
+  display: block;
+  width: 100%;
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.pf-v5-c-form-control input,
+input.pf-v5-c-form-control,
+.pf-v5-c-form-control textarea {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  background: var(--s4ras-input-bg) !important;
+  border: 1px solid var(--s4ras-input-border) !important;
+  border-radius: 10px;
+  color: var(--s4ras-text) !important;
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.pf-v5-c-form-control input:focus,
+input.pf-v5-c-form-control:focus,
+.pf-v5-c-form-control textarea:focus {
+  outline: 2px solid var(--s4ras-focus-ring) !important;
+  outline-offset: 2px !important;
+  border-color: transparent !important;
+}
+
+.pf-v5-c-input-group {
+  display: flex;
+  position: relative;
+  width: 100%;
+  align-items: center;
+}
+
+.pf-v5-c-input-group__item.pf-m-fill {
+  flex: 1;
+  width: 100%;
+}
+
+.pf-v5-c-input-group .pf-v5-c-button.pf-m-control {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 32px;
+  width: 32px;
+  background: transparent !important;
+  border: none !important;
+  color: var(--s4ras-text-muted) !important;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none !important;
+}
+
+.pf-v5-c-input-group .pf-v5-c-button.pf-m-control:hover {
+  color: var(--s4ras-text) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.pf-v5-c-button.pf-m-primary,
+input[type="submit"].pf-v5-c-button {
+  width: 100%;
+  height: 42px;
+  margin-top: 4px;
+  background: var(--s4ras-primary) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  font-family: inherit;
+  border: none !important;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.pf-v5-c-button.pf-m-primary:hover,
+input[type="submit"].pf-v5-c-button:hover {
+  background: var(--s4ras-primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+.pf-v5-c-button.pf-m-primary:focus-visible,
+input[type="submit"].pf-v5-c-button:focus-visible {
+  outline: 2px solid var(--s4ras-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
+.pf-v5-c-button.pf-m-secondary {
+  height: 42px;
+  padding: 0 16px;
+  background: var(--s4ras-btn-secondary-bg) !important;
+  border: 1px solid var(--s4ras-btn-secondary-border) !important;
+  border-radius: 10px;
+  color: var(--s4ras-btn-secondary-text) !important;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.pf-v5-c-button.pf-m-secondary:hover {
+  background: var(--s4ras-btn-secondary-hover) !important;
+}
+
+.pf-v5-c-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--s4ras-text);
+  margin: 6px 0;
+}
+
+#kc-terms-text {
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--s4ras-subtle-bg);
+  border: 1px solid var(--s4ras-card-border);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--s4ras-text);
+  margin-bottom: 16px;
+}
+
+/* Neutralize intrusive PatternFly background wrappers */
+.pf-v5-c-login,
+.pf-v5-c-login__container,
+.pf-v5-c-login__main,
+.card-pf {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after,
+.pf-v5-c-button::after {
+  display: none !important;
+  content: none !important;
+}
+
+#kc-social-providers,
+.pf-v5-c-login__main-footer-band,
+.pf-v5-c-login__main-footer {
+  display: none !important;
+}

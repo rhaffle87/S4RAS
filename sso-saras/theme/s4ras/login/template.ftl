@@ -36,7 +36,7 @@
                 <span class="s4ras-brand-service">Portal</span>
             </div>
         </a>
-        <p class="s4ras-brand-subtitle">Single Sign-On Ekosistem Layanan 3T</p>
+        <p class="s4ras-brand-subtitle">${msg("loginSubTitle")!"Satu akun untuk semua layanan S4RAS"}</p>
     </header>
 
     <main class="s4ras-card">
@@ -55,7 +55,7 @@
     </main>
 
     <div class="s4ras-return-home">
-        <a href="https://s4ras.site">&larr; Kembali ke Beranda</a>
+        <a href="https://s4ras.site">&larr; ${msg("s4rasReturnHome")!"Kembali ke Beranda"}</a>
     </div>
 </div>
 </body>
