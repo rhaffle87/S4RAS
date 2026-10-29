@@ -40,6 +40,8 @@ services:
       KC_HEALTH_ENABLED: "true"
       # Persist Keycloak event log expiry: 30 days (2592000 seconds)
       KC_SPI_EVENTS_LISTENER_HH_HEURISTICS_HC_EXPIRATION: "2592000"
+    volumes:
+      - ./themes/s4ras:/opt/keycloak/themes/s4ras:ro
     ports:
       - "8080:8080"
       - "9000:9000"    # Keycloak management interface: /health/ready /health/live /metrics

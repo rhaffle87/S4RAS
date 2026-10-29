@@ -1,0 +1,358 @@
+/* ==============================================================================
+   S4RAS Keycloak Login Theme (keycloak.v2) — Dark Monochrome + Red Accent
+   Solution for Remote Area Services (3T Identity Provider)
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 1. Global Page Background & Typography */
+html,
+body,
+body#keycloak-bg,
+.login-pf-page,
+.pf-v5-c-login {
+  background-color: #09090b !important;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220, 38, 38, 0.14), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 28px 28px !important;
+  background-repeat: no-repeat, repeat !important;
+  background-attachment: fixed !important;
+  color: #fafafa !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  min-height: 100vh !important;
+}
+
+/* 2. Container & Layout */
+.pf-v5-c-login__container {
+  max-width: 440px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 2.5rem 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* 3. Header Branding */
+.pf-v5-c-login__header {
+  width: 100% !important;
+  margin-bottom: 1.5rem !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.s4ras-header-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.s4ras-brand-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.75rem;
+}
+
+.s4ras-header-logo {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 6px 16px rgba(220, 38, 38, 0.35));
+  transition: transform 0.25s ease;
+}
+
+.s4ras-brand-link:hover .s4ras-header-logo {
+  transform: scale(1.05);
+}
+
+.s4ras-brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.s4ras-brand-portal {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.s4ras-brand-service {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.s4ras-brand-subtitle {
+  font-size: 0.8rem;
+  color: #a1a1aa;
+  margin-top: 0.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  max-width: 32ch;
+}
+
+/* 4. Login Card */
+.pf-v5-c-login__main,
+.card-pf {
+  background: #121215 !important;
+  background-color: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  padding: 2rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.pf-v5-c-login__main-header {
+  padding: 0 0 1.25rem 0 !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+#kc-page-title,
+.pf-v5-c-title {
+  color: #fafafa !important;
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 !important;
+}
+
+/* 5. Form Elements & Inputs */
+.pf-v5-c-form__group {
+  margin-bottom: 1.15rem !important;
+}
+
+.pf-v5-c-form__label-text,
+.pf-v5-c-form__label {
+  color: #d4d4d8 !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0.4rem !important;
+}
+
+/* Strip PatternFly blue border-bottom & pseudo-elements */
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after {
+  display: none !important;
+  border: none !important;
+}
+
+.pf-v5-c-form-control,
+.pf-v5-c-form-control input,
+input.pf-c-form-control,
+input#username,
+input#password {
+  background: #18181b !important;
+  background-color: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 10px !important;
+  color: #fafafa !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  font-size: 0.925rem !important;
+  padding: 0 0.85rem !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.pf-v5-c-form-control:focus-within,
+.pf-v5-c-form-control input:focus,
+input#username:focus,
+input#password:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.22) !important;
+  outline: none !important;
+}
+
+/* Password Toggle Eyeball Button */
+.pf-v5-c-input-group {
+  display: flex !important;
+  width: 100% !important;
+}
+
+.pf-v5-c-input-group__item.pf-m-fill {
+  flex: 1 1 auto !important;
+}
+
+.pf-v5-c-input-group__item.pf-m-fill .pf-v5-c-form-control,
+.pf-v5-c-input-group__item.pf-m-fill input {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-right: none !important;
+}
+
+.pf-v5-c-input-group__item button.pf-v5-c-button.pf-m-control {
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-left: none !important;
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  height: 44px !important;
+  color: #a1a1aa !important;
+  padding: 0 0.9rem !important;
+  cursor: pointer !important;
+  transition: color 0.2s ease, background-color 0.2s ease !important;
+}
+
+.pf-v5-c-input-group__item button.pf-v5-c-button.pf-m-control:hover {
+  color: #ffffff !important;
+  background: #27272a !important;
+}
+
+/* 6. Primary Action Button (S4RAS Red #dc2626) */
+#kc-login,
+.pf-v5-c-button.pf-m-primary,
+button[type="submit"].pf-v5-c-button {
+  background: #dc2626 !important;
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  font-size: 0.925rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+  margin-top: 0.5rem !important;
+}
+
+#kc-login:hover,
+.pf-v5-c-button.pf-m-primary:hover,
+button[type="submit"].pf-v5-c-button:hover {
+  background: #b91c1c !important;
+  background-color: #b91c1c !important;
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.45) !important;
+  transform: translateY(-1px) !important;
+}
+
+#kc-login:active,
+.pf-v5-c-button.pf-m-primary:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* 7. Social Providers / External IdPs */
+.pf-v5-c-login__main-footer {
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+}
+
+.pf-v5-c-login__main-footer-band {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding-top: 1.25rem !important;
+  margin-bottom: 0.85rem !important;
+  text-align: center !important;
+}
+
+.pf-v5-c-login__main-footer-band-item {
+  color: #71717a !important;
+  font-size: 0.78rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+#kc-social-providers ul.pf-v5-c-login__main-footer-links {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.55rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+#kc-social-providers a.pf-v5-c-login__main-footer-links-item-link,
+.pf-v5-c-login__main-footer-links-item-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 10px !important;
+  color: #e4e4e7 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  gap: 0.6rem !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+}
+
+#kc-social-providers a.pf-v5-c-login__main-footer-links-item-link:hover,
+.pf-v5-c-login__main-footer-links-item-link:hover {
+  background: #27272a !important;
+  border-color: rgba(255, 255, 255, 0.20) !important;
+  color: #ffffff !important;
+}
+
+#kc-social-providers svg {
+  width: 18px !important;
+  height: 18px !important;
+  fill: currentColor !important;
+}
+
+/* 8. Return to Home link */
+.s4ras-return-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.s4ras-return-home a {
+  color: #a1a1aa;
+  font-size: 0.825rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.s4ras-return-home a:hover {
+  color: #dc2626;
+}
+
+/* 9. Alerts and Feedback */
+.pf-v5-c-alert {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border: 1px solid rgba(220, 38, 38, 0.35) !important;
+  border-radius: 10px !important;
+  color: #fca5a5 !important;
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.pf-v5-c-alert__title,
+.kc-feedback-text {
+  color: #fca5a5 !important;
+  font-size: 0.85rem !important;
+}
+
+.pf-v5-c-helper-text__item-text.pf-m-error {
+  color: #ef4444 !important;
+  font-size: 0.8rem !important;
+  margin-top: 0.3rem !important;
+}

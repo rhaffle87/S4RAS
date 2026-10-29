@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="s4ras-sso-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+  </defs>
+  <!-- Rounded Base Card -->
+  <rect width="64" height="64" rx="14" fill="url(#s4ras-sso-grad)"/>
+  <!-- Inner Subtle Border -->
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+  <!-- Security Shield in Crisp White -->
+  <path d="M32 15 L46 20.5 V31.5 C46 41 39.5 48 32 51 C24.5 48 18 41 18 31.5 V20.5 L32 15 Z" fill="#ffffff"/>
+  <!-- OIDC Keyhole Cutout -->
+  <circle cx="32" cy="28.5" r="4.2" fill="url(#s4ras-sso-grad)"/>
+  <path d="M30.2 30.5 L33.8 30.5 L34.8 41.5 C34.8 42.3 34.2 43 33.3 43 H30.7 C29.8 43 29.2 42.3 29.2 41.5 L30.2 30.5 Z" fill="url(#s4ras-sso-grad)"/>
+  <!-- Identity Node Pulse Dot (Top-Right) -->
+  <circle cx="49" cy="15" r="6" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="none"/>
+  <circle cx="49" cy="15" r="3.5" fill="#ffffff"/>
+</svg>
