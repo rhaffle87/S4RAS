@@ -15,6 +15,31 @@ export function normalizeSipExtension(rawExt, isAdmin, isTeacher, username) {
   return '1001';
 }
 
+export function getRedirectUri() {
+  if (typeof window === 'undefined') return '/';
+  if (window.location.hostname === 'portal.s4ras.site') {
+    return 'https://portal.s4ras.site/';
+  }
+  return window.location.origin + '/';
+}
+
+export function getActiveLocale() {
+  if (typeof window === 'undefined') return 'id';
+  try {
+    const match = document.cookie.match(/(?:^|;\s*)s4ras_lang=([^;]+)/);
+    if (match && (match[1] === 'id' || match[1] === 'en')) {
+      return match[1];
+    }
+    const stored = localStorage.getItem('s4ras_lang');
+    if (stored === 'id' || stored === 'en') {
+      return stored;
+    }
+  } catch (e) {
+    // ignore
+  }
+  return 'id';
+}
+
 const KeycloakContext = createContext();
 
 export const useKeycloak = () => useContext(KeycloakContext);
@@ -201,16 +226,10 @@ export const KeycloakProvider = ({ children }) => {
       return;
     }
 
-    const getRedirectUri = () => {
-      if (window.location.hostname === 'portal.s4ras.site') {
-        return 'https://portal.s4ras.site/';
-      }
-      return window.location.origin + '/';
-    };
-
     const redirectUri = getRedirectUri();
+    const currentLocale = getActiveLocale();
 
-    console.debug('[Keycloak] init start', { url: window.location.href, redirectUri, isCallback: isCallback() });
+    console.debug('[Keycloak] init start', { url: window.location.href, redirectUri, locale: currentLocale, isCallback: isCallback() });
 
     // use check-sso so we can detect state first and only call login when appropriate
     keycloakInstance.onReady = () => {};
@@ -226,7 +245,8 @@ export const KeycloakProvider = ({ children }) => {
       onLoad: 'check-sso',
       checkLoginIframe: false,
       pkceMethod: 'S256',
-      redirectUri
+      redirectUri,
+      locale: currentLocale
     }).then(auth => {
       console.debug('[Keycloak] init finished', { authenticated: auth, token: !!keycloakInstance.token });
       setKeycloak(keycloakInstance);
@@ -236,8 +256,8 @@ export const KeycloakProvider = ({ children }) => {
       // If not authenticated and this is NOT the OIDC callback, trigger login.
       // This avoids calling login() repeatedly while the browser is finishing the redirect
       if (!auth && !isCallback()) {
-        console.debug('[Keycloak] not authenticated and not callback — calling login()');
-        keycloakInstance.login({ redirectUri });
+        console.debug('[Keycloak] not authenticated and not callback — calling login()', { locale: currentLocale });
+        keycloakInstance.login({ redirectUri, locale: currentLocale });
       } else if (auth) {
         console.debug('[Keycloak] authenticated after init', { tokenParsed: keycloakInstance.tokenParsed });
         keycloakInstance.loadUserProfile().then(profileData => {
@@ -309,6 +329,14 @@ export const KeycloakProvider = ({ children }) => {
     }
   }, [authenticated, keycloak?.token, isAdmin, isTeacher]);
 
+  const login = (options = {}) => {
+    if (keycloak) {
+      const locale = options.locale || getActiveLocale();
+      const redirect = options.redirectUri || getRedirectUri();
+      keycloak.login({ redirectUri: redirect, locale, ...options });
+    }
+  };
+
   const logout = () => {
     if (keycloak) {
       keycloak.logout();
@@ -317,7 +345,7 @@ export const KeycloakProvider = ({ children }) => {
 
   return (
     <KeycloakContext.Provider value={{
-      keycloak, authenticated, initialized, profile, logout,
+      keycloak, authenticated, initialized, profile, login, logout,
       isAdmin, isTeacher, isStudent, persona, roleLabel,
       sipExtension, sipSecret, iceServers, department, storageQuota, moodleCohort
     }}>
