@@ -1,0 +1,336 @@
+/* ==============================================================================
+   S4RAS Standalone Modern Login Theme — Clean Monokrom (v3)
+   100% Free of PatternFly v5 clashes, guaranteed single-layer inputs, 100dvh fit
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 1. Reset & 100dvh Full Viewport Center */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  background-color: #09090b;
+  background-image:
+    radial-gradient(ellipse 70% 35% at 50% -5%, rgba(220, 38, 38, 0.12), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px;
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed;
+  color: #fafafa;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Main Login Shell (Centered Compact Flow, Total Height ~440px) */
+.s4ras-shell {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* 3. Header Branding (Clean, No UPPERCASE) */
+.s4ras-brand-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  gap: 6px;
+}
+
+.s4ras-brand-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+}
+
+.s4ras-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.s4ras-brand-link:hover .s4ras-brand-logo {
+  transform: scale(1.04);
+}
+
+.s4ras-brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.s4ras-brand-portal {
+  color: #fafafa;
+  font-weight: 700;
+}
+
+.s4ras-brand-service {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.s4ras-brand-subtitle {
+  font-size: 0.8125rem;
+  color: #a1a1aa;
+  margin: 2px 0 0 0;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+/* 4. Login Card (Linear / Vercel style) */
+.s4ras-card {
+  background: #121215;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.s4ras-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fafafa;
+  letter-spacing: -0.015em;
+  margin: 0 0 18px 0;
+  text-align: left;
+}
+
+/* 5. Alerts & Error Notifications */
+.s4ras-alert {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  color: #fca5a5;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.s4ras-alert-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* 6. Form Fields & 1-Layer Inputs (No wrapper double-box) */
+.s4ras-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.s4ras-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.s4ras-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #d4d4d8;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-align: left;
+}
+
+.s4ras-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #fafafa;
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.s4ras-input::placeholder {
+  color: #52525b;
+}
+
+.s4ras-input:focus,
+.s4ras-input:focus-visible {
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
+  background: #1c1c20;
+}
+
+/* Chrome / Safari Autofill Override */
+.s4ras-input:-webkit-autofill,
+.s4ras-input:-webkit-autofill:hover,
+.s4ras-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #18181b inset !important;
+  -webkit-text-fill-color: #fafafa !important;
+  caret-color: #fafafa !important;
+}
+
+/* Password Toggle Eyeball Wrap */
+.s4ras-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.s4ras-input-pw {
+  padding-right: 42px !important;
+}
+
+.s4ras-pw-toggle {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 32px;
+  width: 32px;
+  background: transparent;
+  border: none;
+  color: #a1a1aa;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.s4ras-pw-toggle:hover {
+  color: #fafafa;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.s4ras-pw-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* 7. Primary Submit Button */
+.s4ras-btn-submit {
+  width: 100%;
+  height: 42px;
+  margin-top: 4px;
+  background: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.s4ras-btn-submit:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.s4ras-btn-submit:active {
+  transform: translateY(1px);
+}
+
+.s4ras-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 8. Return to Home link (Calm Monochrome) */
+.s4ras-return-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.s4ras-return-home a {
+  color: #71717a;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.s4ras-return-home a:hover {
+  color: #e4e4e7;
+}
+
+/* 9. Full Neutralization of PatternFly leakage if any */
+.pf-v5-c-login,
+.pf-v5-c-login__container,
+.pf-v5-c-login__main,
+.pf-v5-c-form-control,
+.pf-v5-c-input-group,
+.card-pf {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after,
+.pf-v5-c-button::after {
+  display: none !important;
+  content: none !important;
+}
+
+#kc-social-providers,
+.pf-v5-c-login__main-footer-band,
+.pf-v5-c-login__main-footer {
+  display: none !important;
+}
