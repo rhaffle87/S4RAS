@@ -38,7 +38,7 @@
             <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
         </#list>
     </#if>
-    <title>${msg("loginTitle",(realm.displayName!'S4RAS Identity'))}</title>
+    <title>${msg("loginTitle",(realm.displayName!'myS4RAS Identity'))}</title>
     <link rel="icon" type="image/svg+xml" href="${url.resourcesPath}/img/favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="${url.resourcesPath}/img/favicon.ico" />
     <#if properties.stylesCommon?has_content>
@@ -116,13 +116,13 @@
     <header id="kc-header" class="pf-v5-c-login__header">
       <div id="kc-header-wrapper" class="s4ras-header-brand">
         <a href="https://s4ras.site" class="s4ras-brand-link" title="S4RAS Ecosystem">
-          <img src="${url.resourcesPath}/img/favicon.svg" class="s4ras-header-logo" alt="S4RAS Identity" />
+          <img src="${url.resourcesPath}/img/favicon.svg" class="s4ras-header-logo" alt="myS4RAS Portal" />
           <div class="s4ras-brand-title">
             <span class="s4ras-brand-portal">myS4RAS</span>
-            <span class="s4ras-brand-service">Identity</span>
+            <span class="s4ras-brand-service">Portal</span>
           </div>
         </a>
-        <p class="s4ras-brand-subtitle">Autentikasi Terpusat (Single Sign-On) Ekosistem Layanan 3T</p>
+        <p class="s4ras-brand-subtitle">Single Sign-On Ekosistem Layanan 3T</p>
       </div>
     </header>
     <main class="${properties.kcLoginMain!}">
@@ -233,9 +233,7 @@
           </div>
         </#if>
       </div>
-      <div class="pf-v5-c-login__main-footer">
-        <#nested "socialProviders">
-      </div>
+      <#-- Social providers section omitted to prevent redundant dummy OIDC / OR SIGN IN WITH button -->
     </main>
 
     <@loginFooter.content/>

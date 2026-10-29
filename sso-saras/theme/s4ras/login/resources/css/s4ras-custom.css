@@ -1,6 +1,6 @@
 /* ==============================================================================
-   S4RAS Keycloak Login Theme (keycloak.v2) — Dark Monochrome + Red Accent
-   Solution for Remote Area Services (3T Identity Provider)
+   S4RAS Keycloak Login Theme (keycloak.v2) — Dark Minimalist Monokrom
+   Inspired by Linear / Vercel auth design
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -13,33 +13,59 @@ body#keycloak-bg,
 .pf-v5-c-login {
   background-color: #09090b !important;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220, 38, 38, 0.14), transparent 70%),
-    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
+    radial-gradient(ellipse 70% 40% at 50% -10%, rgba(220, 38, 38, 0.12), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) !important;
   background-size: 100% 100%, 28px 28px !important;
   background-repeat: no-repeat, repeat !important;
   background-attachment: fixed !important;
   color: #fafafa !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* 2. Container & Layout */
+/* 2. Container & Layout Reset */
+.pf-v5-c-login {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+  padding: 2rem 1rem !important;
+  box-sizing: border-box !important;
+}
+
 .pf-v5-c-login__container {
-  max-width: 440px !important;
+  max-width: 400px !important;
   width: 100% !important;
   margin: 0 auto !important;
-  padding: 2.5rem 1rem !important;
+  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
 }
 
-/* 3. Header Branding */
-.pf-v5-c-login__header {
+/* 3. Header Branding (Clean, No UPPERCASE) */
+.pf-v5-c-login__header,
+#kc-header {
   width: 100% !important;
-  margin-bottom: 1.5rem !important;
+  margin: 0 0 1.5rem 0 !important;
   padding: 0 !important;
   text-align: center !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+#kc-header-wrapper,
+.pf-v5-c-brand {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .s4ras-header-brand {
@@ -48,6 +74,8 @@ body#keycloak-bg,
   align-items: center;
   justify-content: center;
   text-align: center;
+  text-transform: none !important;
+  letter-spacing: normal !important;
 }
 
 .s4ras-brand-link {
@@ -55,183 +83,267 @@ body#keycloak-bg,
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  gap: 0.75rem;
+  gap: 0.6rem;
+  text-transform: none !important;
 }
 
 .s4ras-header-logo {
-  width: 52px;
-  height: 52px;
-  filter: drop-shadow(0 6px 16px rgba(220, 38, 38, 0.35));
-  transition: transform 0.25s ease;
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  transition: transform 0.2s ease;
 }
 
 .s4ras-brand-link:hover .s4ras-header-logo {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .s4ras-brand-title {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   color: #ffffff;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
+  text-transform: none !important;
 }
 
 .s4ras-brand-portal {
-  color: #ffffff;
+  color: #fafafa;
   font-weight: 700;
+  text-transform: none !important;
 }
 
 .s4ras-brand-service {
   color: #dc2626;
   font-weight: 700;
+  text-transform: none !important;
 }
 
 .s4ras-brand-subtitle {
-  font-size: 0.8rem;
+  font-size: 0.825rem;
   color: #a1a1aa;
-  margin-top: 0.4rem;
+  margin: 0.35rem 0 0 0;
   font-weight: 400;
   line-height: 1.4;
-  letter-spacing: -0.01em;
-  max-width: 32ch;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  white-space: nowrap;
 }
 
-/* 4. Login Card */
+/* 4. Login Card (Linear / Vercel style) */
 .pf-v5-c-login__main,
 .card-pf {
   background: #121215 !important;
   background-color: #121215 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 18px !important;
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
-  padding: 2rem !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
+  padding: 28px 28px 24px !important;
+  width: 100% !important;
+  max-width: 400px !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+}
+
+/* Reset all PatternFly internal nested padding */
+.pf-v5-c-login__main-header,
+.pf-v5-c-login__main-body,
+.pf-v5-c-login__main-footer,
+#kc-content,
+#kc-content-wrapper,
+#kc-form,
+#kc-form-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
 .pf-v5-c-login__main-header {
-  padding: 0 0 1.25rem 0 !important;
-  margin-bottom: 0.5rem !important;
+  border-bottom: none !important;
+  margin-bottom: 20px !important;
   text-align: center !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
 #kc-page-title,
 .pf-v5-c-title {
   color: #fafafa !important;
-  font-size: 1.15rem !important;
+  font-size: 1.125rem !important;
   font-weight: 600 !important;
   letter-spacing: -0.02em !important;
   margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* 5. Form Elements & Inputs */
+/* 5. Form Elements & Input Reset (Eliminate Double Box / Focus Ring) */
+.pf-v5-c-form {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .pf-v5-c-form__group {
-  margin-bottom: 1.15rem !important;
+  margin-bottom: 16px !important;
+  width: 100% !important;
 }
 
 .pf-v5-c-form__label-text,
-.pf-v5-c-form__label {
+.pf-v5-c-form__label label,
+label.pf-v5-c-form__label {
   color: #d4d4d8 !important;
-  font-size: 0.85rem !important;
+  font-size: 0.8125rem !important;
   font-weight: 500 !important;
   letter-spacing: -0.01em !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: 6px !important;
+  display: block !important;
 }
 
-/* Strip PatternFly blue border-bottom & pseudo-elements */
+/* Kill borders, backgrounds, shadows, and pseudos on wrappers */
+span.pf-v5-c-form-control,
+span.pf-c-form-control,
+.pf-v5-c-form-control {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 .pf-v5-c-form-control::before,
-.pf-v5-c-form-control::after {
+.pf-v5-c-form-control::after,
+.pf-c-form-control::before,
+.pf-c-form-control::after,
+.pf-v5-c-button::after,
+.pf-c-button::after {
   display: none !important;
   border: none !important;
+  content: none !important;
 }
 
-.pf-v5-c-form-control,
-.pf-v5-c-form-control input,
-input.pf-c-form-control,
+/* Style ONLY the actual input tag */
 input#username,
-input#password {
-  background: #18181b !important;
+input#password,
+input.pf-v5-c-form-control,
+.pf-v5-c-form-control > input {
+  display: block !important;
+  width: 100% !important;
+  height: 42px !important;
+  box-sizing: border-box !important;
+  padding: 0 14px !important;
   background-color: #18181b !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 10px !important;
   color: #fafafa !important;
-  height: 44px !important;
-  min-height: 44px !important;
   font-size: 0.925rem !important;
-  padding: 0 0.85rem !important;
+  outline: none !important;
   box-shadow: none !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
 }
 
-.pf-v5-c-form-control:focus-within,
-.pf-v5-c-form-control input:focus,
+/* Single-layer refined focus ring */
 input#username:focus,
-input#password:focus {
-  border-color: #dc2626 !important;
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.22) !important;
+input#username:focus-visible,
+input#password:focus,
+input#password:focus-visible,
+.pf-v5-c-form-control > input:focus,
+.pf-v5-c-form-control > input:focus-visible {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+  background-color: #1c1c20 !important;
   outline: none !important;
 }
 
-/* Password Toggle Eyeball Button */
+/* Password Input Group & Show/Hide Eyeball Button */
 .pf-v5-c-input-group {
+  position: relative !important;
   display: flex !important;
+  align-items: center !important;
   width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .pf-v5-c-input-group__item.pf-m-fill {
-  flex: 1 1 auto !important;
+  flex: 1 1 100% !important;
+  width: 100% !important;
 }
 
-.pf-v5-c-input-group__item.pf-m-fill .pf-v5-c-form-control,
-.pf-v5-c-input-group__item.pf-m-fill input {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  border-right: none !important;
+.pf-v5-c-input-group__item.pf-m-fill input#password {
+  padding-right: 44px !important;
+  border-radius: 10px !important;
+  width: 100% !important;
 }
 
-.pf-v5-c-input-group__item button.pf-v5-c-button.pf-m-control {
-  background: #18181b !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  border-left: none !important;
-  border-top-right-radius: 10px !important;
-  border-bottom-right-radius: 10px !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  height: 44px !important;
+.pf-v5-c-input-group__item:not(.pf-m-fill) {
+  position: static !important;
+}
+
+button[data-password-toggle],
+.pf-v5-c-input-group .pf-v5-c-button,
+.pf-v5-c-input-group button.pf-v5-c-button.pf-m-control {
+  position: absolute !important;
+  right: 5px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  height: 32px !important;
+  width: 32px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   color: #a1a1aa !important;
-  padding: 0 0.9rem !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   cursor: pointer !important;
-  transition: color 0.2s ease, background-color 0.2s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: color 0.15s ease, background-color 0.15s ease !important;
 }
 
-.pf-v5-c-input-group__item button.pf-v5-c-button.pf-m-control:hover {
-  color: #ffffff !important;
-  background: #27272a !important;
+button[data-password-toggle]:hover,
+.pf-v5-c-input-group button.pf-v5-c-button.pf-m-control:hover {
+  color: #fafafa !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* 6. Primary Action Button (S4RAS Red #dc2626) */
+/* 6. Primary Action Button (Sign In) */
+.pf-v5-c-form__actions {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
 #kc-login,
 .pf-v5-c-button.pf-m-primary,
 button[type="submit"].pf-v5-c-button {
+  width: 100% !important;
+  height: 42px !important;
+  margin-top: 8px !important;
+  border-radius: 10px !important;
   background: #dc2626 !important;
   background-color: #dc2626 !important;
   color: #ffffff !important;
-  border: none !important;
-  border-radius: 10px !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  font-size: 0.925rem !important;
+  font-size: 0.875rem !important;
   font-weight: 600 !important;
   letter-spacing: -0.01em !important;
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) !important;
+  border: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   cursor: pointer !important;
-  width: 100% !important;
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
-  margin-top: 0.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.15s ease, transform 0.12s ease !important;
 }
 
 #kc-login:hover,
@@ -239,100 +351,44 @@ button[type="submit"].pf-v5-c-button {
 button[type="submit"].pf-v5-c-button:hover {
   background: #b91c1c !important;
   background-color: #b91c1c !important;
-  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.45) !important;
   transform: translateY(-1px) !important;
 }
 
 #kc-login:active,
 .pf-v5-c-button.pf-m-primary:active {
   transform: translateY(1px) !important;
-  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3) !important;
 }
 
-/* 7. Social Providers / External IdPs */
+/* 7. Hide Redundant Social Providers / OR SIGN IN WITH / oidc */
+#kc-social-providers,
+.pf-v5-c-login__main-footer-band,
 .pf-v5-c-login__main-footer {
-  margin-top: 1.5rem !important;
-  padding-top: 1rem !important;
+  display: none !important;
 }
 
-.pf-v5-c-login__main-footer-band {
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding-top: 1.25rem !important;
-  margin-bottom: 0.85rem !important;
-  text-align: center !important;
-}
-
-.pf-v5-c-login__main-footer-band-item {
-  color: #71717a !important;
-  font-size: 0.78rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-}
-
-#kc-social-providers ul.pf-v5-c-login__main-footer-links {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0.55rem !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  list-style: none !important;
-}
-
-#kc-social-providers a.pf-v5-c-login__main-footer-links-item-link,
-.pf-v5-c-login__main-footer-links-item-link {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  height: 42px !important;
-  min-height: 42px !important;
-  background: #18181b !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  border-radius: 10px !important;
-  color: #e4e4e7 !important;
-  font-size: 0.875rem !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
-  gap: 0.6rem !important;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
-}
-
-#kc-social-providers a.pf-v5-c-login__main-footer-links-item-link:hover,
-.pf-v5-c-login__main-footer-links-item-link:hover {
-  background: #27272a !important;
-  border-color: rgba(255, 255, 255, 0.20) !important;
-  color: #ffffff !important;
-}
-
-#kc-social-providers svg {
-  width: 18px !important;
-  height: 18px !important;
-  fill: currentColor !important;
-}
-
-/* 8. Return to Home link */
+/* 8. Return to Home link (Calm Monochrome) */
 .s4ras-return-home {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 !important;
+  border-top: none !important;
 }
 
 .s4ras-return-home a {
-  color: #a1a1aa;
-  font-size: 0.825rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  color: #71717a !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
 }
 
 .s4ras-return-home a:hover {
-  color: #dc2626;
+  color: #e4e4e7 !important;
 }
 
 /* 9. Alerts and Feedback */
