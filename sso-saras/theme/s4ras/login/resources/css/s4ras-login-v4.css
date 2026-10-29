@@ -1,6 +1,6 @@
 /* ==============================================================================
-   S4RAS Standalone Modern Login Theme — Clean Monokrom (v3)
-   100% Free of PatternFly v5 clashes, guaranteed single-layer inputs, 100dvh fit
+   S4RAS Standalone Modern Login Theme — Clean Monokrom (v4)
+   CSS-driven password eye toggle via input[type="text"] ~ button
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -247,6 +247,23 @@ html, body {
 .s4ras-pw-toggle svg {
   width: 18px;
   height: 18px;
+}
+
+/* CSS Sibling Selector for Eye vs Eye-Off Toggle */
+.s4ras-pw-toggle .s4ras-icon-eye {
+  display: block;
+}
+
+.s4ras-pw-toggle .s4ras-icon-eye-off {
+  display: none;
+}
+
+.s4ras-password-wrap input[type="text"] ~ .s4ras-pw-toggle .s4ras-icon-eye {
+  display: none !important;
+}
+
+.s4ras-password-wrap input[type="text"] ~ .s4ras-pw-toggle .s4ras-icon-eye-off {
+  display: block !important;
 }
 
 /* 7. Primary Submit Button */
