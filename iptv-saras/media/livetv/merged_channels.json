@@ -1,0 +1,252 @@
+[
+  {
+    "id": "tvri_nasional",
+    "chno": 101,
+    "name": "TVRI Nasional HD",
+    "group": "TV Nasional & Berita",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Saluran televisi publik nasional Republik Indonesia menyajikan berita, informasi, kebudayaan, dan edukasi terpercaya."
+  },
+  {
+    "id": "kompas_tv",
+    "chno": 102,
+    "name": "Kompas TV Live HD",
+    "group": "TV Nasional & Berita",
+    "type": "youtube",
+    "url": "https://www.youtube.com/@kompastv/live",
+    "logo_svg": "kompas_tv",
+    "desc": "Televisi berita independen dan tepercaya menyajikan breaking news, investigasi, dan talkshow politik nasional terkini."
+  },
+  {
+    "id": "cnn_indonesia",
+    "chno": 103,
+    "name": "CNN Indonesia Live HD",
+    "group": "TV Nasional & Berita",
+    "type": "youtube",
+    "url": "https://www.youtube.com/c/CNNindonesiaOfficial/live",
+    "logo_svg": "cnn_indonesia",
+    "desc": "Saluran berita 24 jam dengan analisis mendalam mengenai politik, ekonomi, bisnis, dan peristiwa global terkini."
+  },
+  {
+    "id": "tvone",
+    "chno": 104,
+    "name": "tvOne Live HD",
+    "group": "TV Nasional & Berita",
+    "type": "youtube",
+    "url": "https://www.youtube.com/@tvOneNews/live",
+    "logo_svg": "tvone",
+    "desc": "Pusat siaran berita terkini, debat kebangsaan, hukum, dan informasi olahraga nasional terdepan."
+  },
+  {
+    "id": "cnbc_indonesia",
+    "chno": 105,
+    "name": "CNBC Indonesia Live HD",
+    "group": "TV Nasional & Berita",
+    "type": "youtube",
+    "url": "https://www.youtube.com/c/CNBCIndonesia_ID/live",
+    "logo_svg": "cnbc_indonesia",
+    "desc": "Saluran berita pasar modal, finansial, perbankan, dan perekonomian Indonesia dan dunia secara real-time."
+  },
+  {
+    "id": "tvri_world",
+    "chno": 106,
+    "name": "TVRI World HD",
+    "group": "TV Nasional & Berita",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/TVRIWorld/hls/TVRIWorld.m3u8",
+    "logo_svg": "tvri_world",
+    "desc": "Indonesia's premier English-language public television network showcasing arts, culture, diplomacy, and global affairs."
+  },
+  {
+    "id": "tvri_jabar",
+    "chno": 201,
+    "name": "TVRI Jawa Barat",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Jabar/hls/Jabar.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Siaran televisi regional Jawa Barat mengangkat kearifan lokal Sunda, pembangunan daerah, dan edukasi masyarakat."
+  },
+  {
+    "id": "tvri_jateng",
+    "chno": 202,
+    "name": "TVRI Jawa Tengah",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Jateng/hls/Jateng.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Stasiun daerah Jawa Tengah melestarikan budaya adiluhung Jawa, potensi agraris, dan dinamika kota/kabupaten."
+  },
+  {
+    "id": "tvri_bali",
+    "chno": 203,
+    "name": "TVRI Bali Digital",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Bali/hls/Bali.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Pintu jendela seni, budaya, pariwisata berkelas dunia, dan kearifan masyarakat Pulau Dewata Bali."
+  },
+  {
+    "id": "tvri_kaltim",
+    "chno": 204,
+    "name": "TVRI Kalimantan Timur",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Kaltim/hls/Kaltim.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Liputan komprehensif pembangunan Ibu Kota Nusantara (IKN), kelestarian rimba tropis, dan masyarakat Kalimantan Timur."
+  },
+  {
+    "id": "tvri_sulut",
+    "chno": 205,
+    "name": "TVRI Sulawesi Utara",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Sulut/hls/Sulut.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Siaran pesona bahari Bunaken, ekonomi maritim, dan budaya persaudaraan Torang Samua Basudara Sulawesi Utara."
+  },
+  {
+    "id": "tvri_sulsel",
+    "chno": 206,
+    "name": "TVRI Sulawesi Selatan",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Sulsel/hls/Sulsel.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Gerbang informasi kawasan timur Indonesia menyajikan geliat maritim Makassar, budaya Bugis-Makassar, dan pendidikan."
+  },
+  {
+    "id": "tvri_aceh",
+    "chno": 207,
+    "name": "TVRI Aceh",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Aceh/hls/Aceh.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Siaran Serambi Mekkah menyajikan kebudayaan Islami, sejarah perdamaian Aceh, serta kemajuan masyarakat pesisir barat Nusantara."
+  },
+  {
+    "id": "tvri_sumbar",
+    "chno": 208,
+    "name": "TVRI Sumatera Barat",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Sumbar/hls/Sumbar.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Kekayaan budaya Minangkabau, falsafah Adat Basandi Syarak, serta keindahan alam Bukittinggi dan Ranah Minang."
+  },
+  {
+    "id": "tvri_riau",
+    "chno": 209,
+    "name": "TVRI Riau",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Riau/hls/Riau.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Jantung budaya Melayu Riau, pusat industri energi nasional, dan dinamika kawasan Selat Malaka."
+  },
+  {
+    "id": "tvri_ntb",
+    "chno": 210,
+    "name": "TVRI NTB",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/NTB/hls/NTB.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Dunia otomotif Mandalika, kekayaan tenun Lombok-Sumbawa, dan potensi pariwisata Nusa Tenggara Barat."
+  },
+  {
+    "id": "tvri_ntt",
+    "chno": 211,
+    "name": "TVRI NTT",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/NTT/hls/NTT.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Kawasan pulau eksotis Komodo, Labuan Bajo, tenun ikat tradisional, serta pembangunan tapal batas Nusa Tenggara Timur."
+  },
+  {
+    "id": "tvri_papua",
+    "chno": 212,
+    "name": "TVRI Papua",
+    "group": "TV Publik & Edukasi Daerah",
+    "type": "direct",
+    "url": "https://ott-balancer.tvri.go.id/live/eds/Papua/hls/Papua.m3u8",
+    "logo_svg": "tvri",
+    "desc": "Dari ufuk timur Indonesia, menyajikan keanekaragaman hayati Cenderawasih, seni ukir Asmat, dan pembangunan Papua."
+  },
+  {
+    "id": "cna_en",
+    "chno": 301,
+    "name": "CNA (Channel NewsAsia) HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "youtube",
+    "url": "https://www.youtube.com/user/channelnewsasia/live",
+    "logo_svg": "cna",
+    "desc": "Singapore-based premier Asian international news television broadcasting business, politics, and technology 24/7."
+  },
+  {
+    "id": "aljazeera_en",
+    "chno": 302,
+    "name": "Al Jazeera English HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "youtube",
+    "url": "https://www.youtube.com/@aljazeeraenglish/live",
+    "logo_svg": "aljazeera",
+    "desc": "Leading global news organization delivering human-centered reporting from the Global South and across every continent."
+  },
+  {
+    "id": "dw_english",
+    "chno": 303,
+    "name": "DW English HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "direct",
+    "url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8",
+    "logo_svg": "dw",
+    "desc": "Germany's international broadcaster providing unbiased European perspectives, science, culture, and environmental journalism."
+  },
+  {
+    "id": "france24_en",
+    "chno": 304,
+    "name": "France 24 English HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "youtube",
+    "url": "https://www.youtube.com/@France24_en/live",
+    "logo_svg": "france24",
+    "desc": "International news television network based in Paris offering global viewpoints, European debates, and cultural documentaries."
+  },
+  {
+    "id": "trt_world",
+    "chno": 305,
+    "name": "TRT World HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "direct",
+    "url": "https://tv-trtworld.medya.trt.com.tr/master.m3u8",
+    "logo_svg": "trt_world",
+    "desc": "Istanbul-based 24/7 news channel examining geopolitical shifts, humanitarian stories, and Eurasian perspectives."
+  },
+  {
+    "id": "nasa_tv",
+    "chno": 306,
+    "name": "NASA Live Stream HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "youtube",
+    "url": "https://www.youtube.com/@NASA/live",
+    "logo_svg": "nasa",
+    "desc": "Official live broadcast of rocket launches, spacewalks, astronaut interviews, and ISS views from low Earth orbit."
+  },
+  {
+    "id": "redbull_tv",
+    "chno": 307,
+    "name": "Red Bull TV HD",
+    "group": "Berita & Edukasi Internasional",
+    "type": "direct",
+    "url": "https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8",
+    "logo_svg": "redbull",
+    "desc": "Global hub for action sports, extreme athletics, motorsports, music festivals, and documentary cinema."
+  }
+]
