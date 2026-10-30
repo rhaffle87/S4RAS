@@ -10,6 +10,12 @@ services:
       - ./config:/config
       - ./cache:/cache
       - ./media:/media
+      - ./branding/favicon.ico:/jellyfin/jellyfin-web/favicon.ico:ro
+      - ./branding/favicon.png:/jellyfin/jellyfin-web/favicon.png:ro
+      - ./branding/favicon.svg:/jellyfin/jellyfin-web/favicon.svg:ro
+      - ./branding/touchicon.png:/jellyfin/jellyfin-web/touchicon.png:ro
+      - ./branding/touchicon512.png:/jellyfin/jellyfin-web/touchicon512.png:ro
+      - ./branding/icon-transparent.png:/jellyfin/jellyfin-web/icon-transparent.png:ro
     environment:
       - TZ=Asia/Jakarta
     healthcheck:

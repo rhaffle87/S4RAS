@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BrandingOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LoginDisclaimer>&lt;div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;align-items:center;"&gt;
+  &lt;form action="https://iptv.s4ras.site/sso/OID/start/keycloak" style="width:100%;"&gt;
+    &lt;button class="raised block emby-button button-submit" style="background:#dc2626!important;font-weight:600;border-radius:10px;height:44px;"&gt;
+      Sign in with SSO S4RAS
+    &lt;/button&gt;
+  &lt;/form&gt;
+  &lt;div style="text-align:center;margin-top:6px;"&gt;
+    &lt;a href="https://portal.s4ras.site/home" style="color:#a1a1aa;text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s;"&gt;← Kembali ke myS4RAS Portal&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</LoginDisclaimer>
+  <CustomCss>/* S4RAS Monokrom &amp; Crimson Theme */
+:root {
+  --theme-accent-color: #dc2626 !important;
+  --theme-accent-color-rgb: 220, 38, 38 !important;
+  --theme-primary-color: #dc2626 !important;
+  --button-background: #dc2626 !important;
+  --theme-icon-focus-background: rgba(220, 38, 38, 0.2) !important;
+}
+
+/* Base Background */
+.backgroundContainer, .mainDrawer, .skinHeader, .pageTitleWithDefaultLogo, html, body {
+  background-color: #09090b !important;
+}
+
+/* Header &amp; Navigation */
+.skinHeader-withBackground {
+  background-color: rgba(9, 9, 11, 0.88) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Card Surface &amp; 12px Border Radius */
+.cardBox, .card {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.cardScalable {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.card:hover .cardScalable, .card:focus-visible .cardScalable {
+  transform: translateY(-4px) !important;
+  border-color: rgba(220, 38, 38, 0.8) !important;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.3) !important;
+}
+
+.cardContent {
+  background-color: #121215 !important;
+}
+
+/* Accent Buttons */
+.button-submit, .button-accent, .emby-button-submit {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.button-submit:hover, .button-accent:hover {
+  background-color: #ef4444 !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4) !important;
+}
+
+/* Progress bar &amp; highlights */
+.itemProgressBarForeground {
+  background-color: #dc2626 !important;
+}
+
+/* S4RAS Portal Back Button in Header */
+.headerLeft::after {
+  content: "← myS4RAS Portal";
+  display: inline-flex;
+  align-items: center;
+  margin-left: 14px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e4e4e7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.headerLeft::after:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+.disclaimerContainer {
+  display: block !important;
+}
+
+a.raised.emby-button {
+  padding: 0.9em 1em;
+  color: inherit !important;
+}</CustomCss>
+  <SplashscreenEnabled>true</SplashscreenEnabled>
+</BrandingOptions>

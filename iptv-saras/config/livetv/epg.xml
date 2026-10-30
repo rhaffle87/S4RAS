@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tv SYSTEM "xmltv.dtd">
+<tv generator-info-name="S4RAS-EPG-Generator" source-info-url="https://iptv.s4ras.site">
+  <channel id="TVRI_Nasional"><display-name>TVRI Nasional HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/4/4b/TVRI_logo_2019.svg" /></channel>
+  <channel id="TVRI_World"><display-name>TVRI World HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/4/4b/TVRI_logo_2019.svg" /></channel>
+  <channel id="TVRI_Jatim"><display-name>TVRI Jawa Timur</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/4/4b/TVRI_logo_2019.svg" /></channel>
+  <channel id="TVRI_Jateng"><display-name>TVRI Jawa Tengah</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/4/4b/TVRI_logo_2019.svg" /></channel>
+  <channel id="TVRI_Bali"><display-name>TVRI Bali Digital</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/4/4b/TVRI_logo_2019.svg" /></channel>
+  <channel id="AlJazeera_EN"><display-name>Al Jazeera English HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/en/f/f2/Al_Jazeera_English_logo.svg" /></channel>
+  <channel id="DW_English"><display-name>DW English HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/7/75/Deutsche_Welle_logo.svg" /></channel>
+  <channel id="NASA_TV"><display-name>NASA TV Public HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" /></channel>
+  <channel id="RedBull_TV"><display-name>Red Bull TV HD</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Red_Bull_TV_logo.svg/800px-Red_Bull_TV_logo.svg.png" /></channel>
+  <channel id="AKTV.id@SD"><display-name>AKTV (1080p) [Not 24/7]</display-name><icon src="https://i.imgur.com/DUY5WXf.png" /></channel>
+  <channel id="AhsanTV.id@SD"><display-name>Ahsan TV</display-name><icon src="https://i.imgur.com/dZdUbYd.png" /></channel>
+  <channel id="AlWafaTarim.id@SD"><display-name>Al Wafa Tarim (720p)</display-name><icon src="https://i.ibb.co/3yfMjmf/logo-3.png" /></channel>
+  <channel id="AngelTV.in@Indonesia"><display-name>Angel TV Indonesia (720p)</display-name><icon src="https://i.imgur.com/qKLEGU7.png" /></channel>
+  <channel id="AshiilTV.id@SD"><display-name>Ashiil TV (480p)</display-name><icon src="https://i.imgur.com/bTktkcr.png" /></channel>
+  <channel id="BRTV.id@SD"><display-name>BRTV (Indonesia) (720p)</display-name><icon src="https://upload.wikimedia.org/wikipedia/id/1/1f/Logo_BRTV.png" /></channel>
+  <channel id="BTV.id@SD"><display-name>BTV (Indonesia) (1080p)</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/BTV_%28Indonesia%29_logo_%282025%29.svg/960px-BTV_%28Indonesia%29_logo_%282025%29.svg.png" /></channel>
+  <channel id="BalikpapanTV.id@SD"><display-name>Balikpapan TV (720p)</display-name><icon src="https://i.imgur.com/P3whqna.png" /></channel>
+  <channel id="BandungTV.id@SD"><display-name>Bandung TV (360p)</display-name><icon src="https://i.postimg.cc/JzqSzcj9/200px-Logo-bdg-tv-2016.png" /></channel>
+  <channel id="BanjarTV.id@SD"><display-name>Banjar TV (720p) [Not 24/7]</display-name><icon src="https://i.imgur.com/TA76a10.png" /></channel>
+  <channel id="BantenTV.id@SD"><display-name>Banten TV (720p) [Not 24/7]</display-name><icon src="https://i.imgur.com/tbtF40p.png" /></channel>
+  <channel id="BungoTV.id@SD"><display-name>Bungo TV (480p) [Not 24/7]</display-name><icon src="https://i.imgur.com/OrCrtDA.png" /></channel>
+  <channel id="CarubanTV.id@HD"><display-name>Caruban TV (1080p)</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/3/3a/CarubanTV%28Low-res%29.png" /></channel>
+  <channel id="DAAITV.id@SD"><display-name>DAAI TV</display-name><icon src="https://i.imgur.com/YC7JCHo.png" /></channel>
+  <channel id="DensFoodChannel.id@SD"><display-name>Dens Food Channel [Not 24/7]</display-name><icon src="https://picture.dens.tv/wp/img/tvchannels_v1/340x160/1687501416_tvchannels_v1.jpg" /></channel>
+  <channel id="DhammaTV.id@SD"><display-name>Dhamma TV (720p) [Not 24/7]</display-name><icon src="https://dhammaweb.tv/wp-content/uploads/2018/08/cropped-dhammatv-3.png" /></channel>
+  <channel id="CNBCIndonesia.id@SD"><display-name>CNBC Indonesia</display-name><icon src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png" /></channel>
+  <channel id="CNNIndonesia.id@SD"><display-name>CNN Indonesia</display-name><icon src="https://i.imgur.com/l0JyOrm.png" /></channel>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="TVRI_Nasional">
+    <title lang="id">TVRI Nasional HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi TVRI Nasional HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="TVRI_Nasional">
+    <title lang="id">TVRI Nasional HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="TVRI_World">
+    <title lang="id">TVRI World HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi TVRI World HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Edukasi & Dunia</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="TVRI_World">
+    <title lang="id">TVRI World HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Edukasi & Dunia</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="TVRI_Jatim">
+    <title lang="id">TVRI Jawa Timur — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi TVRI Jawa Timur dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="TVRI_Jatim">
+    <title lang="id">TVRI Jawa Timur — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="TVRI_Jateng">
+    <title lang="id">TVRI Jawa Tengah — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi TVRI Jawa Tengah dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="TVRI_Jateng">
+    <title lang="id">TVRI Jawa Tengah — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="TVRI_Bali">
+    <title lang="id">TVRI Bali Digital — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi TVRI Bali Digital dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="TVRI_Bali">
+    <title lang="id">TVRI Bali Digital — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AlJazeera_EN">
+    <title lang="id">Al Jazeera English HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Al Jazeera English HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Internasional</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AlJazeera_EN">
+    <title lang="id">Al Jazeera English HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Internasional</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="DW_English">
+    <title lang="id">DW English HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi DW English HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Internasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="DW_English">
+    <title lang="id">DW English HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Internasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="NASA_TV">
+    <title lang="id">NASA TV Public HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi NASA TV Public HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Sains & Antariksa</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="NASA_TV">
+    <title lang="id">NASA TV Public HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Sains & Antariksa</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="RedBull_TV">
+    <title lang="id">Red Bull TV HD — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Red Bull TV HD dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Eksplorasi & Olahraga</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="RedBull_TV">
+    <title lang="id">Red Bull TV HD — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Eksplorasi & Olahraga</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AKTV.id@SD">
+    <title lang="id">AKTV (1080p) [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi AKTV (1080p) [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AKTV.id@SD">
+    <title lang="id">AKTV (1080p) [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AhsanTV.id@SD">
+    <title lang="id">Ahsan TV — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Ahsan TV dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AhsanTV.id@SD">
+    <title lang="id">Ahsan TV — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AlWafaTarim.id@SD">
+    <title lang="id">Al Wafa Tarim (720p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Al Wafa Tarim (720p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AlWafaTarim.id@SD">
+    <title lang="id">Al Wafa Tarim (720p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AngelTV.in@Indonesia">
+    <title lang="id">Angel TV Indonesia (720p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Angel TV Indonesia (720p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AngelTV.in@Indonesia">
+    <title lang="id">Angel TV Indonesia (720p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="AshiilTV.id@SD">
+    <title lang="id">Ashiil TV (480p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Ashiil TV (480p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="AshiilTV.id@SD">
+    <title lang="id">Ashiil TV (480p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BRTV.id@SD">
+    <title lang="id">BRTV (Indonesia) (720p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi BRTV (Indonesia) (720p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BRTV.id@SD">
+    <title lang="id">BRTV (Indonesia) (720p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BTV.id@SD">
+    <title lang="id">BTV (Indonesia) (1080p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi BTV (Indonesia) (1080p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BTV.id@SD">
+    <title lang="id">BTV (Indonesia) (1080p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BalikpapanTV.id@SD">
+    <title lang="id">Balikpapan TV (720p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Balikpapan TV (720p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BalikpapanTV.id@SD">
+    <title lang="id">Balikpapan TV (720p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BandungTV.id@SD">
+    <title lang="id">Bandung TV (360p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Bandung TV (360p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BandungTV.id@SD">
+    <title lang="id">Bandung TV (360p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BanjarTV.id@SD">
+    <title lang="id">Banjar TV (720p) [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Banjar TV (720p) [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BanjarTV.id@SD">
+    <title lang="id">Banjar TV (720p) [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BantenTV.id@SD">
+    <title lang="id">Banten TV (720p) [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Banten TV (720p) [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BantenTV.id@SD">
+    <title lang="id">Banten TV (720p) [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="BungoTV.id@SD">
+    <title lang="id">Bungo TV (480p) [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Bungo TV (480p) [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="BungoTV.id@SD">
+    <title lang="id">Bungo TV (480p) [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="CarubanTV.id@HD">
+    <title lang="id">Caruban TV (1080p) — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Caruban TV (1080p) dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="CarubanTV.id@HD">
+    <title lang="id">Caruban TV (1080p) — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="DAAITV.id@SD">
+    <title lang="id">DAAI TV — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi DAAI TV dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="DAAITV.id@SD">
+    <title lang="id">DAAI TV — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="DensFoodChannel.id@SD">
+    <title lang="id">Dens Food Channel [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Dens Food Channel [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="DensFoodChannel.id@SD">
+    <title lang="id">Dens Food Channel [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="DhammaTV.id@SD">
+    <title lang="id">Dhamma TV (720p) [Not 24/7] — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi Dhamma TV (720p) [Not 24/7] dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="DhammaTV.id@SD">
+    <title lang="id">Dhamma TV (720p) [Not 24/7] — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="CNBCIndonesia.id@SD">
+    <title lang="id">CNBC Indonesia — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi CNBC Indonesia dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="CNBCIndonesia.id@SD">
+    <title lang="id">CNBC Indonesia — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030000000 +0000" stop="20261030120000 +0000" channel="CNNIndonesia.id@SD">
+    <title lang="id">CNN Indonesia — Siaran Utama 24/7</title>
+    <desc lang="id">Program siaran langsung resmi CNN Indonesia dalam ekosistem myS4RAS IPTV.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+  <programme start="20261030120000 +0000" stop="20261031000000 +0000" channel="CNNIndonesia.id@SD">
+    <title lang="id">CNN Indonesia — Prime Time &amp; Informasi</title>
+    <desc lang="id">Siaran edukatif, dokumenter, dan berita terpercaya untuk sivitas S4RAS.</desc>
+    <category lang="id">Nasional & Edukasi</category>
+  </programme>
+</tv>
