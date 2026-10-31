@@ -1,3 +1,10 @@
 :80 {
-    reverse_proxy localhost:8096
+    handle /live-relay/* {
+        uri strip_prefix /live-relay
+        reverse_proxy 127.0.0.1:8099
+    }
+
+    handle {
+        reverse_proxy 127.0.0.1:8096
+    }
 }

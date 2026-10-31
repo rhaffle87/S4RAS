@@ -1,6 +1,6 @@
 """
 s4ras_livetv_relay.py - Production Live TV Stream Relay & Reverse Proxy Daemon
-Runs on VM 200 (127.0.0.1:8099). Proxied through Caddy /live-relay/* -> 8099.
+Runs on VM 200 (0.0.0.0:8099). Proxied through Caddy /live-relay/* -> 8099.
 
 Features:
 1. YouTube Live Resolver with memory cache and auto-renewal (TTL: 90 mins).
@@ -24,6 +24,7 @@ from urllib.parse import urlparse
 PORT = 8099
 LOG_FILE = "/var/log/s4ras_livetv_relay.log"
 LOGOS_DIR = "/home/s4ras/jellyfin/media/livetv/logos"
+THUMBNAILS_DIR = "/home/s4ras/jellyfin/media/livetv/thumbnails"
 EPG_FILE = "/home/s4ras/jellyfin/media/livetv/epg.xml"
 M3U_FILE = "/home/s4ras/jellyfin/media/livetv/s4ras-livetv.m3u"
 CHANNELS_JSON = "/home/s4ras/jellyfin/media/livetv/merged_channels.json"
@@ -121,6 +122,24 @@ class RelayHandler(BaseHTTPRequestHandler):
                 self.send_header("Cache-Control", "public, max-age=86400")
                 self.end_headers()
                 with open(logo_path, "rb") as f:
+                    self.wfile.write(f.read())
+            else:
+                self.send_response(404)
+                self.send_cors_headers()
+                self.end_headers()
+            return
+
+        # 2b. Program thumbnails static serving: /thumbnails/<filename>
+        if path.startswith("/thumbnails/"):
+            filename = os.path.basename(path)
+            thumb_path = os.path.join(THUMBNAILS_DIR, filename)
+            if os.path.exists(thumb_path):
+                self.send_response(200)
+                self.send_cors_headers()
+                self.send_header("Content-Type", "image/jpeg" if filename.endswith(".jpg") else "image/png")
+                self.send_header("Cache-Control", "public, max-age=86400")
+                self.end_headers()
+                with open(thumb_path, "rb") as f:
                     self.wfile.write(f.read())
             else:
                 self.send_response(404)

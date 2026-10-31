@@ -1,51 +1,51 @@
-#EXTM3U name="S4RAS IPTV Ultra-Verified" tvg-shift="0" url-tvg="https://iptv.s4ras.site/live-relay/epg.xml"
-#EXTINF:-1 tvg-id="tvri_nasional" tvg-chno="101" tvg-name="TVRI Nasional HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_nasional.png" group-title="TV Nasional & Berita",TVRI Nasional HD
-https://iptv.s4ras.site/live-relay/live/tvri_nasional.m3u8
-#EXTINF:-1 tvg-id="kompas_tv" tvg-chno="102" tvg-name="Kompas TV Live HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/kompas_tv.png" group-title="TV Nasional & Berita",Kompas TV Live HD
-https://iptv.s4ras.site/live-relay/live/kompas_tv.m3u8
-#EXTINF:-1 tvg-id="cnn_indonesia" tvg-chno="103" tvg-name="CNN Indonesia Live HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/cnn_indonesia.png" group-title="TV Nasional & Berita",CNN Indonesia Live HD
-https://iptv.s4ras.site/live-relay/live/cnn_indonesia.m3u8
-#EXTINF:-1 tvg-id="tvone" tvg-chno="104" tvg-name="tvOne Live HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvone.png" group-title="TV Nasional & Berita",tvOne Live HD
-https://iptv.s4ras.site/live-relay/live/tvone.m3u8
-#EXTINF:-1 tvg-id="cnbc_indonesia" tvg-chno="105" tvg-name="CNBC Indonesia Live HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/cnbc_indonesia.png" group-title="TV Nasional & Berita",CNBC Indonesia Live HD
-https://iptv.s4ras.site/live-relay/live/cnbc_indonesia.m3u8
-#EXTINF:-1 tvg-id="tvri_world" tvg-chno="106" tvg-name="TVRI World HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_world.png" group-title="TV Nasional & Berita",TVRI World HD
-https://iptv.s4ras.site/live-relay/live/tvri_world.m3u8
-#EXTINF:-1 tvg-id="tvri_jabar" tvg-chno="201" tvg-name="TVRI Jawa Barat" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_jabar.png" group-title="TV Publik & Edukasi Daerah",TVRI Jawa Barat
-https://iptv.s4ras.site/live-relay/live/tvri_jabar.m3u8
-#EXTINF:-1 tvg-id="tvri_jateng" tvg-chno="202" tvg-name="TVRI Jawa Tengah" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_jateng.png" group-title="TV Publik & Edukasi Daerah",TVRI Jawa Tengah
-https://iptv.s4ras.site/live-relay/live/tvri_jateng.m3u8
-#EXTINF:-1 tvg-id="tvri_bali" tvg-chno="203" tvg-name="TVRI Bali Digital" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_bali.png" group-title="TV Publik & Edukasi Daerah",TVRI Bali Digital
-https://iptv.s4ras.site/live-relay/live/tvri_bali.m3u8
-#EXTINF:-1 tvg-id="tvri_kaltim" tvg-chno="204" tvg-name="TVRI Kalimantan Timur" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_kaltim.png" group-title="TV Publik & Edukasi Daerah",TVRI Kalimantan Timur
-https://iptv.s4ras.site/live-relay/live/tvri_kaltim.m3u8
-#EXTINF:-1 tvg-id="tvri_sulut" tvg-chno="205" tvg-name="TVRI Sulawesi Utara" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_sulut.png" group-title="TV Publik & Edukasi Daerah",TVRI Sulawesi Utara
-https://iptv.s4ras.site/live-relay/live/tvri_sulut.m3u8
-#EXTINF:-1 tvg-id="tvri_sulsel" tvg-chno="206" tvg-name="TVRI Sulawesi Selatan" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_sulsel.png" group-title="TV Publik & Edukasi Daerah",TVRI Sulawesi Selatan
-https://iptv.s4ras.site/live-relay/live/tvri_sulsel.m3u8
-#EXTINF:-1 tvg-id="tvri_aceh" tvg-chno="207" tvg-name="TVRI Aceh" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_aceh.png" group-title="TV Publik & Edukasi Daerah",TVRI Aceh
-https://iptv.s4ras.site/live-relay/live/tvri_aceh.m3u8
-#EXTINF:-1 tvg-id="tvri_sumbar" tvg-chno="208" tvg-name="TVRI Sumatera Barat" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_sumbar.png" group-title="TV Publik & Edukasi Daerah",TVRI Sumatera Barat
-https://iptv.s4ras.site/live-relay/live/tvri_sumbar.m3u8
-#EXTINF:-1 tvg-id="tvri_riau" tvg-chno="209" tvg-name="TVRI Riau" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_riau.png" group-title="TV Publik & Edukasi Daerah",TVRI Riau
-https://iptv.s4ras.site/live-relay/live/tvri_riau.m3u8
-#EXTINF:-1 tvg-id="tvri_ntb" tvg-chno="210" tvg-name="TVRI NTB" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_ntb.png" group-title="TV Publik & Edukasi Daerah",TVRI NTB
-https://iptv.s4ras.site/live-relay/live/tvri_ntb.m3u8
-#EXTINF:-1 tvg-id="tvri_ntt" tvg-chno="211" tvg-name="TVRI NTT" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_ntt.png" group-title="TV Publik & Edukasi Daerah",TVRI NTT
-https://iptv.s4ras.site/live-relay/live/tvri_ntt.m3u8
-#EXTINF:-1 tvg-id="tvri_papua" tvg-chno="212" tvg-name="TVRI Papua" tvg-logo="https://iptv.s4ras.site/live-relay/logos/tvri_papua.png" group-title="TV Publik & Edukasi Daerah",TVRI Papua
-https://iptv.s4ras.site/live-relay/live/tvri_papua.m3u8
-#EXTINF:-1 tvg-id="cna_en" tvg-chno="301" tvg-name="CNA (Channel NewsAsia) HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/cna_en.png" group-title="Berita & Edukasi Internasional",CNA (Channel NewsAsia) HD
-https://iptv.s4ras.site/live-relay/live/cna_en.m3u8
-#EXTINF:-1 tvg-id="aljazeera_en" tvg-chno="302" tvg-name="Al Jazeera English HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/aljazeera_en.png" group-title="Berita & Edukasi Internasional",Al Jazeera English HD
-https://iptv.s4ras.site/live-relay/live/aljazeera_en.m3u8
-#EXTINF:-1 tvg-id="dw_english" tvg-chno="303" tvg-name="DW English HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/dw_english.png" group-title="Berita & Edukasi Internasional",DW English HD
-https://iptv.s4ras.site/live-relay/live/dw_english.m3u8
-#EXTINF:-1 tvg-id="france24_en" tvg-chno="304" tvg-name="France 24 English HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/france24_en.png" group-title="Berita & Edukasi Internasional",France 24 English HD
-https://iptv.s4ras.site/live-relay/live/france24_en.m3u8
-#EXTINF:-1 tvg-id="trt_world" tvg-chno="305" tvg-name="TRT World HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/trt_world.png" group-title="Berita & Edukasi Internasional",TRT World HD
-https://iptv.s4ras.site/live-relay/live/trt_world.m3u8
-#EXTINF:-1 tvg-id="nasa_tv" tvg-chno="306" tvg-name="NASA Live Stream HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/nasa_tv.png" group-title="Berita & Edukasi Internasional",NASA Live Stream HD
-https://iptv.s4ras.site/live-relay/live/nasa_tv.m3u8
-#EXTINF:-1 tvg-id="redbull_tv" tvg-chno="307" tvg-name="Red Bull TV HD" tvg-logo="https://iptv.s4ras.site/live-relay/logos/redbull_tv.png" group-title="Berita & Edukasi Internasional",Red Bull TV HD
-https://iptv.s4ras.site/live-relay/live/redbull_tv.m3u8
+#EXTM3U name="S4RAS IPTV Ultra-Verified" tvg-shift="0" url-tvg="http://172.17.0.1:8099/epg.xml"
+#EXTINF:-1 tvg-id="tvri_nasional" tvg-chno="101" tvg-name="TVRI Nasional HD" tvg-logo="http://172.17.0.1:8099/logos/tvri_nasional.png" group-title="TV Nasional & Berita",TVRI Nasional HD
+http://172.17.0.1:8099/live/tvri_nasional.m3u8
+#EXTINF:-1 tvg-id="kompas_tv" tvg-chno="102" tvg-name="Kompas TV Live HD" tvg-logo="http://172.17.0.1:8099/logos/kompas_tv.png" group-title="TV Nasional & Berita",Kompas TV Live HD
+http://172.17.0.1:8099/live/kompas_tv.m3u8
+#EXTINF:-1 tvg-id="cnn_indonesia" tvg-chno="103" tvg-name="CNN Indonesia Live HD" tvg-logo="http://172.17.0.1:8099/logos/cnn_indonesia.png" group-title="TV Nasional & Berita",CNN Indonesia Live HD
+http://172.17.0.1:8099/live/cnn_indonesia.m3u8
+#EXTINF:-1 tvg-id="tvone" tvg-chno="104" tvg-name="tvOne Live HD" tvg-logo="http://172.17.0.1:8099/logos/tvone.png" group-title="TV Nasional & Berita",tvOne Live HD
+http://172.17.0.1:8099/live/tvone.m3u8
+#EXTINF:-1 tvg-id="cnbc_indonesia" tvg-chno="105" tvg-name="CNBC Indonesia Live HD" tvg-logo="http://172.17.0.1:8099/logos/cnbc_indonesia.png" group-title="TV Nasional & Berita",CNBC Indonesia Live HD
+http://172.17.0.1:8099/live/cnbc_indonesia.m3u8
+#EXTINF:-1 tvg-id="tvri_world" tvg-chno="106" tvg-name="TVRI World HD" tvg-logo="http://172.17.0.1:8099/logos/tvri_world.png" group-title="TV Nasional & Berita",TVRI World HD
+http://172.17.0.1:8099/live/tvri_world.m3u8
+#EXTINF:-1 tvg-id="tvri_jabar" tvg-chno="201" tvg-name="TVRI Jawa Barat" tvg-logo="http://172.17.0.1:8099/logos/tvri_jabar.png" group-title="TV Publik & Edukasi Daerah",TVRI Jawa Barat
+http://172.17.0.1:8099/live/tvri_jabar.m3u8
+#EXTINF:-1 tvg-id="tvri_jateng" tvg-chno="202" tvg-name="TVRI Jawa Tengah" tvg-logo="http://172.17.0.1:8099/logos/tvri_jateng.png" group-title="TV Publik & Edukasi Daerah",TVRI Jawa Tengah
+http://172.17.0.1:8099/live/tvri_jateng.m3u8
+#EXTINF:-1 tvg-id="tvri_bali" tvg-chno="203" tvg-name="TVRI Bali Digital" tvg-logo="http://172.17.0.1:8099/logos/tvri_bali.png" group-title="TV Publik & Edukasi Daerah",TVRI Bali Digital
+http://172.17.0.1:8099/live/tvri_bali.m3u8
+#EXTINF:-1 tvg-id="tvri_kaltim" tvg-chno="204" tvg-name="TVRI Kalimantan Timur" tvg-logo="http://172.17.0.1:8099/logos/tvri_kaltim.png" group-title="TV Publik & Edukasi Daerah",TVRI Kalimantan Timur
+http://172.17.0.1:8099/live/tvri_kaltim.m3u8
+#EXTINF:-1 tvg-id="tvri_sulut" tvg-chno="205" tvg-name="TVRI Sulawesi Utara" tvg-logo="http://172.17.0.1:8099/logos/tvri_sulut.png" group-title="TV Publik & Edukasi Daerah",TVRI Sulawesi Utara
+http://172.17.0.1:8099/live/tvri_sulut.m3u8
+#EXTINF:-1 tvg-id="tvri_sulsel" tvg-chno="206" tvg-name="TVRI Sulawesi Selatan" tvg-logo="http://172.17.0.1:8099/logos/tvri_sulsel.png" group-title="TV Publik & Edukasi Daerah",TVRI Sulawesi Selatan
+http://172.17.0.1:8099/live/tvri_sulsel.m3u8
+#EXTINF:-1 tvg-id="tvri_aceh" tvg-chno="207" tvg-name="TVRI Aceh" tvg-logo="http://172.17.0.1:8099/logos/tvri_aceh.png" group-title="TV Publik & Edukasi Daerah",TVRI Aceh
+http://172.17.0.1:8099/live/tvri_aceh.m3u8
+#EXTINF:-1 tvg-id="tvri_sumbar" tvg-chno="208" tvg-name="TVRI Sumatera Barat" tvg-logo="http://172.17.0.1:8099/logos/tvri_sumbar.png" group-title="TV Publik & Edukasi Daerah",TVRI Sumatera Barat
+http://172.17.0.1:8099/live/tvri_sumbar.m3u8
+#EXTINF:-1 tvg-id="tvri_riau" tvg-chno="209" tvg-name="TVRI Riau" tvg-logo="http://172.17.0.1:8099/logos/tvri_riau.png" group-title="TV Publik & Edukasi Daerah",TVRI Riau
+http://172.17.0.1:8099/live/tvri_riau.m3u8
+#EXTINF:-1 tvg-id="tvri_ntb" tvg-chno="210" tvg-name="TVRI NTB" tvg-logo="http://172.17.0.1:8099/logos/tvri_ntb.png" group-title="TV Publik & Edukasi Daerah",TVRI NTB
+http://172.17.0.1:8099/live/tvri_ntb.m3u8
+#EXTINF:-1 tvg-id="tvri_ntt" tvg-chno="211" tvg-name="TVRI NTT" tvg-logo="http://172.17.0.1:8099/logos/tvri_ntt.png" group-title="TV Publik & Edukasi Daerah",TVRI NTT
+http://172.17.0.1:8099/live/tvri_ntt.m3u8
+#EXTINF:-1 tvg-id="tvri_papua" tvg-chno="212" tvg-name="TVRI Papua" tvg-logo="http://172.17.0.1:8099/logos/tvri_papua.png" group-title="TV Publik & Edukasi Daerah",TVRI Papua
+http://172.17.0.1:8099/live/tvri_papua.m3u8
+#EXTINF:-1 tvg-id="cna_en" tvg-chno="301" tvg-name="CNA (Channel NewsAsia) HD" tvg-logo="http://172.17.0.1:8099/logos/cna_en.png" group-title="Berita & Edukasi Internasional",CNA (Channel NewsAsia) HD
+http://172.17.0.1:8099/live/cna_en.m3u8
+#EXTINF:-1 tvg-id="aljazeera_en" tvg-chno="302" tvg-name="Al Jazeera English HD" tvg-logo="http://172.17.0.1:8099/logos/aljazeera_en.png" group-title="Berita & Edukasi Internasional",Al Jazeera English HD
+http://172.17.0.1:8099/live/aljazeera_en.m3u8
+#EXTINF:-1 tvg-id="dw_english" tvg-chno="303" tvg-name="DW English HD" tvg-logo="http://172.17.0.1:8099/logos/dw_english.png" group-title="Berita & Edukasi Internasional",DW English HD
+http://172.17.0.1:8099/live/dw_english.m3u8
+#EXTINF:-1 tvg-id="france24_en" tvg-chno="304" tvg-name="France 24 English HD" tvg-logo="http://172.17.0.1:8099/logos/france24_en.png" group-title="Berita & Edukasi Internasional",France 24 English HD
+http://172.17.0.1:8099/live/france24_en.m3u8
+#EXTINF:-1 tvg-id="trt_world" tvg-chno="305" tvg-name="TRT World HD" tvg-logo="http://172.17.0.1:8099/logos/trt_world.png" group-title="Berita & Edukasi Internasional",TRT World HD
+http://172.17.0.1:8099/live/trt_world.m3u8
+#EXTINF:-1 tvg-id="nasa_tv" tvg-chno="306" tvg-name="NASA Live Stream HD" tvg-logo="http://172.17.0.1:8099/logos/nasa_tv.png" group-title="Berita & Edukasi Internasional",NASA Live Stream HD
+http://172.17.0.1:8099/live/nasa_tv.m3u8
+#EXTINF:-1 tvg-id="redbull_tv" tvg-chno="307" tvg-name="Red Bull TV HD" tvg-logo="http://172.17.0.1:8099/logos/redbull_tv.png" group-title="Berita & Edukasi Internasional",Red Bull TV HD
+http://172.17.0.1:8099/live/redbull_tv.m3u8
