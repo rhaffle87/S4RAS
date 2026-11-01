@@ -149,16 +149,19 @@ function Layout({ children }) {
                 title="myS4RAS Portal"
               >
                 <svg viewBox="0 0 100 100" className="w-7 h-7 shrink-0" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="portal-brand-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#ef4444"/>
-                      <stop offset="100%" stop-color="#b91c1c"/>
-                    </linearGradient>
-                  </defs>
-                  <rect x="4" y="4" width="92" height="92" rx="24" fill="url(#portal-brand-grad)"/>
-                  <rect x="22" y="20" width="16" height="60" rx="8" fill="#ffffff"/>
-                  <path d="M38 20 H58 C72 20 80 29 80 41 C80 53 72 62 58 62 H38" fill="none" stroke="#ffffff" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="56" cy="41" r="5.5" fill="#dc2626"/>
+                  <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
+                  <g stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.45">
+                    <line x1="46" y1="34" x2="56" y2="34"/>
+                    <line x1="34" y1="46" x2="34" y2="56"/>
+                    <line x1="56" y1="68" x2="46" y2="68"/>
+                    <line x1="68" y1="56" x2="68" y2="46"/>
+                  </g>
+                  <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
+                  <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" strokeWidth="3" opacity="0.6"/>
+                  <circle cx="68" cy="34" r="8" fill="#ffffff"/>
+                  <circle cx="68" cy="34" r="3" fill="#dc2626"/>
                 </svg>
                 <span className="text-xl font-bold tracking-tight text-text-primary">
                   my<span className="text-brand-light">S4RAS</span> Portal
