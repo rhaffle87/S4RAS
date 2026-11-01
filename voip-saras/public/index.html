@@ -922,7 +922,7 @@
       <!-- Single Clean Identity Capsule -->
       <div class="identity-capsule" id="userIdentityCapsule">
         <span class="status-dot-mini" id="sipStatusDot"></span>
-        <span class="user-name-text" id="headerUserName">Rafli Alif</span>
+        <span class="user-name-text" id="headerUserName">S4RAS Administrator</span>
         <span class="user-ext-text" id="headerUserExt">Ext 1003</span>
       </div>
     </div>
@@ -951,7 +951,7 @@
         <div id="smartDetectionWrap" style="display:none;">
           <div class="smart-match-chip" id="smartDetectedText">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
-            <span id="smartMatchLabel">Rafli Alif • Ext 1003</span>
+            <span id="smartMatchLabel">DevOps Admin • Ext 1003</span>
           </div>
         </div>
       </div>
@@ -1209,10 +1209,8 @@
     const DIRECTORY = [
       {
         ext: "1003",
-        name: "Rafli Alif",
-        role: "Lead Architect & Admin",
-        phone: "+62 838-4612-1134",
-        wa: "6283846121134",
+        name: "DevOps Administrator",
+        role: "Lead Systems and Network Administrator",
         category: "civitas"
       },
       {
@@ -1314,15 +1312,16 @@
       const rawUser = decodeURIComponent((urlParams.get('user') || cookieUser || '').trim());
       const rawExt = (urlParams.get('ext') || cookieExt || '').trim();
 
-      if (rawUser === 'admin' || rawExt === '1003' || rawUser.toLowerCase().includes('rafli')) {
+      if (rawUser === 'admin' || rawExt === '1003' || rawUser === 'dev1') {
         return {
           ext: "1003",
-          name: "Rafli Alif",
-          role: "Lead Architect & Admin",
-          initial: "R",
+          name: "DevOps Administrator",
+          role: "Lead Systems and Network Administrator",
+          initial: "A",
           isAdmin: true,
           secret: "dev-mock-secret"
         };
+      };
       } else if (rawUser === 'nathan1' || rawExt === '1004' || rawUser.toLowerCase().includes('nathan')) {
         return {
           ext: "1004",
@@ -1527,9 +1526,9 @@
       const raw = dialedNumber.trim();
       const digits = raw.replace(/\D/g, '');
 
-      if (digits.includes('83846121134') || raw === '1003' || raw === '083846121134') {
+      if (raw === '1003') {
         wrap.style.display = 'block';
-        label.innerText = 'Rafli Alif • Ext 1003';
+        label.innerText = 'DevOps Admin • Ext 1003';
       } else if (digits.includes('81292892465') || raw === '1004' || raw === '081292892465') {
         wrap.style.display = 'block';
         label.innerText = 'Nathan • Ext 1004';
@@ -1555,7 +1554,7 @@
       if (!target || target === '---') return;
 
       const digits = target.replace(/\D/g, '');
-      if (digits.includes('83846121134')) target = '1003';
+      if (raw === '1003') target = '1003';
       if (digits.includes('81292892465')) target = '1004';
 
       inCall = true;

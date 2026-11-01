@@ -13,7 +13,7 @@ import argparse
 import urllib.request
 import urllib.error
 
-DEFAULT_TAILNET = "rhaffle87@gmail.com"
+DEFAULT_TAILNET = "-"
 NATHAN_EMAIL = "natumpal2004@gmail.com"
 
 ACL_POLICY = {
@@ -22,7 +22,6 @@ ACL_POLICY = {
     },
     "groups": {
         "group:s4ras-admins": [
-            "rhaffle87@gmail.com",
             "budimanten87@gmail.com"
         ],
         "group:s4ras-devs": [
@@ -33,7 +32,11 @@ ACL_POLICY = {
         {
             "action": "accept",
             "src": ["autogroup:admin", "group:s4ras-admins"],
-            "dst": ["*:*"]
+            "dst": [
+                "tag:s4ras-vm:*",
+                "autogroup:self:*",
+                "192.168.10.0/24:*"
+            ]
         },
         {
             "action": "accept",
@@ -84,12 +87,10 @@ ACL_POLICY = {
             ]
         },
         {
-            "src": "rhaffle87@gmail.com",
+            "src": "budimanten87@gmail.com",
             "accept": [
-                "100.110.11.66:11434",
-                "100.97.96.13:22",
-                "100.104.240.20:3389",
-                "100.123.192.3:22"
+                "100.123.192.3:22",
+                "100.86.164.92:8096"
             ]
         }
     ]
@@ -120,7 +121,7 @@ def update_acl(api_key, tailnet=DEFAULT_TAILNET):
     if code in (200, 204):
         print(f"[+] ACL successfully updated and validated by Tailscale control plane (HTTP {code}).")
         print("    -> Co-dev natumpal2004@gmail.com is restricted to tag:s4ras-vm ONLY.")
-        print("    -> ollama-server (100.110.11.66) & fl-aggregator (100.97.96.13) are strictly isolated.")
+        print("    -> Private research nodes are strictly isolated.")
         return True
     else:
         print(f"[-] Failed to update ACL (HTTP {code}): {res}")
@@ -141,7 +142,7 @@ def invite_user(api_key, email=NATHAN_EMAIL, tailnet=DEFAULT_TAILNET, role="memb
 def main():
     parser = argparse.ArgumentParser(description="Tailscale S4RAS Admin Automation")
     parser.add_argument("--key", default=os.environ.get("TAILSCALE_API_KEY"), help="Tailscale API Access Token (tskey-api-...)")
-    parser.add_argument("--tailnet", default=DEFAULT_TAILNET, help="Tailnet name (default: rhaffle87@gmail.com)")
+    parser.add_argument("--tailnet", default=DEFAULT_TAILNET, help="Tailnet name (default: -)")
     parser.add_argument("--invite-only", action="store_true", help="Only send invite")
     parser.add_argument("--acl-only", action="store_true", help="Only update ACL")
     args = parser.parse_args()

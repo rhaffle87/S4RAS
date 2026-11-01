@@ -88,7 +88,7 @@ Dokumen ini mencatat seluruh kredensial akses sistem operasi (OS), SSH, Tailscal
   * Ext `100` (Standard UDP): Username `100` | Password: `[REDACTED]` | Context: `internal`
   * Ext `101` (Standard UDP): Username `101` | Password: `[REDACTED]` | Context: `internal`
 * **Kredensial Voicemail Mailboxes (`/etc/asterisk/voicemail.conf`)**:
-  * Mailbox `100`: PIN `[REDACTED]` | Nama: Rafli | Email: `rafli@s4ras.site`
+  * Mailbox `100`: PIN `[REDACTED]` | Nama: S4RAS Admin | Email: `admin@s4ras.site`
   * Mailbox `101`: PIN `[REDACTED]` | Nama: Admin | Email: `admin@s4ras.site`
   * Mailbox `1001`: PIN `[REDACTED]` | Nama: Budi Pratama | Email: `student1@s4ras.site`
   * Mailbox `1002`: PIN `[REDACTED]` | Nama: Dr. Hendra Wijaya | Email: `teacher1@s4ras.site`

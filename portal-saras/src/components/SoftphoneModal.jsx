@@ -37,7 +37,7 @@ export const DIRECTORY_CATEGORIES = [
     title: 'Pusat Bantuan & Koordinasi 3T',
     items: [
       { ext: '1000', label: 'Operator Bantuan S4RAS', desc: 'Pusat Bantuan & Layanan Komunikasi 3T', badge: 'Operator' },
-      { ext: '1003', label: 'Rafli Alif (Admin)', desc: 'Lead Architect & Administrasi Sistem', badge: 'Lead Dev', phone: '+62 838-4612-1134', wa: '6283846121134' },
+      { ext: '1003', label: 'DevOps Administrator', desc: 'Lead Systems & Network Administrator', badge: 'DevOps Admin' },
       { ext: '1004', label: 'Nathan (Co-Dev)', desc: 'Co-Developer & Infrastruktur Klaster', badge: 'Co-Dev', phone: '+62 812-9289-2465', wa: '6281292892465' },
       { ext: '8000', label: 'Konferensi Suara Desa/Kelas', desc: 'Ruang Konferensi Audio Multi-Pihak', badge: 'Konferensi' },
       { ext: '800', label: 'Campus Conference Bridge', desc: 'Bridge Konferensi Suara Alternatif', badge: 'Bridge' },
@@ -114,19 +114,17 @@ export default function SoftphoneModal({ isOpen, onClose }) {
   // Determine current user extension dynamically from Keycloak claims
   const myExtension = sipExtension || (persona === 'teacher' ? '1002' : persona === 'dev' ? '1003' : '1001');
 
-  // Smart Number Resolution: Automatically detect Rafli (1003) or Nathan (1004) when typing phone numbers
+  // Smart Number Resolution: Automatically detect Admin (1003) or Nathan (1004) when typing phone numbers
   const detectedContact = React.useMemo(() => {
     const raw = dialedNumber.trim();
     if (!raw) return null;
     const digits = raw.replace(/\D/g, '');
-    if (digits.includes('83846121134') || raw === '083846121134' || raw === '1003') {
+    if (raw === '1003') {
       return {
         ext: '1003',
-        label: 'Rafli Alif (Admin)',
-        desc: 'Lead Architect & Administrasi Sistem',
-        phone: '+62 838-4612-1134',
-        wa: '6283846121134',
-        badge: 'Lead Dev'
+        label: 'DevOps Administrator',
+        desc: 'Lead Systems & Network Administrator',
+        badge: 'DevOps Admin'
       };
     }
     if (digits.includes('81292892465') || raw === '081292892465' || raw === '1004') {
@@ -382,9 +380,7 @@ export default function SoftphoneModal({ isOpen, onClose }) {
 
     // Smart phone number resolution to SIP extension
     const digits = ext.replace(/\D/g, '');
-    if (digits.includes('83846121134')) {
-      ext = '1003';
-    } else if (digits.includes('81292892465')) {
+    if (digits.includes('81292892465')) {
       ext = '1004';
     }
 

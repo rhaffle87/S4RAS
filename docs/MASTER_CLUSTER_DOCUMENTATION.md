@@ -75,9 +75,9 @@ Antarmuka web ekosistem S4RAS diseragamkan mengikuti tema monokrom modern dengan
 ## 5. Redesain Antarmuka & RBAC `voip.s4ras.site` (VM 202)
 Antarmuka WebPhone pada `voip-saras/index.html` (`100.83.239.40:/var/www/html/`) dirombak menjadi layout 2-kolom bersih:
 - **Pembersihan Header**: Menghapus badge teknis panjang dan toggle tema/bahasa manual; tema (`s4ras_theme`) dan bahasa (`s4ras_lang`) otomatis membaca cookie `.s4ras.site` dan localStorage Portal. Sisi kiri menampilkan pill `← Kembali ke Portal` + logo S4RAS Telefoni; sisi kanan menampilkan kapsul status pengguna aktif.
-- **Kolom Kiri (Dialer Monokrom)**: Layar input nomor dengan pendeteksi kontak cerdas untuk Rafli (083846121134 / 1003) dan Nathan (081292892465 / 1004). Tombol aksi panggil monokrom kontras (Panggil Suara) dan border netral (Panggil Video) serta 4 pintasan layanan (Operator 1000, Uji Audio 600, Konferensi 8000, Voicemail *97) dengan chip warna netral.
+- **Kolom Kiri (Dialer Monokrom)**: Layar input nomor dengan pendeteksi kontak cerdas untuk Admin (1003) dan Nathan (081292892465 / 1004). Tombol aksi panggil monokrom kontras (Panggil Suara) dan border netral (Panggil Video) serta 4 pintasan layanan (Operator 1000, Uji Audio 600, Konferensi 8000, Voicemail *97) dengan chip warna netral.
 - **Kolom Kanan (Direktori & Kanvas Panggilan)**: Saat panggilan aktif, berubah menjadi kanvas video HD/waveform audio + PiP kamera lokal. Saat idle, menampilkan tab Direktori Sivitas & Riwayat Panggilan.
-- **Strict RBAC Monitoring PBX**: Terminal hitam macOS dihapus. Tab Monitoring PBX disembunyikan (`display: none`) untuk mahasiswa (`student1`) dan dosen (`teacher1`), dan hanya dirender untuk Admin (admin Rafli 1003 / nathan1 Nathan 1004) dalam format kartu metrik monokrom yang konsisten (Commit `32f12a6`).
+- **Strict RBAC Monitoring PBX**: Terminal hitam macOS dihapus. Tab Monitoring PBX disembunyikan (`display: none`) untuk mahasiswa (`student1`) dan dosen (`teacher1`), dan hanya dirender untuk Admin (admin 1003 / nathan1 Nathan 1004) dalam format kartu metrik monokrom yang konsisten (Commit `32f12a6`).
 
 ---
 
@@ -144,7 +144,7 @@ Antarmuka WebPhone pada `voip-saras/index.html` (`100.83.239.40:/var/www/html/`)
 | Cakupan Layanan / Sistem | URL / Endpoint | Username | Password | Catatan Hak Akses |
 | :--- | :--- | :--- | :--- | :--- |
 | **SSH Seluruh 9 VM (200–209)** | `ssh s4ras@<IP_VM>` / `root@<IP_VM>` | `s4ras` / `root` | `[REDACTED — simpan di secrets manager]` | NOPASSWD:ALL sudo & Docker group |
-| **SSO & Portal (Super Admin 1)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `admin` | `[REDACTED — simpan di secrets manager]` | Lead Architect (Rafli) • SIP Ext 1003 |
+| **SSO & Portal (Super Admin 1)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `admin` | `[REDACTED — simpan di secrets manager]` | Lead Architect (DevOps Admin) • SIP Ext 1003 |
 | **SSO & Portal (Super Admin 2)** | [https://portal.s4ras.site](https://portal.s4ras.site) | `nathan1` | `[REDACTED — simpan di secrets manager]` | Co-Developer (Nathan) • SIP Ext 1004 |
 | **Jellyfin IPTV Local Admin** | [https://iptv.s4ras.site](https://iptv.s4ras.site) | `admin` | `[REDACTED — simpan di secrets manager]` | Full Dashboard, Metadata & Live TV Admin |
 | **Portal Health Check API** | [https://portal.s4ras.site/api/health/all](https://portal.s4ras.site/api/health/all) | *(Publik GET)* | — | 10 mikroservis real-time (**10/10 Online**) |

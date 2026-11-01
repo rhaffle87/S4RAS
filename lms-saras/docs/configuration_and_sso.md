@@ -95,7 +95,7 @@ Saat user berhasil login via Keycloak untuk pertama kalinya, akun Moodle akan di
 ### Status Akun Terdaftar
 Berdasarkan query database terkini (`mdl_user`), akun-akun berikut telah berhasil tertaut dengan Single Sign-On:
 * `admin@portal.saras.id` (Admin S4RAS)
-* `civitas@s4ras.site` (Sivitas Akademika / hartono rafli)
+* `civitas@s4ras.site` (Sivitas Akademika / S4RAS Student)
 * `rafi.rabbani12@gmail.com` (Sivitas Peneliti)
 * `bagus.puntodewo@gmail.com` / `baguspunto02@gmail.com` (Bagus Puntodewo)
 * `riokristian71@gmail.com` (Glorio Davis)

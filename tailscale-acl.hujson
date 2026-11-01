@@ -1,6 +1,6 @@
-// Tailscale Access Control Lists (ACLs) for rhaffle87@gmail.com
+// Tailscale Access Control Lists (ACLs) for S4RAS Tailnet
 // Strict Isolation Policy:
-// - Admins (rhaffle87@gmail.com, budimanten87@gmail.com): Unrestricted access (*:*)
+// - Admins (autogroup:admin, group:s4ras-admins): Full access to cluster and self devices
 // - Co-dev (natumpal2004@gmail.com): Isolated to tag:s4ras-vm ONLY
 // - Private Nodes (ollama-server, fl-aggregator, lenovo): Inaccessible to natumpal2004@gmail.com
 {
@@ -12,7 +12,6 @@
 	// Groups for access control
 	"groups": {
 		"group:s4ras-admins": [
-			"rhaffle87@gmail.com",
 			"budimanten87@gmail.com"
 		],
 		"group:s4ras-devs": [
@@ -22,11 +21,15 @@
 
 	// Access control lists (packet filter rules)
 	"acls": [
-		// 1. Core Admins: Full unrestricted access to all devices and ports
+		// 1. Core Admins: Full access to all S4RAS VMs, own personal machines, and LAN subnets
 		{
 			"action": "accept",
 			"src": ["autogroup:admin", "group:s4ras-admins"],
-			"dst": ["*:*"]
+			"dst": [
+				"tag:s4ras-vm:*",
+				"autogroup:self:*",
+				"192.168.10.0/24:*"
+			]
 		},
 
 		// 2. Co-Dev (Nathan): Strictly restricted to S4RAS VMs (tagged devices) only
@@ -93,12 +96,10 @@
 		},
 		// Test 2: Verify Admins can access everything including personal AI/FL nodes
 		{
-			"src": "rhaffle87@gmail.com",
+			"src": "budimanten87@gmail.com",
 			"accept": [
-				"100.110.11.66:11434",
-				"100.97.96.13:22",
-				"100.104.240.20:3389",
-				"100.123.192.3:22"
+				"100.123.192.3:22",
+				"100.86.164.92:8096"
 			]
 		}
 	]
