@@ -6,12 +6,12 @@
 <#elseif section = "form">
     <form id="kc-form-login" class="s4ras-form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post" novalidate="novalidate">
         <div class="s4ras-field">
-            <label for="username" class="s4ras-sr-only">${msg("usernameOrEmail")!"Username atau Email"}</label>
+            <label for="username" class="s4ras-sr-only" id="label-username">${msg("usernameOrEmail")!"Username atau Email"}</label>
             <input tabindex="1" id="username" class="s4ras-input" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="username" placeholder="${msg("usernameOrEmail")!"Username atau Email"}" />
         </div>
 
         <div class="s4ras-field">
-            <label for="password" class="s4ras-sr-only">${msg("password")!"Password"}</label>
+            <label for="password" class="s4ras-sr-only" id="label-password">${msg("password")!"Password"}</label>
             <div class="s4ras-password-wrap">
                 <input tabindex="2" id="password" class="s4ras-input s4ras-input-pw" name="password" type="password" autocomplete="current-password" placeholder="${msg("password")!"Password"}" />
                 <button type="button" class="s4ras-pw-toggle" aria-label="${msg("showPassword")!"Tampilkan password"}" data-password-toggle aria-controls="password">
@@ -37,10 +37,10 @@
     </form>
 
     <div class="s4ras-form-divider" aria-hidden="true">
-        <span>${msg("s4rasHelpDivider")!"Bantuan"}</span>
+        <span id="form-divider-text">${msg("s4rasHelpDivider")!"Bantuan & Informasi"}</span>
     </div>
 
-    <div class="s4ras-help-text">
+    <div class="s4ras-help-text" id="form-help-text">
         ${msg("s4rasLoginForgotHelp")!"Lupa password? Hubungi administrator S4RAS"}
     </div>
 </#if>

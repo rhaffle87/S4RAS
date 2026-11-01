@@ -28,6 +28,10 @@
   --s4ras-btn-sec-border: rgba(255, 255, 255, 0.12);
   --s4ras-btn-sec-text: #ffffff;
   --s4ras-btn-sec-hover: rgba(255, 255, 255, 0.1);
+  --s4ras-popover-bg: rgba(24, 21, 32, 0.96);
+  --s4ras-popover-border: rgba(255, 255, 255, 0.12);
+  --s4ras-popover-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+  --s4ras-popover-hover-bg: rgba(255, 255, 255, 0.08);
 }
 
 html.light,
@@ -52,6 +56,10 @@ html[data-theme="light"],
   --s4ras-btn-sec-border: #d4d4d8;
   --s4ras-btn-sec-text: #18181b;
   --s4ras-btn-sec-hover: #d4d4d8;
+  --s4ras-popover-bg: rgba(255, 255, 255, 0.98);
+  --s4ras-popover-border: rgba(0, 0, 0, 0.12);
+  --s4ras-popover-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
+  --s4ras-popover-hover-bg: rgba(0, 0, 0, 0.05);
 }
 
 /* 2. Global Document Setup — Full Viewport, Zero Margin */
@@ -100,15 +108,38 @@ html, body {
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
 }
 
-/* Scenic SVG Dunes Artwork (Background Layer) */
-.s4ras-scenic-art {
+/* 3-Slide Visual Carousel Viewport */
+.s4ras-carousel-viewport {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 1;
+  overflow: hidden;
   pointer-events: none;
+  z-index: 1;
+}
+
+.s4ras-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.s4ras-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.s4ras-scenic-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Visual Header (Top Layer) */
@@ -130,11 +161,12 @@ html, body {
   color: #ffffff;
 }
 
+/* Portal Bento Logo Mark */
 .s4ras-vis-logo {
   width: 32px;
   height: 32px;
-  color: #ef4444;
   flex-shrink: 0;
+  border-radius: 8px;
 }
 
 .s4ras-vis-title {
@@ -144,32 +176,49 @@ html, body {
   color: #ffffff;
 }
 
-/* Frosted Glass Pill Button (Kembali ke s4ras.site ->) */
-.s4ras-vis-pill {
+.s4ras-portal-accent {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* Refined Frosted Glass Pill Button (Kembali ke S4RAS ->) */
+.s4ras-vis-pill.s4ras-back-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  height: 36px;
+  padding: 0 16px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.8125rem;
   font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
   white-space: nowrap;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.s4ras-vis-pill:hover {
-  background: rgba(255, 255, 255, 0.22);
+.s4ras-vis-pill.s4ras-back-pill:hover {
+  background: rgba(255, 255, 255, 0.20);
   border-color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.s4ras-arrow-icon {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.s4ras-vis-pill.s4ras-back-pill:hover .s4ras-arrow-icon {
   transform: translateX(2px);
 }
 
-/* Visual Editorial Footer (Centered Headline & Dash Pills) */
+/* Visual Editorial Footer (Carousel Headline & Dash Pills) */
 .s4ras-vis-bottom {
   position: relative;
   z-index: 2;
@@ -182,14 +231,38 @@ html, body {
   margin-bottom: 8px;
 }
 
+.s4ras-headlines-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
 .s4ras-vis-headline {
+  position: absolute;
+  width: 100%;
+  text-align: center;
   font-size: 1.85rem;
   font-weight: 600;
   line-height: 1.25;
   color: #ffffff;
   letter-spacing: -0.02em;
-  margin: 0 0 24px 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.s4ras-vis-headline.active {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .s4ras-vis-dashes {
@@ -200,19 +273,20 @@ html, body {
 }
 
 .s4ras-dash {
-  width: 32px;
   height: 4px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.25);
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.28);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  width: 24px;
 }
 
 .s4ras-dash.active {
   width: 36px;
-  height: 4px;
-  border-radius: 999px;
   background: #ffffff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 /* 5. Right Form Panel (Desktop >= 960px) — Seamless Canvas */
@@ -489,6 +563,144 @@ html, body {
   flex-shrink: 0;
 }
 
+/* ==============================================================================
+   6. myITS-Style Dropdown Footer Bar (Language & Theme Popovers)
+   ============================================================================== */
+.s4ras-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  width: 100%;
+}
+
+.s4ras-popover-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.s4ras-footer-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  height: 34px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid var(--s4ras-divider-color);
+  color: var(--s4ras-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.s4ras-footer-trigger:hover,
+.s4ras-footer-trigger[aria-expanded="true"] {
+  background: var(--s4ras-btn-sec-bg);
+  color: var(--s4ras-text);
+  border-color: var(--s4ras-btn-sec-border);
+}
+
+.s4ras-trigger-icon {
+  color: var(--s4ras-text-muted);
+  flex-shrink: 0;
+}
+
+/* Dark mode shows moon, Light mode shows sun */
+.icon-moon {
+  display: block;
+}
+.icon-sun {
+  display: none;
+}
+html.light .icon-moon,
+[data-theme="light"] .icon-moon {
+  display: none;
+}
+html.light .icon-sun,
+[data-theme="light"] .icon-sun {
+  display: block;
+}
+
+.s4ras-caret {
+  font-size: 0.6875rem;
+  color: var(--s4ras-text-muted);
+  margin-left: 2px;
+}
+
+/* Floating Popover Menu */
+.s4ras-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  min-width: 180px;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--s4ras-popover-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--s4ras-popover-border);
+  box-shadow: var(--s4ras-popover-shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.s4ras-popover.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.s4ras-popover-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--s4ras-text);
+  font-size: 0.825rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.s4ras-popover-item:hover {
+  background: var(--s4ras-popover-hover-bg);
+}
+
+.s4ras-popover-item.active {
+  color: #ef4444;
+  font-weight: 600;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.s4ras-check-icon {
+  display: none;
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.s4ras-popover-item.active .s4ras-check-icon {
+  display: block;
+}
+
 /* Mobile brand header & return link (hidden on desktop) */
 .s4ras-mobile-brand {
   display: none;
@@ -499,7 +711,7 @@ html, body {
 }
 
 /* ==============================================================================
-   6. Mobile & Tablet Breakpoint (< 960px)
+   7. Mobile & Tablet Breakpoint (< 960px)
    ============================================================================== */
 @media (max-width: 959px) {
   html, body {
@@ -557,7 +769,8 @@ html, body {
   .s4ras-brand-logo-svg {
     width: 36px;
     height: 36px;
-    color: var(--s4ras-primary);
+    flex-shrink: 0;
+    border-radius: 8px;
   }
 
   .s4ras-mobile-title {
@@ -583,7 +796,7 @@ html, body {
   .s4ras-return-home-mobile {
     display: block;
     text-align: center;
-    margin-top: 28px;
+    margin-top: 24px;
   }
 
   .s4ras-return-home-mobile a {
@@ -595,5 +808,9 @@ html, body {
 
   .s4ras-return-home-mobile a:hover {
     color: var(--s4ras-text);
+  }
+
+  .s4ras-form-footer {
+    margin-top: 24px;
   }
 }

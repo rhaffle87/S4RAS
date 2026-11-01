@@ -189,8 +189,23 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LogoMark from './components/LogoMark.vue';
 
-const isDark = ref(localStorage.getItem('saras-theme') !== 'light');
-const lang = ref(localStorage.getItem('saras-lang') || 'id');
+const getCookie = (name) => {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+  return match ? decodeURIComponent(match[3]) : null;
+};
+
+const setCookie = (name, val) => {
+  try {
+    const domainAttr = window.location.hostname.endsWith('s4ras.site') ? '; domain=.s4ras.site' : '';
+    document.cookie = name + '=' + val + domainAttr + '; path=/; max-age=31536000; SameSite=Lax';
+  } catch(e) {}
+};
+
+const initialTheme = getCookie('s4ras_theme') || localStorage.getItem('saras-theme') || 'dark';
+const isDark = ref(initialTheme !== 'light');
+const initialLang = getCookie('s4ras_lang') || localStorage.getItem('saras-lang') || 'id';
+const lang = ref(initialLang === 'en' ? 'en' : 'id');
 const gridEl = ref(null);
 const topoEl = ref(null);
 const openFaq = ref(0);
@@ -201,10 +216,17 @@ const applyTheme = () => {
 };
 const toggleTheme = () => {
   isDark.value = !isDark.value;
-  localStorage.setItem('saras-theme', isDark.value ? 'dark' : 'light');
+  const val = isDark.value ? 'dark' : 'light';
+  localStorage.setItem('saras-theme', val);
+  setCookie('s4ras_theme', val);
   applyTheme();
 };
-const setLang = (l) => { lang.value = l; localStorage.setItem('saras-lang', l); document.documentElement.lang = l; };
+const setLang = (l) => {
+  lang.value = l;
+  localStorage.setItem('saras-lang', l);
+  setCookie('s4ras_lang', l);
+  document.documentElement.lang = l;
+};
 
 const dict = {
   id: {
