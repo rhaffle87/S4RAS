@@ -1,5 +1,4 @@
 // Tailscale Access Control Lists (ACLs) - Uncapped Full Access for S4RAS Team
-// All capping removed: unrestricted access for all team members across all VMs and subnets
 {
 	"tagOwners": {
 		"tag:s4ras-vm": ["autogroup:admin", "autogroup:members"]
@@ -14,12 +13,12 @@
 		}
 	],
 
-	// Uncapped SSH: any authorized user can SSH into VMs as root or s4ras
+	// Uncapped SSH: all members can SSH into cluster VMs as root, s4ras, or nonroot
 	"ssh": [
 		{
 			"action": "accept",
-			"src": ["*"],
-			"dst": ["*"],
+			"src": ["autogroup:members"],
+			"dst": ["tag:s4ras-vm", "autogroup:self"],
 			"users": ["root", "s4ras", "autogroup:nonroot"]
 		}
 	],
@@ -27,7 +26,7 @@
 	// Auto-approve subnet routes advertised by cluster VMs
 	"autoApprovers": {
 		"routes": {
-			"192.168.10.0/24": ["tag:s4ras-vm", "autogroup:members"]
+			"192.168.10.0/24": ["tag:s4ras-vm"]
 		}
 	}
 }

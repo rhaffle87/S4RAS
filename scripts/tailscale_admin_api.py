@@ -27,14 +27,14 @@ UNCAPPED_ACL_POLICY = {
     "ssh": [
         {
             "action": "accept",
-            "src": ["*"],
-            "dst": ["*"],
+            "src": ["autogroup:members"],
+            "dst": ["tag:s4ras-vm", "autogroup:self"],
             "users": ["root", "s4ras", "autogroup:nonroot"]
         }
     ],
     "autoApprovers": {
         "routes": {
-            "192.168.10.0/24": ["tag:s4ras-vm", "autogroup:members"]
+            "192.168.10.0/24": ["tag:s4ras-vm"]
         }
     }
 }
