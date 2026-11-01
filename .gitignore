@@ -99,6 +99,7 @@ Thumbs.db
 # ------------------------------------------
 **/.git_backup/
 **/scratch/
+**/screenshots/
 **/*.tmp
 **/*.log
 !/docs/**/*.log
@@ -108,10 +109,9 @@ patch-*.js
 sync-*.js
 modularize-*.js
 test-security-checks.js
-docs/reports/5022211124_Glorio Davis Kristian.md
 
+# Local thesis / large binary reports
 *.pdf
-*.png
-!**/public/**/og-image.png
-!**/public/logo*.png
+docs/reports/*.pdf
+docs/reports/5022211124_Glorio Davis Kristian.md
 

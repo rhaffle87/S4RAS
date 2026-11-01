@@ -91,7 +91,10 @@ s4ras/
 │   │   ├── OPERATIONAL_RUNBOOK.md
 │   │   ├── VM_ACCESS.md
 │   │   ├── PHASE_PLAN.md
-│   │   └── PHASE_TRACKER.md
+│   │   ├── PHASE_TRACKER.md
+│   │   ├── SECURITY_ROTATION.md
+│   │   ├── SECURITY_ROTATION_PENDING.md
+│   │   └── SSO_THEME_DEPLOYMENT.md
 │   └── reports/                       # Laporan evaluasi QoS, benchmark, & chaos test
 │       ├── CHAOS_AND_BENCHMARK_REPORT.md
 │       ├── COMPREHENSIVE_END_TO_END_TEST_REPORT.md
@@ -162,6 +165,8 @@ npm run portal:lint
 ### 🛠️ Operasional & Tata Kelola Infrastruktur
 * [Buku Panduan Operasional Klaster (Operational Runbook)](docs/operations/OPERATIONAL_RUNBOOK.md)
 * [Topologi Jaringan, VM, & Konfigurasi Akses](docs/operations/VM_ACCESS.md)
+* [Panduan Rotasi Rahasia & Prosedur Hardening](docs/operations/SECURITY_ROTATION.md)
+* [Prosedur Penerapan Tema SSO Keycloak](docs/operations/SSO_THEME_DEPLOYMENT.md)
 * [Rencana Fase Pengembangan (Phase Plan)](docs/operations/PHASE_PLAN.md)
 * [Pelacak Implementasi Fase (Phase Tracker)](docs/operations/PHASE_TRACKER.md)
 
