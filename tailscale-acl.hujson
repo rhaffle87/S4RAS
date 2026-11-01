@@ -1,0 +1,105 @@
+// Tailscale Access Control Lists (ACLs) for rhaffle87@gmail.com
+// Strict Isolation Policy:
+// - Admins (rhaffle87@gmail.com, budimanten87@gmail.com): Unrestricted access (*:*)
+// - Co-dev (natumpal2004@gmail.com): Isolated to tag:s4ras-vm ONLY
+// - Private Nodes (ollama-server, fl-aggregator, lenovo): Inaccessible to natumpal2004@gmail.com
+{
+	// Define the tags which can be applied to devices and by whom
+	"tagOwners": {
+		"tag:s4ras-vm": ["autogroup:admin", "group:s4ras-admins"]
+	},
+
+	// Groups for access control
+	"groups": {
+		"group:s4ras-admins": [
+			"rhaffle87@gmail.com",
+			"budimanten87@gmail.com"
+		],
+		"group:s4ras-devs": [
+			"natumpal2004@gmail.com"
+		]
+	},
+
+	// Access control lists (packet filter rules)
+	"acls": [
+		// 1. Core Admins: Full unrestricted access to all devices and ports
+		{
+			"action": "accept",
+			"src": ["autogroup:admin", "group:s4ras-admins"],
+			"dst": ["*:*"]
+		},
+
+		// 2. Co-Dev (Nathan): Strictly restricted to S4RAS VMs (tagged devices) only
+		// Nathan CANNOT access ollama-server, fl-aggregator, or lenovo
+		{
+			"action": "accept",
+			"src": ["group:s4ras-devs"],
+			"dst": ["tag:s4ras-vm:*"]
+		},
+
+		// 3. Cluster Inter-communication: S4RAS VMs can talk to each other
+		{
+			"action": "accept",
+			"src": ["tag:s4ras-vm"],
+			"dst": ["tag:s4ras-vm:*"]
+		}
+	],
+
+	// Tailscale SSH policy (Destination uses tags/autogroup without ports)
+	"ssh": [
+		// Admins can SSH to all S4RAS VMs and their own machines
+		{
+			"action": "accept",
+			"src": ["autogroup:admin", "group:s4ras-admins"],
+			"dst": ["tag:s4ras-vm", "autogroup:self"],
+			"users": ["root", "autogroup:nonroot"]
+		},
+
+		// Nathan can ONLY SSH to S4RAS cluster VMs (tag:s4ras-vm)
+		{
+			"action": "accept",
+			"src": ["group:s4ras-devs"],
+			"dst": ["tag:s4ras-vm"],
+			"users": ["s4ras", "root"]
+		}
+	],
+
+	// Auto-approve routes advertised by S4RAS cluster VMs
+	"autoApprovers": {
+		"routes": {
+			"192.168.10.0/24": ["tag:s4ras-vm"]
+		}
+	},
+
+	// ACL Unit Tests to guarantee isolation invariants
+	"tests": [
+		// Test 1: Verify Nathan can access S4RAS Portal and IPTV, but DENIED on personal AI/FL nodes
+		{
+			"src": "natumpal2004@gmail.com",
+			"accept": [
+				"100.123.192.3:22",
+				"100.123.192.3:80",
+				"100.86.164.92:8096",
+				"100.71.250.20:22"
+			],
+			"deny": [
+				"100.110.11.66:11434",
+				"100.110.11.66:22",
+				"100.97.96.13:22",
+				"100.97.96.13:80",
+				"100.104.240.20:3389",
+				"100.104.240.20:22"
+			]
+		},
+		// Test 2: Verify Admins can access everything including personal AI/FL nodes
+		{
+			"src": "rhaffle87@gmail.com",
+			"accept": [
+				"100.110.11.66:11434",
+				"100.97.96.13:22",
+				"100.104.240.20:3389",
+				"100.123.192.3:22"
+			]
+		}
+	]
+}

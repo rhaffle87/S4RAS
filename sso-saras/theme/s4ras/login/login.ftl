@@ -2,18 +2,18 @@
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
 
 <#if section = "header">
-    ${msg("loginTitle")!"Masuk ke Akun Anda"}
+    ${msg("loginTitle")!"Masuk ke akun Anda"}
 <#elseif section = "form">
     <form id="kc-form-login" class="s4ras-form" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post" novalidate="novalidate">
         <div class="s4ras-field">
-            <label for="username" class="s4ras-label">${msg("usernameOrEmail")!"Username atau Email"}</label>
-            <input tabindex="1" id="username" class="s4ras-input" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="username" placeholder="${msg("usernameOrEmail")!"Masukkan username atau email"}" />
+            <label for="username" class="s4ras-sr-only">${msg("usernameOrEmail")!"Username atau Email"}</label>
+            <input tabindex="1" id="username" class="s4ras-input" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="username" placeholder="${msg("usernameOrEmail")!"Username atau Email"}" />
         </div>
 
         <div class="s4ras-field">
-            <label for="password" class="s4ras-label">${msg("password")!"Password"}</label>
+            <label for="password" class="s4ras-sr-only">${msg("password")!"Password"}</label>
             <div class="s4ras-password-wrap">
-                <input tabindex="2" id="password" class="s4ras-input s4ras-input-pw" name="password" type="password" autocomplete="current-password" placeholder="${msg("password")!"Masukkan password"}" />
+                <input tabindex="2" id="password" class="s4ras-input s4ras-input-pw" name="password" type="password" autocomplete="current-password" placeholder="${msg("password")!"Password"}" />
                 <button type="button" class="s4ras-pw-toggle" aria-label="${msg("showPassword")!"Tampilkan password"}" data-password-toggle aria-controls="password">
                     <!-- Eye Open SVG (shown when password is hidden) -->
                     <svg class="s4ras-icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -36,8 +36,12 @@
         <button tabindex="3" class="s4ras-btn-submit" name="login" id="kc-login" type="submit">${msg("doLogIn")!"Sign In"}</button>
     </form>
 
+    <div class="s4ras-form-divider" aria-hidden="true">
+        <span>${msg("s4rasHelpDivider")!"Bantuan"}</span>
+    </div>
+
     <div class="s4ras-help-text">
-        ${msg("s4rasLoginForgotHelp")!"Lupa password? Hubungi administrator S4RAS."}
+        ${msg("s4rasLoginForgotHelp")!"Lupa password? Hubungi administrator S4RAS"}
     </div>
 </#if>
 

@@ -6,9 +6,9 @@
 <#elseif section = "form">
     <form id="kc-passwd-update-form" class="s4ras-form" action="${url.loginAction}" method="post">
         <div class="s4ras-field">
-            <label for="password-new" class="s4ras-label">${msg("passwordNew")!"Password Baru"}</label>
+            <label for="password-new" class="s4ras-sr-only">${msg("passwordNew")!"Password Baru"}</label>
             <div class="s4ras-password-wrap">
-                <input type="password" id="password-new" name="password-new" class="s4ras-input s4ras-input-pw" autofocus autocomplete="new-password" placeholder="${msg("passwordNew")!"Masukkan password baru"}" />
+                <input type="password" id="password-new" name="password-new" class="s4ras-input s4ras-input-pw" autofocus autocomplete="new-password" placeholder="${msg("passwordNew")!"Password Baru"}" />
                 <button type="button" class="s4ras-pw-toggle" aria-label="${msg("showPassword")!"Tampilkan password"}" data-password-toggle aria-controls="password-new">
                     <svg class="s4ras-icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
@@ -28,9 +28,9 @@
         </div>
 
         <div class="s4ras-field">
-            <label for="password-confirm" class="s4ras-label">${msg("passwordConfirm")!"Konfirmasi Password Baru"}</label>
+            <label for="password-confirm" class="s4ras-sr-only">${msg("passwordConfirm")!"Konfirmasi Password Baru"}</label>
             <div class="s4ras-password-wrap">
-                <input type="password" id="password-confirm" name="password-confirm" class="s4ras-input s4ras-input-pw" autocomplete="new-password" placeholder="${msg("passwordConfirm")!"Ulangi password baru"}" />
+                <input type="password" id="password-confirm" name="password-confirm" class="s4ras-input s4ras-input-pw" autocomplete="new-password" placeholder="${msg("passwordConfirm")!"Konfirmasi Password Baru"}" />
                 <button type="button" class="s4ras-pw-toggle" aria-label="${msg("showPassword")!"Tampilkan password"}" data-password-toggle aria-controls="password-confirm">
                     <svg class="s4ras-icon-eye" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>

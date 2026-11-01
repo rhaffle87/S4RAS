@@ -1,0 +1,599 @@
+/* ==============================================================================
+   myS4RAS Modern SSO Theme — Full-Viewport Unboxed Split Architecture (AMU Style)
+   Zero External Requests • Dark/Light Mode Sync • Full Responsiveness
+   ============================================================================== */
+
+/* 1. Global Box Sizing & CSS Custom Properties */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --s4ras-bg: #131118;
+  --s4ras-text: #ffffff;
+  --s4ras-text-muted: #9ca3af;
+  --s4ras-input-bg: #23202b;
+  --s4ras-input-focus-bg: #272331;
+  --s4ras-input-border: rgba(255, 255, 255, 0.06);
+  --s4ras-input-focus-border: #dc2626;
+  --s4ras-primary: #dc2626;
+  --s4ras-primary-hover: #b91c1c;
+  --s4ras-primary-active: #991b1b;
+  --s4ras-divider-color: rgba(255, 255, 255, 0.08);
+  --s4ras-divider-text: #71717a;
+  --s4ras-alert-bg: rgba(220, 38, 38, 0.12);
+  --s4ras-alert-border: rgba(220, 38, 38, 0.35);
+  --s4ras-alert-text: #fca5a5;
+  --s4ras-btn-sec-bg: rgba(255, 255, 255, 0.06);
+  --s4ras-btn-sec-border: rgba(255, 255, 255, 0.12);
+  --s4ras-btn-sec-text: #ffffff;
+  --s4ras-btn-sec-hover: rgba(255, 255, 255, 0.1);
+}
+
+html.light,
+html[data-theme="light"],
+[data-theme="light"] {
+  --s4ras-bg: #f4f4f6;
+  --s4ras-text: #18181b;
+  --s4ras-text-muted: #64748b;
+  --s4ras-input-bg: #e9e9ee;
+  --s4ras-input-focus-bg: #ffffff;
+  --s4ras-input-border: rgba(0, 0, 0, 0.08);
+  --s4ras-input-focus-border: #dc2626;
+  --s4ras-primary: #dc2626;
+  --s4ras-primary-hover: #b91c1c;
+  --s4ras-primary-active: #991b1b;
+  --s4ras-divider-color: rgba(0, 0, 0, 0.08);
+  --s4ras-divider-text: #94a3b8;
+  --s4ras-alert-bg: #fef2f2;
+  --s4ras-alert-border: #fecaca;
+  --s4ras-alert-text: #b91c1c;
+  --s4ras-btn-sec-bg: #e4e4e7;
+  --s4ras-btn-sec-border: #d4d4d8;
+  --s4ras-btn-sec-text: #18181b;
+  --s4ras-btn-sec-hover: #d4d4d8;
+}
+
+/* 2. Global Document Setup — Full Viewport, Zero Margin */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
+  background-color: var(--s4ras-bg);
+  color: var(--s4ras-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. Outer Shell — Unboxed Full-Viewport Split Layout (100vw × 100dvh) */
+.s4ras-shell {
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 48% 52%;
+  background: var(--s4ras-bg);
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+}
+
+/* 4. Left Visual Panel (Desktop >= 960px) — Inset Artwork Card */
+.s4ras-visual-panel {
+  height: calc(100dvh - 32px);
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px;
+  box-sizing: border-box;
+  background: #140a1b;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+}
+
+/* Scenic SVG Dunes Artwork (Background Layer) */
+.s4ras-scenic-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Visual Header (Top Layer) */
+.s4ras-vis-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.s4ras-vis-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.s4ras-vis-logo {
+  width: 32px;
+  height: 32px;
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.s4ras-vis-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+/* Frosted Glass Pill Button (Kembali ke s4ras.site ->) */
+.s4ras-vis-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 0.825rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.s4ras-vis-pill:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateX(2px);
+}
+
+/* Visual Editorial Footer (Centered Headline & Dash Pills) */
+.s4ras-vis-bottom {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.s4ras-vis-headline {
+  font-size: 1.85rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.s4ras-vis-dashes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.s4ras-dash {
+  width: 32px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.s4ras-dash.active {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* 5. Right Form Panel (Desktop >= 960px) — Seamless Canvas */
+.s4ras-form-panel {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10%;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.s4ras-form-container {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form Typography & Header */
+.s4ras-form-header {
+  margin-bottom: 32px;
+}
+
+.s4ras-form-title {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--s4ras-text);
+  margin: 0 0 10px 0;
+  line-height: 1.15;
+}
+
+.s4ras-form-subtitle {
+  font-size: 0.925rem;
+  color: var(--s4ras-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Accessibility: Visually Hidden Label */
+.s4ras-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Form Fields */
+.s4ras-form {
+  width: 100%;
+}
+
+.s4ras-field {
+  margin-bottom: 16px;
+  position: relative;
+  width: 100%;
+}
+
+.s4ras-input {
+  height: 52px;
+  width: 100%;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: var(--s4ras-input-bg);
+  border: 1.5px solid var(--s4ras-input-border);
+  color: var(--s4ras-text);
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.s4ras-input::placeholder {
+  color: var(--s4ras-text-muted);
+  opacity: 0.75;
+}
+
+.s4ras-input:focus {
+  border-color: var(--s4ras-input-focus-border);
+  background: var(--s4ras-input-focus-bg);
+  outline: none;
+  box-shadow: none;
+}
+
+/* Password Wrap & Eye Toggle */
+.s4ras-password-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.s4ras-input-pw {
+  padding-right: 50px;
+}
+
+.s4ras-pw-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 6px;
+  color: var(--s4ras-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.s4ras-pw-toggle:hover {
+  color: var(--s4ras-text);
+}
+
+.s4ras-pw-toggle:focus {
+  outline: 2px solid var(--s4ras-primary);
+  outline-offset: 1px;
+}
+
+.s4ras-pw-toggle .s4ras-icon-eye {
+  display: block;
+}
+
+.s4ras-pw-toggle .s4ras-icon-eye-off {
+  display: none;
+}
+
+.s4ras-pw-toggle[aria-pressed="true"] .s4ras-icon-eye {
+  display: none;
+}
+
+.s4ras-pw-toggle[aria-pressed="true"] .s4ras-icon-eye-off {
+  display: block;
+}
+
+/* Submit Button */
+.s4ras-btn-submit {
+  height: 52px;
+  width: 100%;
+  border-radius: 10px;
+  background: var(--s4ras-primary);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-top: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.05s ease;
+  font-family: inherit;
+}
+
+.s4ras-btn-submit:hover {
+  background: var(--s4ras-primary-hover);
+}
+
+.s4ras-btn-submit:active {
+  background: var(--s4ras-primary-active);
+  transform: scale(0.99);
+}
+
+/* Secondary Button (for Cancel / Alternate Actions) */
+.s4ras-btn-secondary {
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 10px;
+  background: var(--s4ras-btn-sec-bg);
+  border: 1px solid var(--s4ras-btn-sec-border);
+  color: var(--s4ras-btn-sec-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  font-family: inherit;
+}
+
+.s4ras-btn-secondary:hover {
+  background: var(--s4ras-btn-sec-hover);
+}
+
+.s4ras-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.s4ras-btn-row .s4ras-btn-submit {
+  margin-top: 0;
+  flex: 1;
+}
+
+/* Thin Divider with Text ("Bantuan & Informasi") */
+.s4ras-form-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 28px 0 16px 0;
+  width: 100%;
+}
+
+.s4ras-form-divider::before,
+.s4ras-form-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--s4ras-divider-color);
+}
+
+.s4ras-form-divider span {
+  padding: 0 14px;
+  font-size: 0.75rem;
+  color: var(--s4ras-divider-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+/* Help text below divider */
+.s4ras-help-text {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--s4ras-text-muted);
+  line-height: 1.5;
+}
+
+/* Field error text */
+.s4ras-error-text {
+  display: block;
+  font-size: 0.8125rem;
+  color: #ef4444;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* Alert Banner (Error/Info/Warning) */
+.s4ras-alert {
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.s4ras-alert-error {
+  background: var(--s4ras-alert-bg);
+  border: 1px solid var(--s4ras-alert-border);
+  color: var(--s4ras-alert-text);
+}
+
+.s4ras-alert-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Mobile brand header & return link (hidden on desktop) */
+.s4ras-mobile-brand {
+  display: none;
+}
+
+.s4ras-return-home-mobile {
+  display: none;
+}
+
+/* ==============================================================================
+   6. Mobile & Tablet Breakpoint (< 960px)
+   ============================================================================== */
+@media (max-width: 959px) {
+  html, body {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .s4ras-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100dvh;
+    height: auto;
+    padding: 32px 20px;
+    box-sizing: border-box;
+    background: var(--s4ras-bg);
+    overflow: visible;
+  }
+
+  .s4ras-visual-panel {
+    display: none !important;
+  }
+
+  .s4ras-form-panel {
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .s4ras-form-container {
+    width: 100%;
+  }
+
+  .s4ras-mobile-brand {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .s4ras-mobile-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--s4ras-text);
+  }
+
+  .s4ras-brand-logo-svg {
+    width: 36px;
+    height: 36px;
+    color: var(--s4ras-primary);
+  }
+
+  .s4ras-mobile-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--s4ras-text);
+  }
+
+  .s4ras-form-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .s4ras-form-title {
+    font-size: 1.85rem;
+  }
+
+  .s4ras-form-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .s4ras-return-home-mobile {
+    display: block;
+    text-align: center;
+    margin-top: 28px;
+  }
+
+  .s4ras-return-home-mobile a {
+    color: var(--s4ras-text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+  }
+
+  .s4ras-return-home-mobile a:hover {
+    color: var(--s4ras-text);
+  }
+}

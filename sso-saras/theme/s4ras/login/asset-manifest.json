@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-31T12:37:52.583718+00:00",
+  "generated_at": "2026-11-01T03:33:24.312956+00:00",
   "css_source": "s4ras-login.css",
-  "css_file": "s4ras-login.e616ecf9.css",
-  "css_hash": "e616ecf9",
+  "css_file": "s4ras-login.aaeae582.css",
+  "css_hash": "aaeae582",
   "js_files": {
     "s4ras-prefs": {
-      "file": "s4ras-prefs.85b5d6a9.js",
-      "hash": "85b5d6a9"
+      "file": "s4ras-prefs.44749de0.js",
+      "hash": "44749de0"
     },
     "s4ras-pw": {
       "file": "s4ras-pw.bf96de7b.js",
@@ -15,12 +15,12 @@
   },
   "theme_properties": {
     "parent": "keycloak.v2",
-    "styles": "css/s4ras-login.e616ecf9.css",
-    "scripts": "js/s4ras-prefs.85b5d6a9.js js/s4ras-pw.bf96de7b.js"
+    "styles": "css/s4ras-login.aaeae582.css",
+    "scripts": "js/s4ras-prefs.44749de0.js js/s4ras-pw.bf96de7b.js"
   },
   "cloudflare_purge_targets": [
-    "https://sso.s4ras.site/resources/*/login/s4ras/css/s4ras-login.e616ecf9.css",
-    "https://sso.s4ras.site/resources/*/login/s4ras/js/s4ras-prefs.85b5d6a9.js",
+    "https://sso.s4ras.site/resources/*/login/s4ras/css/s4ras-login.aaeae582.css",
+    "https://sso.s4ras.site/resources/*/login/s4ras/js/s4ras-prefs.44749de0.js",
     "https://sso.s4ras.site/resources/*/login/s4ras/js/s4ras-pw.bf96de7b.js"
   ]
 }
