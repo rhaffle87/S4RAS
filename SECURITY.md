@@ -34,7 +34,7 @@ The **S4RAS (Solution for Remote Area Services)** Smart Campus Ecosystem enforce
 If you discover a security vulnerability or blindspot within this repository:
 
 1. **Do NOT open a public GitHub issue.**
-2. Send an email to the repository maintainer: `security@s4ras.site` or report privately via [GitHub Private Vulnerability Reporting](https://github.com/rhaffle87/s4ras/security/advisories/new).
+2. Send an email to the repository maintainer: `security@s4ras.site` or report privately via GitHub Security Advisories.
 3. Include the following details in your report:
    - Detailed description of the vulnerability and attack vector.
    - Step-by-step reproduction steps or proof-of-concept (PoC).

@@ -25,7 +25,7 @@ Seluruh kluster beroperasi di atas virtualisasi Proxmox VE yang terhubung melalu
 - **Migrasi Direktori & Symlink Kompatibilitas Mundur**:
   - Seluruh isi `/home/<user_lama>` disalin ke `/home/s4ras` dengan kepemilikan penuh `s4ras:s4ras`.
   - Direktori lama digantikan oleh symbolic link (`/home/<user_lama> -> /home/s4ras`) untuk menjamin bind-mount Docker, systemd unit, dan skrip lama tetap berjalan tanpa broken path.
-  - Pada VM 208, service `pm2-portal.service` dan dua GitHub Actions Runner (`rhaffle87-Portal-SARAS` & `rhaffle87-s4ras`) dimigrasikan ke `User=s4ras`.
+  - Pada VM 208, service `pm2-portal.service` dan dua GitHub Actions Runner (`portal-runner` & `core-runner`) dimigrasikan ke `User=s4ras`.
 - **Otentikasi SSH Terpadu**:
   - Seluruh public key SSH digabungkan dan dideduplikasi ke `/home/s4ras/.ssh/authorized_keys` dan `/root/.ssh/authorized_keys`.
   - Password akun sistem Linux (`s4ras` dan `root`) dikonfigurasi melalui credential manager terpusat (`[REDACTED — simpan di secrets manager]`).

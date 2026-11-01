@@ -9,7 +9,7 @@ set -e
 
 RUNNER_DIR="/home/portal/actions-runner"
 RUNNER_VERSION="2.321.0"
-REPO_URL="https://github.com/rhaffle87/s4ras"
+REPO_URL="${REPO_URL:-https://github.com/s4ras-site/s4ras}"
 
 echo "=========================================================="
 echo "S4RAS GitHub Actions Self-Hosted Runner Provisioner"
@@ -38,7 +38,7 @@ fi
 echo "[4/4] Runner binaries prepared."
 echo "----------------------------------------------------------"
 echo "To register this runner with GitHub, obtain a registration token from:"
-echo "https://github.com/rhaffle87/s4ras/settings/actions/runners/new"
+echo "${REPO_URL}/settings/actions/runners/new"
 echo "Then execute inside VM 208 (${RUNNER_DIR}):"
 echo "./config.sh --url ${REPO_URL} --token <REGISTRATION_TOKEN> --name vm208-portal --labels s4ras-portal --unattended --replace"
 echo "sudo ./svc.sh install portal"

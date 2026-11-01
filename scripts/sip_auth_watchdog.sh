@@ -39,7 +39,7 @@ echo "[ALERT] $NOW - $COUNT commented auth= line(s) found at lines: $LINES"
 SUMMARY="Asterisk inbound auth= disabled on $HOSTNAME_LABEL ($COUNT endpoints)"
 DESCRIPTION="Found $COUNT commented-out inbound auth= in $PJSIP_CONF at lines [$LINES]. Unauthenticated SIP registration possible (SEC-01 regression). Fix: uncomment auth= then run: asterisk -rx pjsip reload"
 
-PAYLOAD=$(printf '[{"labels":{"alertname":"AsteriskSIPAuthDisabled","severity":"critical","instance":"%s","job":"asterisk-watchdog"},"annotations":{"summary":"%s","description":"%s","runbook_url":"https://github.com/rhaffle87/s4ras/blob/main/docs/operations/OPERATIONAL_RUNBOOK.md"},"startsAt":"%s"}]' \
+PAYLOAD=$(printf '[{"labels":{"alertname":"AsteriskSIPAuthDisabled","severity":"critical","instance":"%s","job":"asterisk-watchdog"},"annotations":{"summary":"%s","description":"%s","runbook_url":"https://s4ras.site/docs/operations/OPERATIONAL_RUNBOOK.md"},"startsAt":"%s"}]' \
   "$HOSTNAME_LABEL" "$SUMMARY" "$DESCRIPTION" "$NOW")
 
 curl -s -X POST "$ALERTMANAGER_URL" \
