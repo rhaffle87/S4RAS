@@ -157,23 +157,18 @@
         <!-- Top Header: Portal Bento Logo Mark on Left, Refined Back Pill on Right -->
         <div class="s4ras-vis-top">
             <a href="https://s4ras.site" class="s4ras-vis-brand" tabindex="-1">
-                <!-- Canonical myS4RAS Portal Bento Logo Mark (#dc2626 solid + 4 white nodes) -->
+                <!-- Redesigned myS4RAS Portal P-Gateway Icon -->
                 <svg class="s4ras-vis-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
-                    <g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.45">
-                        <line x1="46" y1="34" x2="56" y2="34"/>
-                        <line x1="34" y1="46" x2="34" y2="56"/>
-                        <line x1="56" y1="68" x2="46" y2="68"/>
-                        <line x1="68" y1="56" x2="68" y2="46"/>
-                    </g>
-                    <!-- Bento Module Tiles -->
-                    <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
-                    <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
-                    <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
-                    <!-- Top-Right Portal Signal Node -->
-                    <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.6"/>
-                    <circle cx="68" cy="34" r="8" fill="#ffffff"/>
-                    <circle cx="68" cy="34" r="3" fill="#dc2626"/>
+                    <defs>
+                        <linearGradient id="portal-brand-grad-desk" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ef4444"/>
+                            <stop offset="100%" stop-color="#b91c1c"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="4" y="4" width="92" height="92" rx="24" fill="url(#portal-brand-grad-desk)"/>
+                    <rect x="22" y="20" width="16" height="60" rx="8" fill="#ffffff"/>
+                    <path d="M38 20 H58 C72 20 80 29 80 41 C80 53 72 62 58 62 H38" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="56" cy="41" r="5.5" fill="#dc2626"/>
                 </svg>
                 <span class="s4ras-vis-title">my<span class="s4ras-accent-brand">S4RAS</span> Portal</span>
             </a>
@@ -213,20 +208,18 @@
             <!-- Mobile Brand Header (only displayed on < 960px) -->
             <div class="s4ras-mobile-brand">
                 <a href="https://s4ras.site" class="s4ras-mobile-brand-link" title="S4RAS Ecosystem">
+                    <!-- Redesigned myS4RAS Portal P-Gateway Icon -->
                     <svg class="s4ras-brand-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="4" y="4" width="92" height="92" rx="22" fill="#dc2626"/>
-                        <g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.45">
-                            <line x1="46" y1="34" x2="56" y2="34"/>
-                            <line x1="34" y1="46" x2="34" y2="56"/>
-                            <line x1="56" y1="68" x2="46" y2="68"/>
-                            <line x1="68" y1="56" x2="68" y2="46"/>
-                        </g>
-                        <rect x="22" y="22" width="24" height="24" rx="7" fill="#ffffff"/>
-                        <rect x="22" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
-                        <rect x="56" y="56" width="24" height="24" rx="7" fill="#ffffff"/>
-                        <circle cx="68" cy="34" r="14" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.6"/>
-                        <circle cx="68" cy="34" r="8" fill="#ffffff"/>
-                        <circle cx="68" cy="34" r="3" fill="#dc2626"/>
+                        <defs>
+                            <linearGradient id="portal-brand-grad-mob" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ef4444"/>
+                                <stop offset="100%" stop-color="#b91c1c"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="4" y="4" width="92" height="92" rx="24" fill="url(#portal-brand-grad-mob)"/>
+                        <rect x="22" y="20" width="16" height="60" rx="8" fill="#ffffff"/>
+                        <path d="M38 20 H58 C72 20 80 29 80 41 C80 53 72 62 58 62 H38" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="56" cy="41" r="5.5" fill="#dc2626"/>
                     </svg>
                     <span class="s4ras-mobile-title">my<span class="s4ras-accent-brand">S4RAS</span> Portal</span>
                 </a>
