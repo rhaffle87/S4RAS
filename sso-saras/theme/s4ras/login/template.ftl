@@ -175,7 +175,7 @@
                     <circle cx="68" cy="34" r="8" fill="#ffffff"/>
                     <circle cx="68" cy="34" r="3" fill="#dc2626"/>
                 </svg>
-                <span class="s4ras-vis-title">myS4RAS <span class="s4ras-portal-accent">Portal</span></span>
+                <span class="s4ras-vis-title">my<span class="s4ras-accent-brand">S4RAS</span> Portal</span>
             </a>
 
             <a href="https://s4ras.site" class="s4ras-vis-pill s4ras-back-pill" id="s4ras-back-link" title="S4RAS Ecosystem" tabindex="-1">
@@ -228,7 +228,7 @@
                         <circle cx="68" cy="34" r="8" fill="#ffffff"/>
                         <circle cx="68" cy="34" r="3" fill="#dc2626"/>
                     </svg>
-                    <span class="s4ras-mobile-title">myS4RAS <span class="s4ras-portal-accent">Portal</span></span>
+                    <span class="s4ras-mobile-title">my<span class="s4ras-accent-brand">S4RAS</span> Portal</span>
                 </a>
             </div>
 

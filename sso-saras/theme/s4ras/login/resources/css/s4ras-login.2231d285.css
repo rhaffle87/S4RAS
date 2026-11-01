@@ -176,6 +176,7 @@ html, body {
   color: #ffffff;
 }
 
+.s4ras-accent-brand,
 .s4ras-portal-accent {
   color: #ef4444;
   font-weight: 700;
@@ -234,7 +235,7 @@ html, body {
 .s4ras-headlines-wrap {
   position: relative;
   width: 100%;
-  min-height: 72px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +244,13 @@ html, body {
 
 .s4ras-vis-headline {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-size: 1.85rem;
   font-weight: 600;
@@ -259,7 +266,6 @@ html, body {
 }
 
 .s4ras-vis-headline.active {
-  position: relative;
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;

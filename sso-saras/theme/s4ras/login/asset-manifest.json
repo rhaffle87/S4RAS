@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-01T05:38:04.228897+00:00",
+  "generated_at": "2026-11-01T12:07:05.462301+00:00",
   "css_source": "s4ras-login.css",
-  "css_file": "s4ras-login.7ec41fa7.css",
-  "css_hash": "7ec41fa7",
+  "css_file": "s4ras-login.2231d285.css",
+  "css_hash": "2231d285",
   "js_files": {
     "s4ras-prefs": {
       "file": "s4ras-prefs.dcc409f7.js",
@@ -15,11 +15,11 @@
   },
   "theme_properties": {
     "parent": "keycloak.v2",
-    "styles": "css/s4ras-login.7ec41fa7.css",
+    "styles": "css/s4ras-login.2231d285.css",
     "scripts": "js/s4ras-prefs.dcc409f7.js js/s4ras-pw.bf96de7b.js"
   },
   "cloudflare_purge_targets": [
-    "https://sso.s4ras.site/resources/*/login/s4ras/css/s4ras-login.7ec41fa7.css",
+    "https://sso.s4ras.site/resources/*/login/s4ras/css/s4ras-login.2231d285.css",
     "https://sso.s4ras.site/resources/*/login/s4ras/js/s4ras-prefs.dcc409f7.js",
     "https://sso.s4ras.site/resources/*/login/s4ras/js/s4ras-pw.bf96de7b.js"
   ]
